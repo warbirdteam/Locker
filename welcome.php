@@ -19,9 +19,9 @@ include('navbar.php');
 
 <div class="container">
 <?php
-
+$apikey = "UtuyM2roWM6vDjKj"; //Heasleys4hemp's apikey
 //$jsonurl = "https://api.torn.com/faction/13784?selections=basic&key=jIirMCNvK8q2hf8u";
-$jsonurl = "https://api.torn.com/user/1468764?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,money,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=UtuyM2roWM6vDjKj";
+$jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,money,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=" . $apikey;
    $json = file_get_contents($jsonurl); //gets output of API
 
 $data = json_decode($json, true);
@@ -70,6 +70,8 @@ function printValues($arr) {
     return array('total' => $count, 'values' => $values);
 }*/
 ?>
+
+<a href="https://www.torn.com/<?php echo $data["player_id"];?>" ><img src="https://www.torn.com/sigs/27_<?php echo $data["player_id"];?>.png" /></a>
 
 </div> <!-- container -->
 
