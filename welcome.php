@@ -16,6 +16,8 @@ include('navbar.php');
 		Hello, <br><br>Welcome to the members page.<br><br>
     </div>
 </div>
+
+<div class="container">
 <?php
 
 //$jsonurl = "https://api.torn.com/faction/13784?selections=basic&key=jIirMCNvK8q2hf8u";
@@ -24,9 +26,9 @@ $jsonurl = "https://api.torn.com/user/1468764?selections=timestamp,networth,baza
 
 $data = json_decode($json, true);
 
-echo '<pre>'; print_r($data); echo '</pre>';
-//echo '<p>' . $data["name"] . ' [' . $data["player_id"] . ']<p/>';
-//echo '<p>' . $data["energy"]["current"].'/'.$data["energy"]["maximum"].'</p>';
+//echo '<pre>'; print_r($data); echo '</pre>';
+echo '<p>' . $data["name"] . ' [' . $data["player_id"] . ']<p/>';
+echo '<p>' . $data["energy"]["current"].'/'.$data["energy"]["maximum"].'</p>';
 
 
 /*
@@ -67,6 +69,10 @@ function printValues($arr) {
     // Return total count and values found in array
     return array('total' => $count, 'values' => $values);
 }*/
+?>
 
+</div> <!-- container -->
+
+<?php
 include('footer.php');
 ?>
