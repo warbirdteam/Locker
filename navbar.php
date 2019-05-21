@@ -29,7 +29,7 @@ $row = mysqli_fetch_assoc($resultset);
          <a class="nav-item nav-link" href="#">Placeholder</a>
        </li>
        <li class="nav-item active dropdown">
-        <a class="nav-link dropdown-toggle" id="navFactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navFactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Faction
         </a>
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
@@ -39,7 +39,7 @@ $row = mysqli_fetch_assoc($resultset);
       </li>
 
        <li class="nav-item active dropdown">
-        <a class="nav-link dropdown-toggle" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <?php echo $row['username']; ?>
         </a>
         <div class="dropdown-menu" aria-labelledby="navProfileDropdown">
