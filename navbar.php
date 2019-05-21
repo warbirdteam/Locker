@@ -1,3 +1,15 @@
+<?php
+session_start();
+if(!isset($_SESSION['user_session'])){
+	header("Location: index.php");
+}
+include('header.php');
+include_once("../../../db_connect.php");
+$sql = "SELECT tornid, username, password, useremail FROM users WHERE tornid='".$_SESSION['user_session']."'";
+$resultset = mysqli_query($conn, $sql) or die("database error:". mysqli_error($conn));
+$row = mysqli_fetch_assoc($resultset);
+?>
+
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand pl-5" href="#">Warbirds</a>
