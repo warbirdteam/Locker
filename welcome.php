@@ -24,9 +24,9 @@ $jsonurl = "https://api.torn.com/user/2169837?selections=timestamp,networth,baza
 
 $data = json_decode($json, true);
 
-
-echo '<p>' . $data["name"] . ' [' . $data["player_id"] . ']<p/>';
-echo '<p>' . $data["energy"]["current"].'/'.$data["energy"]["maximum"].'</p>';
+echo '<pre>'; print_r($data); echo '</pre>';
+//echo '<p>' . $data["name"] . ' [' . $data["player_id"] . ']<p/>';
+//echo '<p>' . $data["energy"]["current"].'/'.$data["energy"]["maximum"].'</p>';
 
 
 /*
