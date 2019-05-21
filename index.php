@@ -8,7 +8,7 @@ include_once("../../../db_connect.php");
 <link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
 <?php include('navbar-index.php');?>
 <div class="container">
-	<h2>Example: Ajax Login Script with PHP and jQuery</h2>		
+	<h2>This thing is broken.</h2>		
 	<form class="form-login" method="post" id="login-form">
 		<h2 class="form-login-heading">User Log In Form</h2><hr />
 		<div id="error">
