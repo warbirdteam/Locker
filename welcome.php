@@ -71,11 +71,11 @@ function printValues($arr) {
 ?>
 
 <a class="mb-3" href="https://www.torn.com/<?php echo $data["player_id"];?>" ><img src="https://www.torn.com/sigs/27_<?php echo $data["player_id"];?>.png" /></a>
-<h3><span class="badge badge-dark p-2"></span><?php echo $data["name"] . ' [' . $data["player_id"] . ']';?></h3>
-<h3>Energy: <span class="badge badge-dark p-2"></span><?php echo $data["energy"]["current"].'/'.$data["energy"]["maximum"]; ?></h3>
-<h3>Nerve: <span class="badge badge-dark p-2"></span><?php echo $data["nerve"]["current"].'/'.$data["nerve"]["maximum"]; ?></h3>
-<h3>Drug Cooldown: <span class="badge badge-dark p-2"></span><?php echo gmdate("H:i:s",$data["cooldowns"]["drug"]); ?></h3>
-<h3>Booster Cooldown: <span class="badge badge-dark p-2"></span><?php echo gmdate("H:i:s",$data["cooldowns"]["booster"]); ?></h3>
+<h3><span class="badge badge-dark p-2"><?php echo $data["name"] . ' [' . $data["player_id"] . ']';?></span></h3>
+<h3>Energy: <span class="badge badge-dark p-2"><?php echo $data["energy"]["current"].'/'.$data["energy"]["maximum"]; ?></span></h3>
+<h3>Nerve: <span class="badge badge-dark p-2"><?php echo $data["nerve"]["current"].'/'.$data["nerve"]["maximum"]; ?></span></h3>
+<h3>Drug Cooldown: <span class="badge badge-dark p-2"><?php echo gmdate("H:i:s",$data["cooldowns"]["drug"]); ?></span></h3>
+<h3>Booster Cooldown: <span class="badge badge-dark p-2"><?php echo gmdate("H:i:s",$data["cooldowns"]["booster"]); ?></span></h3>
 
 
 </div> <!-- container -->
