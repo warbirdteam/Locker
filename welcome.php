@@ -8,21 +8,9 @@ include_once("../../../db_connect.php");
 $sql = "SELECT tornid, username, password, useremail FROM users WHERE tornid='".$_SESSION['user_session']."'";
 $resultset = mysqli_query($conn, $sql) or die("database error:". mysqli_error($conn));
 $row = mysqli_fetch_assoc($resultset);
-include('container.php');
+include('navbar.php');
 ?>
 <div class="container">    
-	<div id="navbar" class="navbar-collapse collapse">
-	 <ul class="nav navbar-nav navbar-right">            
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-			  <span class="glyphicon glyphicon-user"></span>&nbsp;Hi fucker <?php echo $row['username']; ?>&nbsp;<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;View Profile</a></li>
-                <li><a href="logout.php"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a></li>
-              </ul>
-            </li>
-          </ul>
-	</div>	
 	<div class='alert alert-success'>
 		<button class='close' data-dismiss='alert'>&times;</button>
 		Hello, <br><br>Welcome to the members page.<br><br>

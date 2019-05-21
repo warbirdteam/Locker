@@ -1,4 +1,3 @@
-</head>
 <body class="">
 <div role="navigation" class="navbar navbar-default navbar-static-top">
       <div class="container">
