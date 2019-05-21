@@ -1,6 +1,6 @@
 <?php 
 include('header.php');
-include_once("db_connect.php");
+include_once("../../../db_connect.php");
 ?>
 <title>Shitty Logon</title>
 <script type="text/javascript" src="script/validation.min.js"></script>
