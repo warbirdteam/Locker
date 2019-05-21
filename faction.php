@@ -3,7 +3,7 @@ include('header.php');
 include('navbar.php');
 
 
-$action = htmlspecialchars($_GET["action"]);
+/*$action = htmlspecialchars($_GET["action"]);
 
 //something for later, idk just an idea
 switch ($action) {
@@ -17,7 +17,7 @@ switch ($action) {
     //
     break;
 
-}
+}*/
 
 
 ?>
@@ -26,8 +26,7 @@ switch ($action) {
 
 <div class="container">
   <div class="row">
-   <div class="col-md-3"></div>
-   <div class="col-md-6 border border-dark shadow py-4 mt-4 rounded">
+   <div class="col border border-dark shadow py-4 mt-4 rounded">
 
 
 <table class="table table-hover table-striped table-dark">
@@ -70,10 +69,9 @@ echo '</tr>';
 </table>
 
 
-  </div>
- <div class="col-md-3"></div>
-</div>
-</div>
+</div> <!-- col -->
+</div> <!-- row -->
+</div> <!-- container -->
 
 
 
