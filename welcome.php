@@ -17,7 +17,7 @@ include('navbar.php');
     </div>
 </div>
 
-<div class="container">
+<div class="container mt-3 mx-5">
 <?php
 $apikey = "UtuyM2roWM6vDjKj"; //Heasleys4hemp's apikey
 //$jsonurl = "https://api.torn.com/faction/13784?selections=basic&key=jIirMCNvK8q2hf8u";
@@ -27,8 +27,7 @@ $jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,disp
 $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
-echo '<p>' . $data["name"] . ' [' . $data["player_id"] . ']<p/>';
-echo '<p>' . $data["energy"]["current"].'/'.$data["energy"]["maximum"].'</p>';
+
 
 
 /*
@@ -71,7 +70,13 @@ function printValues($arr) {
 }*/
 ?>
 
-<a href="https://www.torn.com/<?php echo $data["player_id"];?>" ><img src="https://www.torn.com/sigs/27_<?php echo $data["player_id"];?>.png" /></a>
+<a class="mb-3" href="https://www.torn.com/<?php echo $data["player_id"];?>" ><img src="https://www.torn.com/sigs/27_<?php echo $data["player_id"];?>.png" /></a>
+<h3><span class="badge badge-dark p-2"></span><?php echo $data["name"] . ' [' . $data["player_id"] . ']';?></h3>
+<h3>Energy: <span class="badge badge-dark p-2"></span><?php echo $data["energy"]["current"].'/'.$data["energy"]["maximum"]; ?></h3>
+<h3>Nerve: <span class="badge badge-dark p-2"></span><?php echo $data["nerve"]["current"].'/'.$data["nerve"]["maximum"]; ?></h3>
+<h3>Drug Cooldown: <span class="badge badge-dark p-2"></span><?php echo gmdate("H:i:s",$data["cooldowns"]["drug"]); ?></h3>
+<h3>Booster Cooldown: <span class="badge badge-dark p-2"></span><?php echo gmdate("H:i:s",$data["cooldowns"]["booster"]); ?></h3>
+
 
 </div> <!-- container -->
 
