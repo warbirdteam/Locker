@@ -27,16 +27,16 @@ $('document').ready(function() {
 			data : data,
 			beforeSend: function(){	
 				$("#error").fadeOut();
-				$("#login_button").html('<span class="glyphicon glyphicon-transfer"></span> &nbsp; sending ...');
+				$("#login_button").html('<i class="fas fa-car-side"></i> sending ...');
 			},
 			success : function(response){						
 				if(response=="ok"){									
-					$("#login_button").html('<img src="ajax-loader.gif" /> &nbsp; Signing In ...');
+					$("#login_button").html('<img src="ajax-loader.gif" /> Signing In ...');
 					setTimeout(' window.location.href = "welcome.php"; ',4000);
 				} else {									
 					$("#error").fadeIn(1000, function(){						
-						$("#error").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; '+response+' !</div>');
-						$("#login_button").html('<span class="glyphicon glyphicon-log-in"></span> &nbsp; Sign In');
+						$("#error").html('<div class="alert alert-danger"> <i class="fas fa-exclamation"></i> '+response+' !</div>');
+						$("#login_button").html('<i class="fas fa-sign-in-alt"></i> Sign In');
 					});
 				}
 			}
