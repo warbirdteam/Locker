@@ -23,7 +23,7 @@ $row = mysqli_fetch_assoc($resultset);
     <div class="container d-flex justify-content-lg-end pr-5">
      <ul class="navbar-nav pr-3">
        <li class="nav-item active">
-         <a class="nav-item nav-link" href="#">Home</a>
+         <a class="nav-item nav-link" href="welcome.php">Home</a>
        </li>
        <li class="nav-item active">
          <a class="nav-item nav-link" href="#">Placeholder</a>
