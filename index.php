@@ -24,8 +24,7 @@ include_once("../../../db_connect.php");
   <button type="submit" class="btn btn-primary" name="login_button" id="login_button">
     <i class="fas fa-sign-in-alt"></i> Sign In
   </button>
-</form>
-JK was here!	
+</form>	
 		
 </div>
 <?php include('footer.php');?>
