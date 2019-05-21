@@ -8,25 +8,24 @@ include_once("../../../db_connect.php");
 <link href="css/style.css" rel="stylesheet" type="text/css" media="screen">
 <?php include('navbar-index.php');?>
 <div class="container">
-	<h2>This thing is broken.</h2>		
-	<form class="form-login" method="post" id="login-form">
-		<h2 class="form-login-heading">User Log In Form</h2><hr />
-		<div id="error">
-		</div>
-		<div class="form-group">
-			<input type="email" class="form-control" placeholder="Email address" name="user_email" id="user_email" />
-			<span id="check-e"></span>
-		</div>
-		<div class="form-group">
-			<input type="password" class="form-control" placeholder="Password" name="password" id="password" />
-		</div>
-		<hr />
-		<div class="form-group">
-			<button type="submit" class="btn btn-default" name="login_button" id="login_button">
-			<i class="fas fa-sign-in-alt"></i> Sign In
-			</button> 
-		</div> 
-	</form>		
+	<h2>This thing is broken.</h2>
+
+<form method="post" id="login-form">
+  <h2>User Log In Form</h2>
+  <hr/>
+  <div class="form-group">
+    <input type="email" class="form-control" name="user_email" id="user_email" placeholder="Email Address">
+	<span id="check-e"></span>
+  </div>
+  <div class="form-group">
+    <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+  </div>
+  <hr />
+  <button type="submit" class="btn btn-primary" name="login_button" id="login_button">
+    <i class="fas fa-sign-in-alt"></i> Sign In
+  </button>
+</form>
+	
 		
 </div>
 <?php include('footer.php');?>
