@@ -19,7 +19,7 @@ include('navbar.php');
 <?php
 
 //$jsonurl = "https://api.torn.com/faction/13784?selections=basic&key=jIirMCNvK8q2hf8u";
-$jsonurl = "https://api.torn.com/user/2169837?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,money,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=jIirMCNvK8q2hf8u";
+$jsonurl = "https://api.torn.com/user/1468764?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,money,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=UtuyM2roWM6vDjKj";
    $json = file_get_contents($jsonurl); //gets output of API
 
 $data = json_decode($json, true);
