@@ -1,4 +1,4 @@
-<?php 
+<?php
 include('header.php');
 include_once("../../../db_connect.php");
 ?>
@@ -12,7 +12,7 @@ include_once("../../../db_connect.php");
 <div class="container">
   <div class="row">
    <div class="col-md-3"></div>
-   <div class="col-md-6 border border-light shadow py-4 mt-4 rounded" style="background-color: #d2dae2;">
+   <div class="col-md-6 border border-dark shadow py-4 mt-4 rounded" style="background-color: #d2dae2;">
      <form method="post" id="login-form">
       <h2>User Log In Form</h2>
   <hr/>
@@ -31,7 +31,7 @@ include_once("../../../db_connect.php");
   </div>
  <div class="col-md-3"></div>
 </div>
-</div>	
-		
+</div>
+
 </div>
 <?php include('footer.php');?>

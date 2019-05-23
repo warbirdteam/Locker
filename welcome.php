@@ -2,18 +2,10 @@
 include('navbar.php');
 ?>
 
-<div class="container">
-	<div class='alert alert-success'>
-		<button class='close' data-dismiss='alert'>&times;</button>
-		Hello, <br><br>Welcome to the members page.<br><br>
-    </div>
-</div>
-
-<div class="container mt-3 mx-5">
 <?php
 $apikey = "UtuyM2roWM6vDjKj"; //Heasleys4hemp's apikey
 //$jsonurl = "https://api.torn.com/faction/13784?selections=basic&key=jIirMCNvK8q2hf8u";
-$jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,money,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=" . $apikey;
+$jsonurl = "https://api.torn.com/user/?selections=timestamp,money,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=" . $apikey;
    $json = file_get_contents($jsonurl); //gets output of API
 
 $data = json_decode($json, true);
@@ -62,16 +54,68 @@ function printValues($arr) {
 }*/
 ?>
 
-<a class="mb-3" href="https://www.torn.com/<?php echo $data["player_id"];?>" ><img src="https://www.torn.com/sigs/27_<?php echo $data["player_id"];?>.png" /></a>
-<h3><span class="badge badge-dark p-2"><?php echo $data["name"] . ' [' . $data["player_id"] . ']';?></span></h3>
-<h3>Energy: <span class="badge badge-dark p-2"><?php echo $data["energy"]["current"].'/'.$data["energy"]["maximum"]; ?></span></h3>
-<h3>Nerve: <span class="badge badge-dark p-2"><?php echo $data["nerve"]["current"].'/'.$data["nerve"]["maximum"]; ?></span></h3>
-<h3>Drug Cooldown: <span class="badge badge-dark p-2"><?php echo gmdate("H:i:s",$data["cooldowns"]["drug"]); ?></span></h3>
-<h3>Booster Cooldown: <span class="badge badge-dark p-2"><?php echo gmdate("H:i:s",$data["cooldowns"]["booster"]); ?></span></h3>
+<div class="content">
 
+<div class="container pt-2" style="width: 30rem;">
+	<div class='alert alert-success'>
+		<button class='close' data-dismiss='alert'>&times;</button>
+		Hello <?php echo $data['name'] ?>,<br>Welcome to the members page.<br>
+    </div>
+</div>
+
+<div class="container-fluid mt-3">
+
+	<div class="row pb-3">
+
+		 <div class="col-lg-3 col-md-6 pt-3">
+			<div class="card border border-dark shadow rounded">
+			  <h5 class="card-header">Placeholder</h5>
+			  <div class="card-body">
+
+			   <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
+
+			  </div>
+			</div>
+		 </div> <!-- col -->
+
+		 <div class="col-lg-3 col-md-6 pt-3">
+			<div class="card border border-dark shadow rounded">
+			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
+			  <div class="card-body">
+			   <p class="card-text"></p>
+			   <p class="card-text">You currently have $<?php echo number_format($data["networth"]["wallet"]) ?> on hand.</p>
+			   <?php if ($data['networth']['wallet'] > 999999) { echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>You should bank that!</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'; } ?>
+			  </div>
+			</div>
+		 </div> <!-- col -->
+
+		 <div class="col-lg-3 col-md-6 pt-3">
+			<div class="card border border-dark shadow rounded">
+			  <h5 class="card-header">Placeholder</h5>
+			  <div class="card-body">
+
+			   <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+			  </div>
+			</div>
+		 </div> <!-- col -->
+
+		 <div class="col-lg-3 col-md-6 pt-3">
+			<div class="card border border-dark shadow rounded">
+			  <h5 class="card-header">Everything</h5>
+			  <div class="card-body">
+
+			   <p class="card-text"><?php echo '<pre>'; print_r($data); echo '</pre>';?></p>
+
+			  </div>
+			</div>
+		 </div> <!-- col -->
+
+	</div>
 
 </div> <!-- container -->
 
+</div> <!-- content -->
 <?php
 include('footer.php');
 ?>
