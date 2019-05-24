@@ -28,11 +28,11 @@ $('document').ready(function() {
 			data : data,
 			beforeSend: function(){
 				$("#error").fadeOut();
-				$("#login_button").html('<i class="fas fa-car-side"></i> sending ...');
+				$("#login_button").html('Sending...');
 			},
 			success : function(response){
 				if(response=="ok"){
-					$("#login_button").html('<div class="spinner-grow" role="status"><span class="sr-only">Loading...</span></div> Signing In ...');
+					$("#login_button").html('<div class="spinner-grow spinner-grow-sm" role="status"><span class="sr-only"> Loading...</span></div> Signing In ...');
 					setTimeout(' window.location.href = "welcome.php"; ',4000);
 				} else {
 					$("#error").fadeIn(1000, function(){
