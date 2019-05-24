@@ -44,28 +44,36 @@ if(isset($_POST['importSubmit'])){
                     // Insert member data in the database
 					
 					switch ($i) {
-						case 1:	//strength-start	
+						case 1:	//strength-start
+						    //$statconn->query("DELETE FROM strb4;");
 							$statconn->query("INSERT INTO strb4 (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 						case 2: //speed-start
+							//$statconn->query("DELETE FROM spdb4;");
 							$statconn->query("INSERT INTO spdb4 (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 						case 3: //defense-start
+							//$statconn->query("DELETE FROM defb4;");
 							$statconn->query("INSERT INTO defb4 (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 						case 4: //dexterity-start
+							//$statconn->query("DELETE FROM dexb4;");
 							$statconn->query("INSERT INTO dexb4 (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 						case 5:	//strength-end	
+							//$statconn->query("DELETE FROM strpost;");
 							$statconn->query("INSERT INTO strpost (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 						case 6: //speed-end
+							//$statconn->query("DELETE FROM spdpost;");
 							$statconn->query("INSERT INTO spdpost (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 						case 7: //defense-end
+							//$statconn->query("DELETE FROM defpost;");
 							$statconn->query("INSERT INTO defpost (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 						case 8: //dexterity-end
+							//$statconn->query("DELETE FROM dexpost;");
 							$statconn->query("INSERT INTO dexpost (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 					}
