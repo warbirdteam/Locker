@@ -33,8 +33,8 @@ $row = mysqli_fetch_assoc($resultset);
           Faction
         </a>
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
-          <a class="dropdown-item" href="faction.php"><i class="fas fa-users"></i> Faction</a>
-          <a class="dropdown-item" href="faction.php?action=energy"><i class="fas fa-battery-half"></i> Energy</a>
+          <a class="dropdown-item" href="chain-energy.php"><i class="fas fa-users"></i> Chain Energy</a>
+          <a class="dropdown-item" href="faction.php"><i class="fas fa-battery-half"></i> Energy</a>
         </div>
       </li>
 
