@@ -20,23 +20,23 @@ include('navbar.php');
         <form action="" method="post" enctype="multipart/form-data">
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" id="strengthSVG_start" name="strengthSVG_start">
-                <label class="custom-file-label" for="strengthSVG_start">Strength SVG</label>
+                <input type="file" class="custom-file-input" id="strengthCSV_start" name="strengthCSV_start">
+                <label class="custom-file-label" for="strengthCSV_start">Strength CSV</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" id="speedSVG_start" name="speedSVG_start">
-                <label class="custom-file-label" for="speedSVG_start">Speed SVG</label>
+                <input type="file" class="custom-file-input" id="speedCSV_start" name="speedCSV_start">
+                <label class="custom-file-label" for="speedCSV_start">Speed CSV</label>
              </div>
 
              <div class="custom-file  mb-2">
-                <input type="file" class="custom-file-input" id="defenseSVG_start" name="defenseSVG_start">
-                <label class="custom-file-label" for="defenseSVG_start">Defense SVG</label>
+                <input type="file" class="custom-file-input" id="defenseCSV_start" name="defenseCSV_start">
+                <label class="custom-file-label" for="defenseCSV_start">Defense CSV</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" id="dexteritySVG_start" name="dexteritySVG_start">
-                <label class="custom-file-label" for="dexteritySVG_start">Dexterity SVG</label>
+                <input type="file" class="custom-file-input" id="dexterityCSV_start" name="dexterityCSV_start">
+                <label class="custom-file-label" for="dexterityCSV_start">Dexterity CSV</label>
              </div>
 
          </form>
@@ -48,23 +48,23 @@ include('navbar.php');
          <form action="" method="post" enctype="multipart/form-data">
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" id="strengthSVG_end" name="strengthSVG_end">
-                <label class="custom-file-label" for="strengthSVG_end">Strength SVG</label>
+                <input type="file" class="custom-file-input" id="strengthCSV_end" name="strengthCSV_end">
+                <label class="custom-file-label" for="strengthCSV_end">Strength CSV</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" id="speedSVG_end" name="speedSVG_end">
-                <label class="custom-file-label" for="speedSVG_end">Speed SVG</label>
+                <input type="file" class="custom-file-input" id="speedCSV_end" name="speedCSV_end">
+                <label class="custom-file-label" for="speedCSV_end">Speed CSV</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" id="defenseSVG_end" name="defenseSVG_end">
-                <label class="custom-file-label" for="defenseSVG_end">Defense SVG</label>
+                <input type="file" class="custom-file-input" id="defenseCSV_end" name="defenseCSV_end">
+                <label class="custom-file-label" for="defenseCSV_end">Defense CSV</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" id="dexteritySVG_end" name="dexteritySVG_end">
-                <label class="custom-file-label" for="dexteritySVG_end">Dexterity SVG</label>
+                <input type="file" class="custom-file-input" id="dexterityCSV_end" name="dexterityCSV_end">
+                <label class="custom-file-label" for="dexterityCSV_end">Dexterity CSV</label>
              </div>
 
          </form>
