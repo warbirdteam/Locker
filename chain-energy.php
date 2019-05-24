@@ -5,8 +5,10 @@ include('navbar.php');
 <script> 
 $('.custom-file-input').on('change',function(){
   var fileName = $(this).val();
+  console.log(fileName);
   $(this).next('.custom-file-label').html(fileName);
-})
+  console.log($(this).next('.custom-file-label').html());
+});
 </script>
 
 <div class="content">
