@@ -5,10 +5,8 @@ include('navbar.php');
 <script type="text/javascript"> 
 $(document).ready(function(){
 	$('.custom-file-input').on('change',function(){
-	  var fileName = $(this).val();
-	  console.log(fileName);
+	  var fileName = $(this).val().replace('C:\\fakepath\\', "");
 	  $(this).next('.custom-file-label').html(fileName);
-	  console.log($(this).next('.custom-file-label').html());
 	});
 });
 </script>
