@@ -26,7 +26,7 @@ $(document).ready(function(){
     			  <div class="card-body">
 
     			   <h5 class="title">Energy Reports: Start of Chain</h5>
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="shit.php" method="post" enctype="multipart/form-data">
 
              <div class="custom-file mb-2">
                 <input type="file" class="custom-file-input" id="strengthCSV_start" name="strengthCSV_start">
@@ -48,13 +48,13 @@ $(document).ready(function(){
                 <label class="custom-file-label" for="dexterityCSV_start">Dexterity CSV</label>
              </div>
 
-         </form>
+         
 
              <br/><hr/><br/>
 
 
              <h5 class="title">Energy Reports: End of Chain</h5>
-         <form action="" method="post" enctype="multipart/form-data">
+         
 
              <div class="custom-file mb-2">
                 <input type="file" class="custom-file-input" id="strengthCSV_end" name="strengthCSV_end">
@@ -75,9 +75,10 @@ $(document).ready(function(){
                 <input type="file" class="custom-file-input" id="dexterityCSV_end" name="dexterityCSV_end">
                 <label class="custom-file-label" for="dexterityCSV_end">Dexterity CSV</label>
              </div>
-
+			
+			<button type="submit" class="btn btn-primary mt-3" id="importSubmit" name="importSubmit" value="IMPORT">Submit</button>
          </form>
-             <button type="submit" class="btn btn-primary mt-3" id="importSubmit" name="importSubmit" value="IMPORT">Submit</button>
+             
     			  </div>
     			</div>
     		 </div> <!-- col -->
