@@ -1,5 +1,4 @@
 <?php
-include('header.php');
 include('navbar.php');
 ?>
 
@@ -21,22 +20,22 @@ include('navbar.php');
         <form action="" method="post" enctype="multipart/form-data">
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" name="strengthSVG_start">
+                <input type="file" class="custom-file-input" id="strengthSVG_start" name="strengthSVG_start">
                 <label class="custom-file-label" for="strengthSVG_start">Strength SVG</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" name="speedSVG_start">
+                <input type="file" class="custom-file-input" id="speedSVG_start" name="speedSVG_start">
                 <label class="custom-file-label" for="speedSVG_start">Speed SVG</label>
              </div>
 
              <div class="custom-file  mb-2">
-                <input type="file" class="custom-file-input" name="defenseSVG_start">
+                <input type="file" class="custom-file-input" id="defenseSVG_start" name="defenseSVG_start">
                 <label class="custom-file-label" for="defenseSVG_start">Defense SVG</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" name="dexteritySVG_start">
+                <input type="file" class="custom-file-input" id="dexteritySVG_start" name="dexteritySVG_start">
                 <label class="custom-file-label" for="dexteritySVG_start">Dexterity SVG</label>
              </div>
 
@@ -49,27 +48,27 @@ include('navbar.php');
          <form action="" method="post" enctype="multipart/form-data">
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" name="strengthSVG_end">
+                <input type="file" class="custom-file-input" id="strengthSVG_end" name="strengthSVG_end">
                 <label class="custom-file-label" for="strengthSVG_end">Strength SVG</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" name="speedSVG_end">
+                <input type="file" class="custom-file-input" id="speedSVG_end" name="speedSVG_end">
                 <label class="custom-file-label" for="speedSVG_end">Speed SVG</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" name="defenseSVG_end">
+                <input type="file" class="custom-file-input" id="defenseSVG_end" name="defenseSVG_end">
                 <label class="custom-file-label" for="defenseSVG_end">Defense SVG</label>
              </div>
 
              <div class="custom-file mb-2">
-                <input type="file" class="custom-file-input" name="dexteritySVG_end">
+                <input type="file" class="custom-file-input" id="dexteritySVG_end" name="dexteritySVG_end">
                 <label class="custom-file-label" for="dexteritySVG_end">Dexterity SVG</label>
              </div>
 
          </form>
-             <button type="submit" class="btn btn-primary mt-3" name="importSubmit" value="IMPORT">Submit</button>
+             <button type="submit" class="btn btn-primary mt-3" id="importSubmit" name="importSubmit" value="IMPORT">Submit</button>
     			  </div>
     			</div>
     		 </div> <!-- col -->
