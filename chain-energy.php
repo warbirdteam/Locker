@@ -2,6 +2,13 @@
 include('navbar.php');
 ?>
 
+<script> 
+$('.custom-file-input').on('change',function(){
+  var fileName = $(this).val();
+  $(this).next('.custom-file-label').html(fileName);
+})
+</script>
+
 <div class="content">
 
   <div class="container-fluid mt-3">
