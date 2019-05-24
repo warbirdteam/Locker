@@ -53,37 +53,28 @@ include('navbar.php');
              <h5 class="title">Energy Reports: End of Chain</h5>
          <form action="" method="post" enctype="multipart/form-data">
 
-             <div class="pb-2">
-             <div class="custom-file pb-2">
+             <div class="custom-file mb-2">
                 <input type="file" class="custom-file-input" name="strengthSVG_end">
                 <label class="custom-file-label" for="strengthSVG_end">Strength SVG</label>
              </div>
-             </div>
 
-             <div class="pb-2">
-             <div class="custom-file pb-2">
+             <div class="custom-file mb-2">
                 <input type="file" class="custom-file-input" name="speedSVG_end">
                 <label class="custom-file-label" for="speedSVG_end">Speed SVG</label>
              </div>
-             </div>
 
-             <div class="pb-2">
-             <div class="custom-file pb-2">
+             <div class="custom-file mb-2">
                 <input type="file" class="custom-file-input" name="defenseSVG_end">
                 <label class="custom-file-label" for="defenseSVG_end">Defense SVG</label>
              </div>
-             </div>
 
-             <div class="pb-2">
-             <div class="custom-file pb-2">
+             <div class="custom-file mb-2">
                 <input type="file" class="custom-file-input" name="dexteritySVG_end">
                 <label class="custom-file-label" for="dexteritySVG_end">Dexterity SVG</label>
              </div>
-             </div>
-
 
          </form>
-             <button type="submit" class="btn btn-primary pt-3" name="importSubmit" value="IMPORT">Submit</button>
+             <button type="submit" class="btn btn-primary mt-3" name="importSubmit" value="IMPORT">Submit</button>
     			  </div>
     			</div>
     		 </div> <!-- col -->
