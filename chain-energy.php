@@ -311,7 +311,7 @@ $(document).ready(function(){
 								<tbody>
 								<?php
 								// Get member rows
-								$result = $statconn->query("(SELECT strB4.Player,strB4.URL, strPost.Contribution-strB4.Contribution AS Difference FROM strB4, strPost WHERE strB4.Player=strPost.Player HAVING Difference > 0) UNION (SELECT spdB4.Player,spdB4.URL, spdPost.Contribution-spdB4.Contribution AS Difference FROM spdB4, spdPost WHERE spdB4.Player=spdPost.Player HAVING Difference > 0) UNION (SELECT defB4.Player,defB4.URL, defPost.Contribution-defB4.Contribution AS Difference FROM defB4, defPost WHERE defB4.Player=defPost.Player HAVING Difference > 0) UNION (SELECT dexB4.Player,dexB4.URL, dexPost.Contribution-dexB4.Contribution AS Difference FROM dexB4, dexPost WHERE dexB4.Player=dexPost.Player HAVING Difference > 0) ORDER BY Difference DESC");
+								$result = $statconn->query("SELECT Player, URL, sum(Difference) FROM ( SELECT strB4.Player,strB4.URL, strPost.Contribution-strB4.Contribution AS Difference FROM strB4, strPost WHERE strB4.Player=strPost.Player HAVING Difference > 0 UNION ALL SELECT spdB4.Player,spdB4.URL, spdPost.Contribution-spdB4.Contribution AS Difference FROM spdB4, spdPost WHERE spdB4.Player=spdPost.Player HAVING Difference > 0 UNION ALL SELECT defB4.Player,defB4.URL, defPost.Contribution-defB4.Contribution AS Difference FROM defB4, defPost WHERE defB4.Player=defPost.Player HAVING Difference > 0 UNION ALL SELECT dexB4.Player,dexB4.URL, dexPost.Contribution-dexB4.Contribution AS Difference FROM dexB4, dexPost WHERE dexB4.Player=dexPost.Player HAVING Difference > 0 ) x GROUP BY Player ORDER BY sum(Difference) DESC");
 								
 								if($result === false)
 								{
@@ -325,7 +325,7 @@ $(document).ready(function(){
 									<tr>
 										<td><?php echo $row['Player']; ?></td>
 										<td><?php echo $row['URL']; ?></td>
-										<td><?php echo $row['Difference']; ?></td>
+										<td><?php echo $row['sum(Difference)']; ?></td>
 									</tr>
 								<?php } }else{ ?>
 									<tr><td colspan="5">No information found...</td></tr>

@@ -29,7 +29,8 @@
    function getCoreResUsed($factions) {
    $data = unserialize(file_get_contents('api/factiontree.json'));
    $factiontree = json_decode($data, true);
-
+	
+	echo $factiontree;
    //echo "<b><p>Factiontree - ".$factiontree['factiontree']['10']['1']['base_cost']."</p></b>";
 
    $respectCore = 0;
