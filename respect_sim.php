@@ -5,7 +5,8 @@ include('navbar.php');
 <link rel="stylesheet" href="css/respect_sim.css">
 
 
-
+<div class="container border border-light shadow pt-3 mb-4 rounded" style="background-color: #d2dae2;">
+	<div class="container mb-4" align="center">
 <div class="container">
 
 <h5>Click on a tab to edit.</h5>
@@ -881,7 +882,8 @@ Total Simulated: <span id="TotalSim" class="font-weight-bold">0</span><br />
 
 </div> <!-- container -->
 
-
+</div>
+</div>
 
 
 <script src="js/respect_sim.js"></script>
