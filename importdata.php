@@ -9,6 +9,16 @@ if(isset($_POST['importSubmit'])){
    // Allowed mime types
     $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
     
+	            $statconn->query("Truncate table strB4");
+				$statconn->query("Truncate table spdB4");
+				$statconn->query("Truncate table defB4");
+				$statconn->query("Truncate table dexB4");
+				$statconn->query("Truncate table strPost");
+				$statconn->query("Truncate table spdPost");
+				$statconn->query("Truncate table defPost");
+				$statconn->query("Truncate table dexPost");
+	
+	
 	 for( $i= 1 ; $i <= 8 ; $i++ ) {
 	
     // Validate whether selected file is a CSV file
@@ -36,7 +46,7 @@ if(isset($_POST['importSubmit'])){
                 // Check whether member already exists in the database with the same email
                 //$prevQuery = "SELECT id FROM members WHERE email = '".$line[1]."'";
                 //$prevResult = $db->query($prevQuery);
-                
+
                 //if($prevResult->num_rows > 0){
                     // Update member data in the database
                     //$db->query("UPDATE members SET name = '".$name."', phone = '".$phone."', status = '".$status."', modified = NOW() WHERE email = '".$email."'");
@@ -73,7 +83,7 @@ if(isset($_POST['importSubmit'])){
 							$statconn->query("INSERT INTO defpost (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 						case 8: //dexterity-end
-							//$statconn->query("DELETE FROM dexpost;");
+							//$statconn->query("DELETE FROM dexpost;") or die(mysqli_error()); //this part wasn't working, but idk sql sooo
 							$statconn->query("INSERT INTO dexpost (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
 					}

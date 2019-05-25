@@ -31,7 +31,6 @@ $row = mysqli_fetch_assoc($resultset);
         </a>
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
           <a class="dropdown-item" href="chain-energy.php"><i class="fas fa-file-code"></i></i> CSV Energy Reports</a>
-		  <a class="dropdown-item" href="chain-energy-jk.php"><i class="fas fa-file-code"></i></i> CSV Energy Reports v2</a>
           <a class="dropdown-item" href="faction.php"><i class="fas fa-battery-half"></i> Energy</a>
         </div>
       </li>
