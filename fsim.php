@@ -22,7 +22,7 @@
     }
     $factions = json_decode($data, true); // decode the JSON feed
     return $factions;
-    
+
   }//end of init()
 
 
@@ -424,7 +424,7 @@ function Suppression($factiontree, $Arr) {
 
 
 
-$data = unserialize(file_get_contents('/home/heasleys/TornAPIs/factiontree.json'));
+$data = unserialize(file_get_contents('api/factiontree.json'));
 $factiontree = json_decode($data, true);
 
 
