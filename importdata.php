@@ -103,6 +103,6 @@ if(isset($_POST['importSubmit'])){
 }
 
 // Redirect to the listing page
-header("Location: chain-energy-jk.php".$qstring);
+header("Location: chain-energy.php".$qstring);
 
 ?>
