@@ -131,7 +131,7 @@ $(document).ready(function(){
       </div> <!-- row -->
 
       <div class="row">
-        <div class="col-lg-8 col-md-6 pt-3 mx-auto">
+        <div class="col-lg-8 col-md-6 col-sm-10 pt-3 mx-auto">
           <div class="card border border-dark shadow rounded">
     			  <h5 class="card-header">Results</h5>
     			  <div class="card-body">
@@ -180,7 +180,7 @@ $(document).ready(function(){
 								?>
 									<tr>
 										<td><?php echo $row['Player']; ?></td>
-										<td><?php echo $row['URL']; ?></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
 										<td><?php echo $row['Difference']; ?></td>
 									</tr>
 								<?php } }else{ ?>
@@ -216,7 +216,7 @@ $(document).ready(function(){
 								?>
 									<tr>
 										<td><?php echo $row['Player']; ?></td>
-										<td><?php echo $row['URL']; ?></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
 										<td><?php echo $row['Difference']; ?></td>
 									</tr>
 								<?php } }else{ ?>
@@ -252,7 +252,7 @@ $(document).ready(function(){
 								?>
 									<tr>
 										<td><?php echo $row['Player']; ?></td>
-										<td><?php echo $row['URL']; ?></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
 										<td><?php echo $row['Difference']; ?></td>
 									</tr>
 								<?php } }else{ ?>
@@ -288,7 +288,7 @@ $(document).ready(function(){
 								?>
 									<tr>
 										<td><?php echo $row['Player']; ?></td>
-										<td><?php echo $row['URL']; ?></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
 										<td><?php echo $row['Difference']; ?></td>
 									</tr>
 								<?php } }else{ ?>
@@ -324,7 +324,7 @@ $(document).ready(function(){
 								?>
 									<tr>
 										<td><?php echo $row['Player']; ?></td>
-										<td><?php echo $row['URL']; ?></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
 										<td><?php echo $row['sum(Difference)']; ?></td>
 									</tr>
 								<?php } }else{ ?>
