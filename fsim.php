@@ -1,9 +1,10 @@
 <?php
 
 
+
   function initAPI() {
 
-  if(htmlspecialchars($_GET["fid"]) == ""){
+  if(htmlspecialchars($_GET["fid"]) == "" || htmlspecialchars($_GET["fid"]) == 0){
 
       $errormsg = 'There was an error. You did not enter a faction ID. Please try again.';
       return null;
@@ -29,8 +30,8 @@
    function getCoreResUsed($factions) {
    $data = unserialize(file_get_contents('api/factiontree.json'));
    $factiontree = json_decode($data, true);
-	
-	echo $factiontree;
+	//var_dump($factiontree);
+	//echo $factiontree;
    //echo "<b><p>Factiontree - ".$factiontree['factiontree']['10']['1']['base_cost']."</p></b>";
 
    $respectCore = 0;
@@ -42,7 +43,7 @@
 	  {
 	   foreach($num as $branch)
            {
-
+		if (isset($branch['branch'])) {
 	     switch ($branch['branch']) {
 		case 'Core':
 		 switch(true) {
@@ -182,6 +183,7 @@
 		break;
 	     }//switch branch
 	   }
+		   }
 	  }
 	 }
 	}
@@ -192,6 +194,11 @@
 
    function Criminality($factiontree, $Arr) {
    $respect = 0;
+   $_13R = 0;
+   $_14R = 0;
+   $_15R = 0;
+   $_16R = 0;
+   $_17R = 0;
 
 		//nerve
 		for($i = 1; $i<=$Arr[0]; $i++) {
@@ -223,6 +230,11 @@
 
    function Fortitude($factiontree, $Arr) {
    $respect = 0;
+   $_18R = 0;
+   $_19R = 0;
+   $_20R = 0;
+   $_21R = 0;
+   $_22R = 0;
 
 		//medicalcooldown
 		for($i = 1; $i<=$Arr[0]; $i++) {
@@ -254,6 +266,10 @@
 
       function Voracity($factiontree, $Arr) {
    $respect = 0;
+   $_23R = 0;
+   $_24R = 0;
+   $_25R = 0;
+   $_26R = 0;
 
 		//candy effect
 		for($i = 1; $i<=$Arr[0]; $i++) {
@@ -281,6 +297,9 @@
 
       function Toleration($factiontree, $Arr) {
    $respect = 0;
+   $_27R = 0;
+   $_28R = 0;
+   $_29R = 0;
 
 		//side effect
 		for($i = 1; $i<=$Arr[0]; $i++) {
@@ -305,6 +324,11 @@
 
       function Excursion($factiontree, $Arr) {
    $respect = 0;
+   $_31R = 0;
+   $_32R = 0;
+   $_33R = 0;
+   $_34R = 0;
+   $_35R = 0;
 
 		//hunting
 		for($i = 1; $i<=$Arr[0]; $i++) {
@@ -336,6 +360,10 @@
 
 function Steadfast($factiontree, $Arr) {
    $respect = 0;
+   $_36R = 0;
+   $_37R = 0;
+   $_38R = 0;
+   $_39R = 0;
 
 		//strength
 		for($i = 1; $i<=$Arr[0]; $i++) {
@@ -365,6 +393,11 @@ function Steadfast($factiontree, $Arr) {
 
 function Aggression($factiontree, $Arr) {
    $respect = 0;
+   $_40R = 0;
+   $_41R = 0;
+   $_42R = 0;
+   $_43R = 0;
+   $_44R = 0;
 
 		//hospitalization
 		for($i = 1; $i<=$Arr[0]; $i++) {
@@ -397,6 +430,10 @@ function Aggression($factiontree, $Arr) {
 
 function Suppression($factiontree, $Arr) {
    $respect = 0;
+   $_45R = 0;
+   $_46R = 0;
+   $_47R = 0;
+   $_48R = 0;
 
 		//maxlife
 		for($i = 1; $i<=$Arr[0]; $i++) {
@@ -434,13 +471,13 @@ $factions = initAPI();
 
 if ($factions['timestamp']) {
 
-     $RespectCore = getCoreResUsed($factions);
+    $respectCore = getCoreResUsed($factions);
 	$totalRespect = $factions['respect'];
-	$availableRespect = $totalRespect - $RespectCore;
+	$availableRespect = $totalRespect - $respectCore;
 
 } else {
 
-        $RespectCore = null;
+        $respectCore = null;
 	$totalRespect = null;
 	$availableRespect = null;
 
@@ -519,6 +556,5 @@ $aggressionRespect = Aggression($factiontree, array($hospitalization, $damage, $
 $suppressionRespect = Suppression($factiontree, array($maxlife, $supdefense, $supdexterity, $escape));
 
 
-
-echo json_encode(array($totalRespect,$RespectCore,$availableRespect, $criminalityRespect, $fortitudeRespect, $voracityRespect, $tolerationRespect, $excursionRespect, $steadfastRespect, $aggressionRespect, $suppressionRespect));
+echo json_encode(array($totalRespect,$respectCore,$availableRespect, $criminalityRespect, $fortitudeRespect, $voracityRespect, $tolerationRespect, $excursionRespect, $steadfastRespect, $aggressionRespect, $suppressionRespect));
 ?>

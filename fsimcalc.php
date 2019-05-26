@@ -26,6 +26,52 @@
    function getLevels($factions) {
    $data = unserialize(file_get_contents('api/factiontree.json'));
    $factiontree = json_decode($data, true);
+   
+   $respectCore = 0;
+   $basecrim = 0;
+   $basefort = 0;
+   $basevor = 0;
+   $basetol = 0;
+   $baseexcur = 0;
+   $baseste = 0;
+   $baseagg = 0;
+   $basesup = 0;
+   
+   $_13= 0;
+   $_14= 0;
+   $_15= 0;
+   $_16= 0;
+   $_17= 0;
+   $_18= 0;
+   $_19= 0;
+   $_20= 0;
+   $_21= 0;
+   $_22= 0;
+   $_23= 0;
+   $_24= 0;
+   $_25= 0;
+   $_26= 0;
+   $_27= 0;
+   $_28= 0;
+   $_29= 0;
+   $_31= 0;
+   $_32= 0;
+   $_33= 0;
+   $_34= 0;
+   $_35= 0;
+   $_36= 0;
+   $_37= 0;
+   $_38= 0;
+   $_39= 0;
+   $_40= 0;
+   $_41= 0;
+   $_42= 0;
+   $_43= 0;
+   $_44= 0;
+   $_45= 0;
+   $_46= 0;
+   $_47= 0;
+   $_48= 0;
 
 
    if (is_array($factions) || is_object($factions))
@@ -36,11 +82,10 @@
 	  {
 	   foreach($num as $branch)
            {
-
+	if (isset($branch['branch'])) {
 	     switch ($branch['branch']) {
 		case 'Core':
 		 switch(true) {
-
 		  case stristr($branch['name'],' armory'):
 		    $respectCore += (int)$branch['basecost'];
 		  break;
@@ -70,13 +115,13 @@
 		     $respectCore += (int)$factiontree['factiontree']['12'][$i]['base_cost'];
 		  }
 		  break;
-
 		 }//switch 'Core' true
 		break;
 
 
 		case 'Criminality':
 		 $basecrim = $branch['branchmultiplier'];
+		 
 		 switch(true) {
 
 		 case stristr($branch['name'],'Nerve'):
@@ -247,12 +292,13 @@
 			$_47 = $branch['level'];
 		break;
 		case stristr($branch['name'],'Escape'):
-			$_48 = $branch['level'];
+			$_48 = $branch['level'] ?? "";
 		break;
 	   }
 	break;
 	     }//switch branch
 	   }
+	}
 	  }
 	 }
 	}
@@ -267,7 +313,7 @@
    $suppression = array($basesup, $_45, $_46, $_47, $_48);
 
    return array($respectCore, $criminality, $fortitude, $voracity, $toleration, $excursion, $steadfast, $aggression, $suppression);
-   }//getcoreresused function
+   }//getlevels function
 
 
 
@@ -298,11 +344,11 @@ $aggression = $levels[7];
 $suppression = $levels[8];
 
 
-$RespectCore = $levels[0];
+$respectCore = $levels[0];
 $totalRespect = $factions['respect'];
-$availableRespect = $totalRespect - $RespectCore;
+$availableRespect = $totalRespect - $respectCore;
 
 //echo json_encode(array(number_format($totalRespect),number_format($RespectCore),$availableRespect));
 
-echo json_encode(array(number_format($totalRespect),number_format($RespectCore),$availableRespect, $criminality, $fortitude, $voracity, $toleration, $excursion, $steadfast, $aggression, $suppression));
+echo json_encode(array(number_format($totalRespect),number_format($respectCore),$availableRespect, $criminality, $fortitude, $voracity, $toleration, $excursion, $steadfast, $aggression, $suppression));
 ?>
