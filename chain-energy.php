@@ -156,7 +156,7 @@ $(document).ready(function(){
 					<div class="tab-content" id="myTabContent">
 					  <div class="tab-pane fade" id="strength-result" role="tabpanel">
 
-							<table class="table table-striped table-bordered mt-3">
+							<table class="table table-striped table-bordered table-fit mt-3">
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
@@ -192,7 +192,7 @@ $(document).ready(function(){
 					  </div>
 					  <div class="tab-pane fade" id="speed-result" role="tabpanel">
 					  
-							<table class="table table-striped table-bordered mt-3">
+							<table class="table table-striped table-bordered table-fit mt-3">
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
@@ -228,7 +228,7 @@ $(document).ready(function(){
 					  </div>
 					  <div class="tab-pane fade" id="defense-result" role="tabpanel">
 					  
-							<table class="table table-striped table-bordered mt-3">
+							<table class="table table-striped table-bordered table-fit mt-3">
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
@@ -264,7 +264,7 @@ $(document).ready(function(){
 					  </div>
 					  <div class="tab-pane fade" id="dexterity-result" role="tabpanel">
 					  
-							<table class="table table-striped table-bordered mt-3">
+							<table class="table table-striped table-bordered table-fit mt-3">
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
@@ -300,7 +300,7 @@ $(document).ready(function(){
 					  </div>
 					  <div class="tab-pane fade show active" id="total-result" role="tabpanel">
 
-							<table class="table table-striped table-bordered mt-3">
+							<table class="table table-striped table-bordered table-fit mt-3">
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
