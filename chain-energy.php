@@ -167,7 +167,7 @@ $(document).ready(function(){
 								<tbody>
 								<?php
 								// Get member rows
-								$result = $statconn->query("select strB4.Player,strB4.URL, strPost.Contribution-strB4.Contribution AS Difference from strB4, strPost where strB4.Player=strPost.Player HAVING Difference > 0 ORDER BY Difference DESC");
+								$result = $statconn->query("select strb4.Player,strb4.URL, strpost.Contribution-strb4.Contribution AS Difference from strb4, strpost where strb4.Player=strpost.Player HAVING Difference > 0 ORDER BY Difference DESC");
 								
 								if($result === false)
 								{
@@ -203,7 +203,7 @@ $(document).ready(function(){
 								<tbody>
 								<?php
 								// Get member rows
-								$result = $statconn->query("select spdB4.Player,spdB4.URL, spdPost.Contribution-spdB4.Contribution AS Difference from spdB4, spdPost where spdB4.Player=spdPost.Player HAVING Difference > 0 ORDER BY Difference DESC");
+								$result = $statconn->query("select spdb4.Player,spdb4.URL, spdpost.Contribution-spdb4.Contribution AS Difference from spdb4, spdpost where spdb4.Player=spdpost.Player HAVING Difference > 0 ORDER BY Difference DESC");
 								
 								if($result === false)
 								{
@@ -239,7 +239,7 @@ $(document).ready(function(){
 								<tbody>
 								<?php
 								// Get member rows
-								$result = $statconn->query("select defB4.Player,defB4.URL, defPost.Contribution-defB4.Contribution AS Difference from defB4, defPost where defB4.Player=defPost.Player HAVING Difference > 0 ORDER BY Difference DESC");
+								$result = $statconn->query("select defb4.Player,defb4.URL, defpost.Contribution-defb4.Contribution AS Difference from defb4, defpost where defb4.Player=defpost.Player HAVING Difference > 0 ORDER BY Difference DESC");
 								
 								if($result === false)
 								{
@@ -275,7 +275,7 @@ $(document).ready(function(){
 								<tbody>
 								<?php
 								// Get member rows
-								$result = $statconn->query("select dexB4.Player,dexB4.URL, dexPost.Contribution-dexB4.Contribution AS Difference from dexB4, dexPost where dexB4.Player=dexPost.Player HAVING Difference > 0 ORDER BY Difference DESC");
+								$result = $statconn->query("select dexb4.Player,dexb4.URL, dexpost.Contribution-dexb4.Contribution AS Difference from dexb4, dexpost where dexb4.Player=dexpost.Player HAVING Difference > 0 ORDER BY Difference DESC");
 								
 								if($result === false)
 								{
@@ -311,7 +311,7 @@ $(document).ready(function(){
 								<tbody>
 								<?php
 								// Get member rows
-								$result = $statconn->query("SELECT Player, URL, sum(Difference) FROM ( SELECT strB4.Player,strB4.URL, strPost.Contribution-strB4.Contribution AS Difference FROM strB4, strPost WHERE strB4.Player=strPost.Player HAVING Difference > 0 UNION ALL SELECT spdB4.Player,spdB4.URL, spdPost.Contribution-spdB4.Contribution AS Difference FROM spdB4, spdPost WHERE spdB4.Player=spdPost.Player HAVING Difference > 0 UNION ALL SELECT defB4.Player,defB4.URL, defPost.Contribution-defB4.Contribution AS Difference FROM defB4, defPost WHERE defB4.Player=defPost.Player HAVING Difference > 0 UNION ALL SELECT dexB4.Player,dexB4.URL, dexPost.Contribution-dexB4.Contribution AS Difference FROM dexB4, dexPost WHERE dexB4.Player=dexPost.Player HAVING Difference > 0 ) x GROUP BY Player ORDER BY sum(Difference) DESC");
+								$result = $statconn->query("SELECT Player, URL, sum(Difference) FROM ( SELECT strb4.Player,strb4.URL, strpost.Contribution-strb4.Contribution AS Difference FROM strb4, strpost WHERE strb4.Player=strpost.Player HAVING Difference > 0 UNION ALL SELECT spdb4.Player,spdb4.URL, spdpost.Contribution-spdb4.Contribution AS Difference FROM spdb4, spdpost WHERE spdb4.Player=spdpost.Player HAVING Difference > 0 UNION ALL SELECT defb4.Player,defb4.URL, defpost.Contribution-defb4.Contribution AS Difference FROM defb4, defpost WHERE defb4.Player=defpost.Player HAVING Difference > 0 UNION ALL SELECT dexb4.Player,dexb4.URL, dexpost.Contribution-dexb4.Contribution AS Difference FROM dexb4, dexpost WHERE dexb4.Player=dexpost.Player HAVING Difference > 0 ) x GROUP BY Player ORDER BY sum(Difference) DESC");
 								
 								if($result === false)
 								{
