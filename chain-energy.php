@@ -160,7 +160,7 @@ $(document).ready(function(){
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
-										<th>URL</th>
+										
 										<th>Energy used</th>
 									</tr>
 								</thead>
@@ -179,8 +179,8 @@ $(document).ready(function(){
 									while($row = $result->fetch_assoc()){
 								?>
 									<tr>
-										<td><?php echo $row['Player']; ?></td>
-										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['Player']; ?></a></td>
+										
 										<td><?php echo $row['Difference']; ?></td>
 									</tr>
 								<?php } }else{ ?>
@@ -196,7 +196,7 @@ $(document).ready(function(){
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
-										<th>URL</th>
+										
 										<th>Energy used</th>
 									</tr>
 								</thead>
@@ -215,8 +215,8 @@ $(document).ready(function(){
 									while($row = $result->fetch_assoc()){
 								?>
 									<tr>
-										<td><?php echo $row['Player']; ?></td>
-										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['Player']; ?></a></td>
+										
 										<td><?php echo $row['Difference']; ?></td>
 									</tr>
 								<?php } }else{ ?>
@@ -232,7 +232,7 @@ $(document).ready(function(){
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
-										<th>URL</th>
+										
 										<th>Energy used</th>
 									</tr>
 								</thead>
@@ -251,8 +251,8 @@ $(document).ready(function(){
 									while($row = $result->fetch_assoc()){
 								?>
 									<tr>
-										<td><?php echo $row['Player']; ?></td>
-										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['Player']; ?></a></td>
+									
 										<td><?php echo $row['Difference']; ?></td>
 									</tr>
 								<?php } }else{ ?>
@@ -268,7 +268,7 @@ $(document).ready(function(){
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
-										<th>URL</th>
+										
 										<th>Energy used</th>
 									</tr>
 								</thead>
@@ -287,8 +287,8 @@ $(document).ready(function(){
 									while($row = $result->fetch_assoc()){
 								?>
 									<tr>
-										<td><?php echo $row['Player']; ?></td>
-										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['Player']; ?></a></td>
+										
 										<td><?php echo $row['Difference']; ?></td>
 									</tr>
 								<?php } }else{ ?>
@@ -304,7 +304,7 @@ $(document).ready(function(){
 								<thead class="thead-dark">
 									<tr>
 										<th>Player</th>
-										<th>URL</th>
+										
 										<th>Energy used</th>
 									</tr>
 								</thead>
@@ -323,8 +323,8 @@ $(document).ready(function(){
 									while($row = $result->fetch_assoc()){
 								?>
 									<tr>
-										<td><?php echo $row['Player']; ?></td>
-										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['URL']; ?></a></td>
+										<td><a href="<?php echo $row['URL']; ?>" target="_blank"><?php echo $row['Player']; ?></a></td>
+										
 										<td><?php echo $row['sum(Difference)']; ?></td>
 									</tr>
 								<?php } }else{ ?>
