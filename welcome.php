@@ -1,9 +1,12 @@
 <?php
+session_start();
 include('navbar.php');
+$apikey =  $_SESSION['key']; // currernt user apikey
+
 ?>
 
 <?php
-$apikey = "UtuyM2roWM6vDjKj"; //Heasleys4hemp's apikey
+//$apikey = "UtuyM2roWM6vDjKj"; //Heasleys4hemp's apikey
 //$jsonurl = "https://api.torn.com/faction/13784?selections=basic&key=jIirMCNvK8q2hf8u";
 $jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=" . $apikey;
    $json = file_get_contents($jsonurl); //gets output of API
