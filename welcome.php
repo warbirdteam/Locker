@@ -1,6 +1,6 @@
 <?php
 session_start();
-include('navbar.php');
+if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('navbar.php');}
 $apikey =  $_SESSION['key']; // currernt user apikey
 
 ?>
