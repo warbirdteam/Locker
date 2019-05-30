@@ -15,8 +15,19 @@ $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
 
-$dataPoints = array( 
-	//array("label"=>"Pending", "y"=>number_format(number_format($data["networth"]["pending"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+$netpending = number_format(number_format($data["networth"]["pending"],3) / number_format($data["networth"]["total"],3) * 100,2);
+echo $netpending;
+$netwallet = number_format(number_format($data["networth"]["wallet"],3) / number_format($data["networth"]["total"],3) * 100,2);
+echo $netwallet;
+$netbank = number_format(number_format($data["networth"]["bank"],3) / number_format($data["networth"]["total"],3) * 100,2);
+echo $netbank;
+$nepoints = number_format(number_format($data["networth"]["points"],3) / number_format($data["networth"]["total"],3) * 100,2);
+echo $netpoints;
+
+
+
+$dataPoints = array(
+	//array("label"=>"Pending", "y"=>$netpending),
 	//array("label"=>"Wallet", "y"=>number_format(number_format($data["networth"]["wallet"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	//array("label"=>"Bank", "y"=>number_format(number_format($data["networth"]["bank"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	//array("label"=>"Points", "y"=>number_format(number_format($data["networth"]["points"],3) / number_format($data["networth"]["total"],3) * 100,2)),
@@ -76,8 +87,8 @@ function printValues($arr) {
 
 <script>
 window.onload = function() {
- 
- 
+
+
 var chart = new CanvasJS.Chart("chartContainer", {
 	theme: "light2",
 	animationEnabled: true,
@@ -89,7 +100,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	}]
 });
 chart.render();
-	      
+
 $('.canvasjs-chart-credit').hide();
 }
 </script>
@@ -114,7 +125,7 @@ $('.canvasjs-chart-credit').hide();
 			  <div class="card-body">
 
 			   <div id="chartContainer" style="height: 370px; width: 100%;"></div>
-				
+
 			  </div>
 			</div>
 		 </div> <!-- col -->
