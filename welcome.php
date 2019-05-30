@@ -118,7 +118,7 @@ function printValues($arr) {
 
 	<div class="row pb-3">
 
-		 <div class="col-lg-3 col-md-6 pt-3">
+		 <div class="col col-md-6 pt-3">
 			<div class="card border border-dark shadow rounded">
 			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
 			  <div class="card-body">
@@ -129,16 +129,6 @@ function printValues($arr) {
 			</div>
 		 </div> <!-- col -->
 
-		 <div class="col-lg-3 col-md-6 pt-3">
-			<div class="card border border-dark shadow rounded">
-			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
-			  <div class="card-body">
-			   <p class="card-text"></p>
-			   <p class="card-text">You currently have $<?php echo number_format($data["networth"]["wallet"]) ?> on hand.</p>
-			   <?php if ($data['networth']['wallet'] > 999999) { echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>You should bank that!</strong><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'; } ?>
-			  </div>
-			</div>
-		 </div> <!-- col -->
 
 		 <div class="col-lg-3 col-md-6 pt-3">
 			<div class="card border border-dark shadow rounded">
