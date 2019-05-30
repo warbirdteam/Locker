@@ -138,7 +138,7 @@ function printValues($arr) {
 		 </div> <!-- col -->
 
 
-		 <div class="col pt-3">
+		 <div class="col-lg-3 col-md-6 pt-3">
 			<div class="card border border-dark shadow rounded">
 			  <h5 class="card-header">Everything</h5>
 			  <div class="card-body">
