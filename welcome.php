@@ -20,8 +20,8 @@ echo $stocknetworth;
 
 $dataPoints = array( 
 	array("label"=>"Chrome", "y"=>70.22),
-	array("label"=>"Firefox", "y"=>7.78),
-	array("label"=>"IE", "y"=>$stocknetworth)
+	array("label"=>"Firefox", "y"=>number_format(number_format($data["networth"]["items"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Stock Market", "y"=>$stocknetworth)
 )
 
 /*
