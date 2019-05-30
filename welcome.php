@@ -14,7 +14,7 @@ $jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,disp
 $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
-
+/*
 $netpending = number_format(number_format($data["networth"]["pending"],3) / number_format($data["networth"]["total"],3) * 100,2);
 echo $netpending . "<br>";
 $netwallet = number_format(number_format($data["networth"]["wallet"],3) / number_format($data["networth"]["total"],3) * 100,2);
@@ -45,6 +45,7 @@ echo '<br>Loan: ' . number_format($data["networth"]["loan"],3)
 echo '<br>Total: ' . number_format($data["networth"]["total"],3) . '<br>';
 
 echo '<br>Stock Market %: ' . number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2);
+*/
 
 /*
    $decodedString =  new RecursiveIteratorIterator ( new RecursiveArrayIterator(json_decode($json, true)), RecursiveIteratorIterator::SELF_FIRST); //parses API JSON output
