@@ -126,10 +126,10 @@ function printValues($arr) {
 
         // Create the data table.
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
+        data.addColumn('string', 'Type');
+        data.addColumn('number', 'Percent');
         data.addRows([
-          ['Mushrooms', 3],
+          ['Stock Market', <?php echo $netstockmarket ?>],
           ['Onions', 1],
           ['Olives', 1],
           ['Zucchini', 1],
@@ -137,8 +137,7 @@ function printValues($arr) {
         ]);
 
         // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':400,
+        var options = {'width':400,
                        'height':300};
 
         // Instantiate and draw our chart, passing in some options.
