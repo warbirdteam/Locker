@@ -15,6 +15,9 @@ $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
 
+$stocknetworth = number_format($data["networth"]["stockmarket"], 2) / number_format($data["networth"]["total"], 2);
+echo $stocknetworth;
+
 $dataPoints = array( 
 	array("label"=>"Industrial", "y"=>51.7),
 	array("label"=>"Transportation", "y"=>26.6),
@@ -74,7 +77,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	},
 	data: [{
 		type: "pie",
-		indexLabel: "{y}",
+		indexLabel: "{label} {y}",
 		yValueFormatString: "#,##0.00\"%\"",
 		indexLabelPlacement: "inside",
 		indexLabelFontColor: "#36454F",
