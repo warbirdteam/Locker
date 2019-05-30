@@ -29,7 +29,7 @@ $dataPoints = array(
 	array("label"=>"Properties", "y"=>number_format(number_format($data["networth"]["properties"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	array("label"=>"Stock Market", "y"=>number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	//array("label"=>"Auction House", "y"=>number_format(number_format($data["networth"]["auctionhouse"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Company", "y"=>number_format(number_format($data["networth"]["company"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Company", "y"=>number_format(number_format($data["networth"]["company"],3) / number_format($data["networth"]["total"],3) * 100,2))
 	//array("label"=>"Bookie", "y"=>number_format(number_format($data["networth"]["bookie"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	//array("label"=>"Loan", "y"=>number_format(number_format($data["networth"]["loan"],3) / number_format($data["networth"]["total"],3) * 100,2))
 )
