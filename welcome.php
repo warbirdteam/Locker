@@ -68,7 +68,7 @@ echo '<br>Loan: ' . number_format($netbank,2);*/
 echo '<br>Total: ' . number_format($data["networth"]["total"],2) . '<br>';
 
 echo '<br>Stock Market %: ' . number_format($data["networth"]["stockmarket"] / $data["networth"]["total"] * 100,2);
-*/
+
 
 /*
    $decodedString =  new RecursiveIteratorIterator ( new RecursiveArrayIterator(json_decode($json, true)), RecursiveIteratorIterator::SELF_FIRST); //parses API JSON output
