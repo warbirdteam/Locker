@@ -19,7 +19,7 @@ $dataPoints = array(
 	//array("label"=>"Pending", "y"=>number_format(number_format($data["networth"]["pending"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	//array("label"=>"Wallet", "y"=>number_format(number_format($data["networth"]["wallet"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	//array("label"=>"Bank", "y"=>number_format(number_format($data["networth"]["bank"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Points", "y"=>number_format(number_format($data["networth"]["points"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	//array("label"=>"Points", "y"=>number_format(number_format($data["networth"]["points"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	//array("label"=>"Cayman", "y"=>number_format(number_format($data["networth"]["cayman"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	array("label"=>"Vault", "y"=>number_format(number_format($data["networth"]["vault"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	//array("label"=>"piggybank", "y"=>number_format(number_format($data["networth"]["piggybank"],3) / number_format($data["networth"]["total"],3) * 100,2)),
