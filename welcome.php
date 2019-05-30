@@ -102,8 +102,7 @@ function printValues($arr) {
           },
           legend: {
             position: 'top'
-          },
-          width: '100%'
+          }
         };
 
         // Instantiate and draw our chart, passing in some options.
