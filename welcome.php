@@ -96,10 +96,19 @@ function printValues($arr) {
         var formatter = new google.visualization.NumberFormat({pattern:'$###,###'});
         formatter.format(data,1);
 
+        var options = {
+          chartArea: {
+            width: '90%'
+          },
+          legend: {
+            position: 'top'
+          },
+          width: '100%'
+        };
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data);
+        chart.draw(data,options);
       }
     </script>
 
@@ -119,7 +128,7 @@ function printValues($arr) {
 
 	<div class="row pb-3">
 
-		 <div class="col-9 col-md-6 pt-3" style="width: 900px; height: 500px;">
+		 <div class="col-9 col-md-6 pt-3">
 			<div class="card border border-dark shadow rounded">
 			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
 			  <div class="card-body">
