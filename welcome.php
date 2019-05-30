@@ -129,18 +129,27 @@ function printValues($arr) {
         data.addColumn('string', 'Type');
         data.addColumn('number', 'Money');
         data.addRows([
+          ['Pending', <?php echo (int)$data["networth"]["pending"] ?>],
+          ['Wallet', <?php echo (int)$data["networth"]["wallet"] ?>],
+          ['Bank', <?php echo (int)$data["networth"]["bank"] ?>],
+          ['Points', <?php echo (int)$data["networth"]["points"] ?>],
+          ['Cayman Islands', <?php echo (int)$data["networth"]["cayman"] ?>],
+          ['Vault', <?php echo (int)$data["networth"]["vault"] ?>],
+          ['Piggy Bank', <?php echo (int)$data["networth"]["piggybank"] ?>],
+          ['Items', <?php echo (int)$data["networth"]["items"] ?>],
+          ['Display Case', <?php echo (int)$data["networth"]["displaycase"] ?>],
+          ['Bazaar', <?php echo (int)$data["networth"]["bazaar"] ?>],
+          ['Properties', <?php echo (int)$data["networth"]["properties"] ?>],
           ['Stock Market', <?php echo (int)$data["networth"]["stockmarket"] ?>],
           ['Auction House', <?php echo (int)$data["networth"]["auctionhouse"] ?>],
           ['Company', <?php echo (int)$data["networth"]["company"] ?>],
           ['Bookie', <?php echo (int)$data["networth"]["bookie"] ?>],
-          ['Loan', <?php echo (int)$data["networth"]["stockmarket"] ?>],
-          ['Unpaid Fees', <?php echo (int)$data["networth"]["unpaidfees"] ?>]
+          ['Loan', <?php echo (int)$data["networth"]["stockmarket"] ?>]
         ]);
 
 
-                       var formatter = new google.visualization.NumberFormat(
-                   {prefix: '$', negativeColor: 'red', negativeParens: true});
-               formatter.format(data, 1);
+        var formatter = new google.visualization.NumberFormat({pattern:'$###,###'});
+        formatter.format(data,1);
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
