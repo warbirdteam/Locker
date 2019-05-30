@@ -16,9 +16,9 @@ $data = json_decode($json, true);
 //echo '<pre>'; print_r($data); echo '</pre>';
 
 $dataPoints = array( 
-	array("label"=>"Stock Market", "y"=>(number_format(((($data["networth"]["stockmarket"]/$data["networth"]["total"])*100))),
-	array("label"=>"Transportation", "y"=>0),
-	array("label"=>"Residential", "y"=>10),
+	array("label"=>"Industrial", "y"=>51.7),
+	array("label"=>"Transportation", "y"=>26.6),
+	array("label"=>"Residential", "y"=>13.9),
 	array("label"=>"Commercial", "y"=>7.8)
 )
 
