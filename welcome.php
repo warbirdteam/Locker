@@ -44,28 +44,8 @@ echo '<br>Loan: ' . number_format($data["networth"]["loan"],3)
 
 echo '<br>Total: ' . number_format($data["networth"]["total"],3) . '<br>';
 
+echo '<br>Stock Market %: ' . number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2);
 
-
-$dataPoints = array(
-	//array("label"=>"Pending", "y"=>$netpending),
-	//array("label"=>"Wallet", "y"=>$netwallet),
-	//array("label"=>"Bank", "y"=>$netbank),
-	array("label"=>"Points", "y"=>$netpoints),
-	//array("label"=>"Cayman", "y"=>number_format(number_format($data["networth"]["cayman"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"Vault", "y"=>number_format(number_format($data["networth"]["vault"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"piggybank", "y"=>number_format(number_format($data["networth"]["piggybank"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"Items", "y"=>number_format(number_format($data["networth"]["items"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"Display Case", "y"=>number_format(number_format($data["networth"]["displaycase"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"Bazaar", "y"=>number_format(number_format($data["networth"]["bazaar"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Properties", "y"=>number_format(number_format($data["networth"]["properties"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Stock Market", "y"=>number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"Auction House", "y"=>number_format(number_format($data["networth"]["auctionhouse"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"Company", "y"=>number_format(((number_format($data["networth"]["company"],3) / number_format($data["networth"]["total"],3)) * 100),2)),
-	//array("label"=>"Bookie", "y"=>number_format(number_format($data["networth"]["bookie"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"Loan", "y"=>number_format(number_format($data["networth"]["loan"],3) / number_format($data["networth"]["total"],3) * 100,2))
-)
-
-echo json_encode($dataPoints, JSON_NUMERIC_CHECK);
 /*
    $decodedString =  new RecursiveIteratorIterator ( new RecursiveArrayIterator(json_decode($json, true)), RecursiveIteratorIterator::SELF_FIRST); //parses API JSON output
 echo "<table border='1'><tr>";
@@ -105,30 +85,46 @@ function printValues($arr) {
     return array('total' => $count, 'values' => $values);
 }*/
 ?>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-<script>
-window.onload = function() {
+<script type="text/javascript">
+
+      // Load the Visualization API and the corechart package.
+      google.charts.load('current', {'packages':['corechart']});
+
+      // Set a callback to run when the Google Visualization API is loaded.
+      google.charts.setOnLoadCallback(drawChart);
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChart() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Topping');
+        data.addColumn('number', 'Slices');
+        data.addRows([
+          ['Mushrooms', 3],
+          ['Onions', 1],
+          ['Olives', 1],
+          ['Zucchini', 1],
+          ['Pepperoni', 2]
+        ]);
+
+        // Set chart options
+        var options = {'title':'How Much Pizza I Ate Last Night',
+                       'width':400,
+                       'height':300};
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
 
 
-var chart = new CanvasJS.Chart("chartContainer", {
-	theme: "light2",
-	animationEnabled: true,
-	data: [{
-		type: "pie",
-    showInLegend: "true",
-		legendText: "{label}",
-		indexLabelFontSize: 10,
-    indexLabel: "{label} - {y}%",
-		yValueFormatString: "##0.00\"%\"",
-		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
-	}]
-});
-chart.render();
 
-//$('.canvasjs-chart-credit').hide();
-}
-</script>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
 <div class="content">
 
@@ -148,7 +144,7 @@ chart.render();
 			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
 			  <div class="card-body">
 
-			   <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+			   <div id="chart_div"></div>
 
 			  </div>
 			</div>
