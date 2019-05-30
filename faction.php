@@ -1,5 +1,5 @@
 <?php
-include('navbar.php');
+if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('navbar.php');}
 
 
 /*$action = htmlspecialchars($_GET["action"]);
