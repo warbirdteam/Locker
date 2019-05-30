@@ -15,13 +15,24 @@ $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
 
-$stocknetworth = number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2);
-echo $stocknetworth;
-
 $dataPoints = array( 
-	array("label"=>"Chrome", "y"=>70.22),
-	array("label"=>"Firefox", "y"=>number_format(number_format($data["networth"]["items"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Stock Market", "y"=>$stocknetworth)
+	array("label"=>"Pending", "y"=>number_format(number_format($data["networth"]["pending"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Wallet", "y"=>number_format(number_format($data["networth"]["wallet"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Bank", "y"=>number_format(number_format($data["networth"]["bank"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Points", "y"=>number_format(number_format($data["networth"]["points"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Cayman", "y"=>number_format(number_format($data["networth"]["cayman"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Vault", "y"=>number_format(number_format($data["networth"]["vault"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"piggybank", "y"=>number_format(number_format($data["networth"]["piggybank"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Items", "y"=>number_format(number_format($data["networth"]["items"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Display Case", "y"=>number_format(number_format($data["networth"]["displaycase"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Bazaar", "y"=>number_format(number_format($data["networth"]["bazaar"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Properties", "y"=>number_format(number_format($data["networth"]["properties"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Stock Market", "y"=>number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Auction House", "y"=>number_format(number_format($data["networth"]["auctionhouse"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Company", "y"=>number_format(number_format($data["networth"]["company"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Bookie", "y"=>number_format(number_format($data["networth"]["bookie"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	//array("label"=>"Company", "y"=>number_format(number_format($data["networth"]["unpaidfees"],3) / number_format($data["networth"]["total"],3) * 100,2)),
+	array("label"=>"Loan", "y"=>number_format(number_format($data["networth"]["loan"],3) / number_format($data["networth"]["total"],3) * 100,2))
 )
 
 /*
@@ -72,7 +83,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	theme: "light2",
 	animationEnabled: true,
 	title: {
-		text: "Networth"
+		text: "Networth: <?php echo number_format($data["networth"]["total"]); ?>"
 	},
 	data: [{
 		type: "pie",
