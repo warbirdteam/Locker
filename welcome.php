@@ -20,7 +20,7 @@ echo $stocknetworth;
 
 $dataPoints = array( 
 	array("label"=>"Stock Market", "y"=>50),
-	array("label"=>"Other", "y"=>60)
+	array("label"=>"Other", "y"=>50)
 )
 
 /*
