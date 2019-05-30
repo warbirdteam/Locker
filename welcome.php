@@ -31,7 +31,6 @@ $dataPoints = array(
 	array("label"=>"Auction House", "y"=>number_format(number_format($data["networth"]["auctionhouse"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	array("label"=>"Company", "y"=>number_format(number_format($data["networth"]["company"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	array("label"=>"Bookie", "y"=>number_format(number_format($data["networth"]["bookie"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	//array("label"=>"Company", "y"=>number_format(number_format($data["networth"]["unpaidfees"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	array("label"=>"Loan", "y"=>number_format(number_format($data["networth"]["loan"],3) / number_format($data["networth"]["total"],3) * 100,2))
 )
 
@@ -82,9 +81,6 @@ window.onload = function() {
 var chart = new CanvasJS.Chart("chartContainer", {
 	theme: "light2",
 	animationEnabled: true,
-	title: {
-		text: "Networth: <?php echo number_format($data["networth"]["total"]); ?>"
-	},
 	data: [{
 		type: "pie",
 		yValueFormatString: "#,##0.00\"%\"",
@@ -114,10 +110,10 @@ $('.canvasjs-chart-credit').hide();
 
 		 <div class="col-lg-3 col-md-6 pt-3">
 			<div class="card border border-dark shadow rounded">
-			  <h5 class="card-header">Placeholder</h5>
+			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
 			  <div class="card-body">
 
-			   <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+			   <div id="chartContainer" style="height: 100%; width: 100%;"></div>
 				
 			  </div>
 			</div>
