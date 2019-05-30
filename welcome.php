@@ -19,8 +19,8 @@ $stocknetworth = number_format((number_format($data["networth"]["stockmarket"],3
 echo $stocknetworth;
 
 $dataPoints = array( 
-	array("label"=>"Stock Market", "y"=>$stocknetworth),
-	array("label"=>"Other", "y"=>100-$stocknetworth)
+	array("label"=>"Stock Market", "y"=>50),
+	array("label"=>"Other", "y"=>60)
 )
 
 /*
