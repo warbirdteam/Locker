@@ -23,15 +23,7 @@ $dataPoints = array(
 	array("label"=>"Cayman", "y"=>number_format(number_format($data["networth"]["cayman"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	array("label"=>"Vault", "y"=>number_format(number_format($data["networth"]["vault"],3) / number_format($data["networth"]["total"],3) * 100,2)),
 	array("label"=>"piggybank", "y"=>number_format(number_format($data["networth"]["piggybank"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Items", "y"=>number_format(number_format($data["networth"]["items"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Display Case", "y"=>number_format(number_format($data["networth"]["displaycase"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Bazaar", "y"=>number_format(number_format($data["networth"]["bazaar"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Properties", "y"=>number_format(number_format($data["networth"]["properties"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Stock Market", "y"=>number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Auction House", "y"=>number_format(number_format($data["networth"]["auctionhouse"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Company", "y"=>number_format(number_format($data["networth"]["company"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Bookie", "y"=>number_format(number_format($data["networth"]["bookie"],3) / number_format($data["networth"]["total"],3) * 100,2)),
-	array("label"=>"Loan", "y"=>number_format(number_format($data["networth"]["loan"],3) / number_format($data["networth"]["total"],3) * 100,2))
+	array("label"=>"Items", "y"=>number_format(number_format($data["networth"]["items"],3) / number_format($data["networth"]["total"],3) * 100,2))
 )
 
 /*
@@ -113,7 +105,7 @@ $('.canvasjs-chart-credit').hide();
 			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
 			  <div class="card-body">
 
-			   <div id="chartContainer" style="height: 100%; width: 100%;"></div>
+			   <div id="chartContainer" style="height: 370px; width: 100%;"></div>
 				
 			  </div>
 			</div>
