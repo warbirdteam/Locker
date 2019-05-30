@@ -115,7 +115,7 @@ function printValues($arr) {
 
 <div class="content">
 
-<div class="container pt-2" style="width: 30rem;">
+<div class="container-fluid pt-2">
 	<div class='alert alert-success'>
 		<button class='close' data-dismiss='alert'>&times;</button>
 		Hello <?php echo $data['name'] ?>,<br>Welcome to the members page.<br>
