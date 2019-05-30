@@ -14,37 +14,60 @@ $jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,disp
 $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
-/*
-$netpending = number_format(number_format($data["networth"]["pending"],3) / number_format($data["networth"]["total"],3) * 100,2);
+
+$netpending = ((int)$data["networth"]["pending"] / (int)$data["networth"]["total"]) * 100;
 echo $netpending . "<br>";
-$netwallet = number_format(number_format($data["networth"]["wallet"],3) / number_format($data["networth"]["total"],3) * 100,2);
+$netwallet = ((int)$data["networth"]["wallet"] / (int)$data["networth"]["total"]) * 100;
 echo $netwallet . "<br>";
-$netbank = number_format(number_format($data["networth"]["bank"],3) / number_format($data["networth"]["total"],3) * 100,2);
+$netbank = ((int)$data["networth"]["bank"] / (int)$data["networth"]["total"]) * 100;
 echo $netbank . "<br>";
-$nepoints = number_format(number_format($data["networth"]["points"],3) / number_format($data["networth"]["total"],3) * 100,2);
+$netpoints = ((int)$data["networth"]["points"] / (int)$data["networth"]["total"]) * 100;
 echo $netpoints . "<br><hr>";
+/*
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";
+$netpoints = (int)$data["networth"]["points"] / (int)$data["networth"]["total"] * 100;
+echo $netpoints . "<br>";*/
 
-echo '<br>Pending: ' . number_format($data["networth"]["pending"],3)
-echo '<br>Wallet: ' . number_format($data["networth"]["wallet"],3)
-echo '<br>Bank: ' . number_format($data["networth"]["bank"],3)
-echo '<br>Points: ' . number_format($data["networth"]["points"],3);
-echo '<br>Cayman: ' . number_format($data["networth"]["cayman"],3)
-echo '<br>Vault: ' . number_format($data["networth"]["vault"],3)
-echo '<br>Piggy Bank: ' . number_format($data["networth"]["piggybank"],3)
-echo '<br>Items: ' . number_format($data["networth"]["items"],3)
-echo '<br>Display Case: ' . number_format($data["networth"]["displaycase"],3)
-echo '<br>Bazaar: ' . number_format($data["networth"]["bazaar"],3)
-echo '<br>Properties: ' . number_format($data["properties"]["points"],3)
-echo '<br>Stock Market: ' . number_format($data["networth"]["stockmarket"],3)
-echo '<br>Auction House: ' . number_format($data["networth"]["auctionhouse"],3)
-echo '<br>Company: ' . number_format($data["networth"]["company"],3)
-echo '<br>Bookie: ' . number_format($data["networth"]["bookie"],3)
-echo '<br>Loan: ' . number_format($data["networth"]["loan"],3)
+echo '<br>Pending: ' . number_format($netpending,2);
+echo '<br>Wallet: ' . number_format($netwallet,2);
+echo '<br>Bank: ' . number_format($netbank,2);
+echo '<br>Points: ' . number_format($netpoints,2);
+/*echo '<br>Cayman: ' . number_format($netbank,2);
+echo '<br>Vault: ' . number_format($netbank,2);
+echo '<br>Piggy Bank: ' . number_format($$netbank,2);
+echo '<br>Items: ' . number_format($netbank,2);
+echo '<br>Display Case: ' . number_format($netbank,2);
+echo '<br>Bazaar: ' . number_format($netbank,2);
+echo '<br>Properties: ' . number_format($netbank,2);
+echo '<br>Stock Market: ' . number_format($netbank,2);
+echo '<br>Auction House: ' . number_format($netbank,2);
+echo '<br>Company: ' . number_format($netbank,2);
+echo '<br>Bookie: ' . number_format($netbank,2);
+echo '<br>Loan: ' . number_format($netbank,2);*/
 
 
-echo '<br>Total: ' . number_format($data["networth"]["total"],3) . '<br>';
+echo '<br>Total: ' . number_format($data["networth"]["total"],2) . '<br>';
 
-echo '<br>Stock Market %: ' . number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2);
+echo '<br>Stock Market %: ' . number_format($data["networth"]["stockmarket"] / $data["networth"]["total"] * 100,2);
 */
 
 /*
