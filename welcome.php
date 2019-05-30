@@ -87,7 +87,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 });
 chart.render();
 	      
-$('.canvasjs-chart-credit').remove();
+$('.canvasjs-chart-credit').hide();
 }
 </script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
