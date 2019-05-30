@@ -59,10 +59,13 @@ function printValues($arr) {
 <script type="text/javascript">
 
       // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
+      google.charts.load('current', {
+        callback: function () {
+          drawChart();
+          $(window).resize(drawChart);
+        },
+        packages:['corechart']
+      });
 
       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
@@ -102,7 +105,8 @@ function printValues($arr) {
           },
           legend: {
             position: 'top'
-          }
+          },
+          width: '100%'
         };
 
         // Instantiate and draw our chart, passing in some options.
