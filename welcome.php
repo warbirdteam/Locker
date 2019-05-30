@@ -91,8 +91,8 @@ function printValues($arr) {
           ['Stock Market', <?php echo (int)$data["networth"]["stockmarket"] ?>],
           ['Auction House', <?php echo (int)$data["networth"]["auctionhouse"] ?>],
           ['Company', <?php echo (int)$data["networth"]["company"] ?>],
-          ['Bookie', <?php echo (int)$data["networth"]["bookie"] ?>],
-          ['Loan', <?php echo (int)$data["networth"]["loan"] ?>]
+          ['Bookie', <?php echo (int)$data["networth"]["bookie"] ?>]
+          //['Loan', <?php echo (int)$data["networth"]["loan"] ?>]
         ]);
 
 
