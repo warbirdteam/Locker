@@ -127,22 +127,24 @@ function printValues($arr) {
         // Create the data table.
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Type');
-        data.addColumn('number', 'Percent');
+        data.addColumn('number', 'Money');
         data.addRows([
-          ['Stock Market', <?php echo $netstockmarket ?>],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
+          ['Stock Market', <?php echo (int)$data["networth"]["stockmarket"] ?>],
+          ['Auction House', <?php echo (int)$data["networth"]["auctionhouse"] ?>],
+          ['Company', <?php echo (int)$data["networth"]["company"] ?>],
+          ['Bookie', <?php echo (int)$data["networth"]["bookie"] ?>],
+          ['Loan', <?php echo (int)$data["networth"]["stockmarket"] ?>],
+          ['Unpaid Fees', <?php echo (int)$data["networth"]["unpaidfees"] ?>]
         ]);
 
-        // Set chart options
-        var options = {'width':400,
-                       'height':300};
+
+                       var formatter = new google.visualization.NumberFormat(
+                   {prefix: '$', negativeColor: 'red', negativeParens: true});
+               formatter.format(data, 1);
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
+        chart.draw(data);
       }
     </script>
 
