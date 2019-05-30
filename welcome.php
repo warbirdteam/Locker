@@ -126,7 +126,7 @@ function printValues($arr) {
 
 	<div class="row pb-3">
 
-		 <div class="col-9 col-md-6 pt-3">
+		 <div class="col-lg-9 col-md-6 pt-3">
 			<div class="card border border-dark shadow rounded">
 			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
 			  <div class="card-body">
@@ -138,7 +138,7 @@ function printValues($arr) {
 		 </div> <!-- col -->
 
 
-		 <div class="col col-md-6 pt-3">
+		 <div class="col pt-3">
 			<div class="card border border-dark shadow rounded">
 			  <h5 class="card-header">Everything</h5>
 			  <div class="card-body">
