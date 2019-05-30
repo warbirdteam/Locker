@@ -15,7 +15,7 @@ $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
 
-$stocknetworth = number_format((number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3)) * 100),2);
+$stocknetworth = number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100;
 echo $stocknetworth;
 
 $dataPoints = array( 
