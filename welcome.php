@@ -19,8 +19,12 @@ $stocknetworth = number_format((number_format($data["networth"]["stockmarket"],3
 echo $stocknetworth;
 
 $dataPoints = array( 
-	array("label"=>"Stock Market", "y"=>50),
-	array("label"=>"Other", "y"=>50)
+	array("label"=>"Chrome", "y"=>64.02),
+	array("label"=>"Firefox", "y"=>12.55),
+	array("label"=>"IE", "y"=>8.47),
+	array("label"=>"Safari", "y"=>6.08),
+	array("label"=>"Edge", "y"=>4.29),
+	array("label"=>"Others", "y"=>4.59)
 )
 
 /*
@@ -75,13 +79,8 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	},
 	data: [{
 		type: "pie",
-		indexLabel: "{label} {y}",
 		yValueFormatString: "#,##0.00\"%\"",
-		indexLabelFontColor: "#36454F",
-		indexLabelFontSize: 12,
-		indexLabelFontWeight: "bold",
-		showInLegend: true,
-		legendText: "{label}",
+		indexLabel: "{label} ({y})",
 		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
 	}]
 });
