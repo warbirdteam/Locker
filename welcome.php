@@ -100,13 +100,7 @@ function printValues($arr) {
         formatter.format(data,1);
 
         var options = {
-          chartArea: {
-            width: '90%'
-          },
-          legend: {
-            position: 'top'
-          },
-          width: '100%'
+          legend: {position: 'top'}
         };
 
         // Instantiate and draw our chart, passing in some options.
