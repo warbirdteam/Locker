@@ -15,11 +15,11 @@ $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
 
-$stocknetworth = number_format($data["networth"]["stockmarket"], 2) / number_format($data["networth"]["total"], 2);
+$stocknetworth = number_format(number_format($data["networth"]["stockmarket"], 2) / number_format($data["networth"]["total"], 2),2);
 echo $stocknetworth;
 
 $dataPoints = array( 
-	array("label"=>"Industrial", "y"=>51.7),
+	array("label"=>"Stock Market", "y"=>51.7),
 	array("label"=>"Transportation", "y"=>26.6),
 	array("label"=>"Residential", "y"=>13.9),
 	array("label"=>"Commercial", "y"=>7.8)
@@ -81,15 +81,16 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		yValueFormatString: "#,##0.00\"%\"",
 		indexLabelPlacement: "inside",
 		indexLabelFontColor: "#36454F",
-		indexLabelFontSize: 18,
-		indexLabelFontWeight: "bolder",
+		indexLabelFontSize: 10,
+		indexLabelFontWeight: "bold",
 		showInLegend: true,
 		legendText: "{label}",
 		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
 	}]
 });
 chart.render();
- 
+	      
+$('.canvasjs-chart-credit').remove();
 }
 </script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
