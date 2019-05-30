@@ -19,12 +19,9 @@ $stocknetworth = number_format(number_format($data["networth"]["stockmarket"],3)
 echo $stocknetworth;
 
 $dataPoints = array( 
-	array("label"=>"Chrome", "y"=>64.02),
-	array("label"=>"Firefox", "y"=>12.55),
-	array("label"=>"IE", "y"=>8.47),
-	array("label"=>"Safari", "y"=>6.08),
-	array("label"=>"Edge", "y"=>4.29),
-	array("label"=>"Others", "y"=>4.59)
+	array("label"=>"Chrome", "y"=>70.0),
+	array("label"=>"Firefox", "y"=>7.78),
+	array("label"=>"IE", "y"=>$stocknetworth)
 )
 
 /*
