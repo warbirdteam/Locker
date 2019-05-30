@@ -15,7 +15,7 @@ $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
 
-$stocknetworth = number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100;
+$stocknetworth = number_format(number_format($data["networth"]["stockmarket"],3) / number_format($data["networth"]["total"],3) * 100,2);
 echo $stocknetworth;
 
 $dataPoints = array( 
@@ -86,7 +86,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 });
 chart.render();
 	      
-//$('.canvasjs-chart-credit').hide();
+$('.canvasjs-chart-credit').hide();
 }
 </script>
 <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
