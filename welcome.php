@@ -15,7 +15,12 @@ $data = json_decode($json, true);
 
 //echo '<pre>'; print_r($data); echo '</pre>';
 
-
+$dataPoints = array( 
+	array("label"=>"Stock Market", "y"=>(number_format(((($data["networth"]["stockmarket"]/$data["networth"]["total"])*100))),
+	array("label"=>"Transportation", "y"=>0),
+	array("label"=>"Residential", "y"=>10),
+	array("label"=>"Commercial", "y"=>7.8)
+)
 
 /*
    $decodedString =  new RecursiveIteratorIterator ( new RecursiveArrayIterator(json_decode($json, true)), RecursiveIteratorIterator::SELF_FIRST); //parses API JSON output
@@ -57,6 +62,35 @@ function printValues($arr) {
 }*/
 ?>
 
+<script>
+window.onload = function() {
+ 
+ 
+var chart = new CanvasJS.Chart("chartContainer", {
+	theme: "light2",
+	animationEnabled: true,
+	title: {
+		text: "Networth"
+	},
+	data: [{
+		type: "pie",
+		indexLabel: "{y}",
+		yValueFormatString: "#,##0.00\"%\"",
+		indexLabelPlacement: "inside",
+		indexLabelFontColor: "#36454F",
+		indexLabelFontSize: 18,
+		indexLabelFontWeight: "bolder",
+		showInLegend: true,
+		legendText: "{label}",
+		dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+	}]
+});
+chart.render();
+ 
+}
+</script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
 <div class="content">
 
 <div class="container pt-2" style="width: 30rem;">
@@ -75,8 +109,8 @@ function printValues($arr) {
 			  <h5 class="card-header">Placeholder</h5>
 			  <div class="card-body">
 
-			   <p class="card-text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </p>
-
+			   <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+				
 			  </div>
 			</div>
 		 </div> <!-- col -->
