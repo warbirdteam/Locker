@@ -89,8 +89,6 @@ echo '</tr>';
 
 ?>
 
-
-  </tbody>
 </table>
 
 
