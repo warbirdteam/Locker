@@ -78,12 +78,16 @@ switch ($action) {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 $apikey = "UtuyM2roWM6vDjKj"; //Heasleys4hemp's apikey
 //$jsonurl = "https://api.torn.com/faction/13784?selections=basic&key=jIirMCNvK8q2hf8u";
 $jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,money,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=" . $_SESSION['key'];
    $json = file_get_contents($jsonurl); //gets output of API
 
 $data = json_decode($json, true);
+=======
+<?php
+>>>>>>> 25518943eda83c1c4b14750b98c06d2adcf86b5c
 =======
 <?php
 >>>>>>> 25518943eda83c1c4b14750b98c06d2adcf86b5c
