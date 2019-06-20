@@ -6,7 +6,7 @@ $result = $conn->query("SELECT users.tornuserkey FROM users WHERE tornuserkey <>
 
 if($result === false) {
     user_error("Query failed: ".$conn->error."\n$query");
-    return false;
+    return false;}
 else {
     if($result->num_rows > 0){
       while($row = $result->fetch_assoc()){
@@ -21,6 +21,11 @@ else {
                 conn->query("INSERT INTO current_data (userid, name, energy, cooldown_drug, cooldown_booster, refill_energy, refill_nerve) VALUES ('".$data["player_id"]."', '".$data["name"]."', '".$data["energy"]["current"].'/'.$data["energy"]["maximum"]."', '".$data["cooldowns"]["drug"]."', '".$data["cooldowns"]["booster"]."', '".$data["refills"]["energy_refill_used"]."', '".$data["refills"]["nerve_refill_used"]."')");
                 echo 'done';
             }
+       }
+      }
+    }
+ }
+
 
           header("Location: faction.php");
 ?>
