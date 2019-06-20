@@ -42,37 +42,36 @@ switch ($action) {
         </tr>
       </thead>
       <tbody>
-      <?php
-      // Get member rows
-      $result = $conn->query("SELECT users.tornuserkey FROM users WHERE tornuserkey <> 'testkey'");
 
-      if($result === false)
-      {
-         user_error("Query failed: ".$conn->error."\n$query");
-         return false;
-      } else {
 
-      if($result->num_rows > 0){
-        while($row = $result->fetch_assoc()){
+        <?php
+        // Get member rows
+        $result = $conn->query("SELECT * FROM current_data");
 
-          $apikey = $row['tornuserkey'];
-          $jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,money,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=" . $apikey;
-          $json = file_get_contents($jsonurl); //gets output of API
+        if($result === false)
+        {
+           user_error("Query failed: ".$conn->error."\n$query");
+           return false;
+        } else {
 
-          $data = json_decode($json, true);
-      ?>
-        <tr>
-          <td><?php echo $data["name"] . ' [' . $data["player_id"] . ']' ?></td>
-          <td><?php echo $data["energy"]["current"].'/'.$data["energy"]["maximum"] ?></td>
-          <td><?php echo gmdate("H:i:s",$data["cooldowns"]["drug"]) ?></td>
-          <td><?php echo gmdate("H:i:s",$data["cooldowns"]["booster"]) ?></td>
-          <td><?php echo $data["refills"]["energy_refill_used"] ?></td>
-          <td><?php echo $data["refills"]["nerve_refill_used"] ?></td>
-        </tr>
-      <?php } }else{ ?>
-        <tr><td colspan="5">No information found...</td></tr>
-      <?php } } ?>
+        if($result->num_rows > 0){
+          while($row = $result->fetch_assoc()){
+        ?>
+
+         <tr>
+           <td><?php echo $row["name"] . ' [' . $row["userid"] . ']' ?></td>
+           <td><?php echo $row["energy"] ?></td>
+           <td><?php echo gmdate("H:i:s",$row["cooldown_drug"]) ?></td>
+           <td><?php echo gmdate("H:i:s",$row["cooldown_booster"]) ?></td>
+           <td><?php echo $row["refill_energy"] ?></td>
+           <td><?php echo $row["refill_energy"] ?></td>
+         </tr>
+
+        <?php } }else{ ?>
+          <tr><td colspan="5">No information found...</td></tr>
+        <?php } } ?>
       </tbody>
+   </table>
 
 <?php
 
@@ -89,7 +88,7 @@ echo '</tr>';
 
 ?>
 
-</table>
+
 
 
 </div> <!-- col -->
