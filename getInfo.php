@@ -17,8 +17,9 @@ else {
        if ($data['error']) {echo 'Error';}
        else{
             if ($data['timestamp']) {
-                $conn->query("INSERT INTO current_data (userid, name, energy, cooldown_drug, cooldown_booster, refill_energy, refill_nerve) VALUES ('".$data["player_id"]."', '".$data["name"]."', '".$data["energy"]["current"].'/'.$data["energy"]["maximum"]."', '".$data["cooldowns"]["drug"]."', '".$data["cooldowns"]["booster"]."', '".$data["refills"]["energy_refill_used"]."', '".$data["refills"]["nerve_refill_used"]."')");
-                echo 'done';
+                $conn->query("INSERT INTO current_data VALUES ('".$data["player_id"]."', '".$data['name']."', '".$data['energy']['current']."/".$data['energy']['maximum']."', '".$data['cooldowns']['drug']."', '".$data['cooldowns']['booster']."', '".$data['refills']['energy_refill_used']."', '".$data['refills']['nerve_refill_used']."')");
+                echo 'done<br>';
+                echo $data['name'];
             }
        }
       }
