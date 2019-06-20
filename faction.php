@@ -45,7 +45,7 @@ switch ($action) {
       <?php
       // Get member rows
       $result = $statconn->query("SELECT tornuserkey FROM users WHERE tornuserkey <> 'testkey'");
-
+      echo $result;
       if($result === false)
       {
          user_error("Query failed: ".$statconn->error."\n$query");
