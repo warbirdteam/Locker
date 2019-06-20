@@ -19,7 +19,8 @@ else {
             //if ($data['timestamp']) {
                 $name = $data['name'];
 
-                //$conn->query("INSERT INTO current_data VALUES ('".$data["player_id"]."', '".$data['name']."', '".$data['energy']['current']."/".$data['energy']['maximum']."', '".$data['cooldowns']['drug']."', '".$data['cooldowns']['booster']."', '".$data['refills']['energy_refill_used']."', '".$data['refills']['nerve_refill_used']."')");
+                //$conn->query("INSERT INTO current_data VALUES ('".$data['player_id']."', '".$data['name']."', '".$data['energy']['current']."/".$data['energy']['maximum']."', '".$data['cooldowns']['drug']."', '".$data['cooldowns']['booster']."', '".$data['refills']['energy_refill_used']."', '".$data['refills']['nerve_refill_used']."')");
+                $conn->query("INSERT INTO current_data VALUES ($data['player_id'],$data['name'],$data['energy']['current']."/".$data['energy']['maximum'],$data['cooldowns']['drug'],$data['cooldowns']['booster'],$data['refills']['energy_refill_used'],$data['refills']['nerve_refill_used'])");
                 echo 'done<br>';
                 echo $data['name'];
             //}
