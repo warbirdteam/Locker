@@ -23,12 +23,14 @@ $faction = json_decode($data, true); // decode the JSON feed
      $members = $faction['members'];
 
      while ($member = current($members)) {
-
-            sleep(5); //wait 5 seconds
             $userid = key($members);
+            $sql = "insert into members VALUES ('" . key($members) . "','" . $members['name'] . "','" . $members['days_in_faction'] . "','" . $members['last_action'] . "')";
+            $conn->query($sql);
+
             //echo key($members).'<br />';
             //echo '<pre>'; print_r($member); echo '</pre>';
-
+            /*
+            sleep(5); //wait 5 seconds
             $memurl = 'https://api.torn.com/user/' . $userid . '?selections=timestamp,basic,personalstats,crimes,profile&key=' . $apikey;
             $memdata = file_get_contents($memurl);
             $memfile = '/home/heasleys/FactionInfo/User/' . $userid . '.json';
@@ -42,11 +44,13 @@ $faction = json_decode($data, true); // decode the JSON feed
             //this is where you would add insert to database shit for whatever we want to save
                //echo '<pre>'; print_r($user); echo '</pre>';
             //file_put_contents($memfile, serialize($memdata)); //this can be changed to save data to database rather than to a file
-            
+
 
 
 
            }}
+
+           */
 
     //}
     //sleep(5);
