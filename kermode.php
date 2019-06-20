@@ -24,7 +24,7 @@ $faction = json_decode($data, true); // decode the JSON feed
 
      while ($member = current($members)) {
             $userid = key($members);
-            $sql = "insert into members VALUES ('" . $userid . "','" . $members['name'] . "','" . $members['days_in_faction'] . "','" . $members['last_action'] . "')";
+            $sql = "insert into members VALUES ('" . $userid . "','" . $member['name'] . "','" . $member['days_in_faction'] . "','" . $member['last_action'] . "')";
             $conn->query($sql);
 
             echo key($members).'<br />';
