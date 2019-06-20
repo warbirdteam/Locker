@@ -1,5 +1,4 @@
 <?php
-
 include_once("../../../db_connect.php");
 
 $result = $conn->query("SELECT users.tornuserkey FROM users WHERE tornuserkey <> 'testkey'");
@@ -18,14 +17,14 @@ else {
        if ($data['error']) {echo 'Error';}
        else{
             if ($data['timestamp']) {
-                conn->query("INSERT INTO current_data (userid, name, energy, cooldown_drug, cooldown_booster, refill_energy, refill_nerve) VALUES ('".$data["player_id"]."', '".$data["name"]."', '".$data["energy"]["current"].'/'.$data["energy"]["maximum"]."', '".$data["cooldowns"]["drug"]."', '".$data["cooldowns"]["booster"]."', '".$data["refills"]["energy_refill_used"]."', '".$data["refills"]["nerve_refill_used"]."')");
+                $conn->query("INSERT INTO current_data (userid, name, energy, cooldown_drug, cooldown_booster, refill_energy, refill_nerve) VALUES ('".$data["player_id"]."', '".$data["name"]."', '".$data["energy"]["current"].'/'.$data["energy"]["maximum"]."', '".$data["cooldowns"]["drug"]."', '".$data["cooldowns"]["booster"]."', '".$data["refills"]["energy_refill_used"]."', '".$data["refills"]["nerve_refill_used"]."')");
                 echo 'done';
             }
        }
       }
-    }
+    } else {echo 'num_rows is 0'}
  }
 
 
-          header("Location: faction.php");
+header("Location: faction.php");
 ?>
