@@ -27,8 +27,8 @@ $faction = json_decode($data, true); // decode the JSON feed
             $sql = "insert into members VALUES ('" . key($members) . "','" . $members['name'] . "','" . $members['days_in_faction'] . "','" . $members['last_action'] . "')";
             $conn->query($sql);
 
-            //echo key($members).'<br />';
-            //echo '<pre>'; print_r($member); echo '</pre>';
+            echo key($members).'<br />';
+            echo '<pre>'; print_r($member); echo '</pre>';
             /*
             sleep(5); //wait 5 seconds
             $memurl = 'https://api.torn.com/user/' . $userid . '?selections=timestamp,basic,personalstats,crimes,profile&key=' . $apikey;
