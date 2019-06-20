@@ -3,7 +3,7 @@ session_start();
 if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('navbar.php');}
 
 // Load the database configuration file
-include_once("../../../db_connect_stats.php");
+include_once("../../../db_connect.php");
 
 /*$action = htmlspecialchars($_GET["action"]);
 
@@ -44,11 +44,11 @@ switch ($action) {
       <tbody>
       <?php
       // Get member rows
-      $result = $statconn->query("SELECT tornuserkey FROM users WHERE tornuserkey <> 'testkey'");
-      echo $result;
+      $result = $conn->query("SELECT users.tornuserkey FROM users WHERE tornuserkey <> 'testkey'");
+
       if($result === false)
       {
-         user_error("Query failed: ".$statconn->error."\n$query");
+         user_error("Query failed: ".$conn->error."\n$query");
          return false;
       } else {
 
