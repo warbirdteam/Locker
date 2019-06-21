@@ -3,7 +3,7 @@ session_start();
 if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('navbar.php');}
 
 // Load the database configuration file
-include_once("../../../db_connect.php");
+include_once("../misc/db_connect.php");
 
 /*$action = htmlspecialchars($_GET["action"]);
 

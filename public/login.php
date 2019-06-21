@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once("../../../db_connect.php");
+include_once("../misc/db_connect.php");
 if(isset($_POST['login_button'])) {
 	$user_email = trim($_POST['user_email']);
 	$user_password = sha1(trim($_POST['password']));
