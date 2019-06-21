@@ -1,14 +1,14 @@
 <?php
 // Load the database configuration file
-include_once("../../../db_connect_stats.php");
+include_once("../../../../db_connect_stats.php");
 
 if(isset($_POST['importSubmit'])){
-    
+
 
 
    // Allowed mime types
     $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
-    
+
 	            $statconn->query("Truncate table strb4");
 				$statconn->query("Truncate table spdb4");
 				$statconn->query("Truncate table defb4");
@@ -17,22 +17,22 @@ if(isset($_POST['importSubmit'])){
 				$statconn->query("Truncate table spdpost");
 				$statconn->query("Truncate table defpost");
 				$statconn->query("Truncate table dexpost");
-	
-	
+
+
 	 for( $i= 1 ; $i <= 8 ; $i++ ) {
-	
+
     // Validate whether selected file is a CSV file
     if(!empty($_FILES['file' . $i]['name']) && in_array($_FILES['file' . $i]['type'], $csvMimes)){
-        
+
         // If the file is uploaded
         if(is_uploaded_file($_FILES['file' . $i]['tmp_name'])){
-            
+
             // Open uploaded CSV file with read-only mode
             $csvFile = fopen($_FILES['file' . $i]['tmp_name'], 'r');
-            
+
             // Skip the first line
             fgetcsv($csvFile);
-            
+
             // Parse data from CSV file line by line
             while(($line = fgetcsv($csvFile)) !== FALSE){
                 // Get row data
@@ -42,7 +42,7 @@ if(isset($_POST['importSubmit'])){
 				//echo $Player_Profile . ',';
                 $Contribution  = $line[2];
 				//echo $Contribution . '<br/>';
-                
+
                 // Check whether member already exists in the database with the same email
                 //$prevQuery = "SELECT id FROM members WHERE email = '".$line[1]."'";
                 //$prevResult = $db->query($prevQuery);
@@ -52,7 +52,7 @@ if(isset($_POST['importSubmit'])){
                     //$db->query("UPDATE members SET name = '".$name."', phone = '".$phone."', status = '".$status."', modified = NOW() WHERE email = '".$email."'");
                 //}else{
                     // Insert member data in the database
-					
+
 					switch ($i) {
 						case 1:	//strength-start
 						    //$statconn->query("DELETE FROM strb4;");
@@ -70,7 +70,7 @@ if(isset($_POST['importSubmit'])){
 							//$statconn->query("DELETE FROM dexb4;");
 							$statconn->query("INSERT INTO dexb4 (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
-						case 5:	//strength-end	
+						case 5:	//strength-end
 							//$statconn->query("DELETE FROM strpost;");
 							$statconn->query("INSERT INTO strpost (Player, URL, Contribution) VALUES ('".$Player."', '".$Player_Profile."', '".$Contribution."')");
 						break;
@@ -88,10 +88,10 @@ if(isset($_POST['importSubmit'])){
 						break;
 					}
             }
-            
+
             // Close opened CSV file
             fclose($csvFile);
-            
+
             $qstring = '?status=succ';
         }else{
             $qstring = '?status=err';

@@ -2,7 +2,7 @@
 session_start();
 if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {header("Location: welcome.php");}
 
-include_once("../../../db_connect_stats.php");
+include_once("../../../../db_connect_stats.php");
 
 if(!empty($_GET['status'])){
     switch($_GET['status']){
