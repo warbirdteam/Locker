@@ -2,7 +2,7 @@
 //this file is not used. The file being used is getEnergy.php in /var/www/. This file was for testing.
 
 
-include_once("../../../db_connect.php");
+include_once("../misc/db_connect.php");
 
 $result = $conn->query("SELECT users.tornuserkey FROM users WHERE tornuserkey <> 'testkey'");
 

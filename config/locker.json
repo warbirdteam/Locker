@@ -1,0 +1,8 @@
+{
+  "mysql": {
+    "server": "localhost",
+    "username": "locker",
+    "password": "password",
+    "database": "locker"
+  }
+}

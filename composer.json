@@ -1,0 +1,9 @@
+{
+    "name": "warbirdteam/locker",
+    "description": "Torn-related website.",
+    "type": "project",
+    "require": {},
+    "autoload": {
+        "psr-4": {"Locker\\": "src/"}
+    }
+}
