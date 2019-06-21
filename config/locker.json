@@ -1,8 +1,8 @@
 {
   "mysql": {
-    "server": "localhost",
+    "server": "localhost:3306",
     "username": "locker",
-    "password": "password",
+    "password": "thardXP6Do8ZQd1G",
     "database": "locker"
   }
 }
