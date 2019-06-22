@@ -14,7 +14,9 @@ If you want to quickly deploy Locker, you may want to look into [DockerLocker](h
 
 # Installation
 
-Grab a copy of the Locker repository. Set the root directory for your web server to Locker/public. Copy Locker/config/locker.json.default to locker.json. Update locker.json file to your liking. Currently you should only need to update the database information.
+Grab a copy of the Locker repository. Set the root directory for your web server to Locker/public. DO NOT set your web server's root directory to the Locker repository, otherwise you will be serving your configuration files out to the world.
+
+Copy Locker/config/locker.json.default to locker.json. Update locker.json file to your liking. Currently you should only need to update the database information.
 
 Import the default, empty schema, located in Locker/database/001-schema.sql, into your database. If there are additional files, apply them in order (001, 002, 003, etc.)
 
