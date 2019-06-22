@@ -18,6 +18,8 @@ Grab a copy of the Locker repository. Set the root directory for your web server
 
 Copy Locker/config/locker.json.default to locker.json. Update locker.json file to your liking. Currently you should only need to update the database information.
 
+In the Locker directory, run `composer install` to install dependencies.
+
 Import the default, empty schema, located in Locker/database/001-schema.sql, into your database. If there are additional files, apply them in order (001, 002, 003, etc.)
 
 Create /var/log/locker and ensure it is writable by your web service. As an alternative, you can alter the logging configuration to write somewhere else (/tmp is fine if you're just looking around), or disable it altogether (although this is not recommended).
