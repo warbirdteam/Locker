@@ -1,11 +1,7 @@
 <?php
-include_once("../misc/db_connect.php");
+include_once("db_connect.php");
 
-
-
-
-
-$apikey = 'Nxd3N0E941VN1jJR'; //Heasleys4hemp's API Key
+$apikey = '****************'; //Heasleys4hemp's API Key
 $fid = '13784';
 
 $url ='https://api.torn.com/faction/' . $fid . '?selections=timestamp,basic&key=' . $apikey;

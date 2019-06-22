@@ -16,7 +16,7 @@
 
     //get faction api json from file
     try{
-        $data = unserialize(file_get_contents('api/'.$fid.'.json')); }
+        $data = unserialize(file_get_contents('../misc/api/'.$fid.'.json')); }
     catch(Exception $ex){
         $errormsg = 'There was an error with the faction ID entered. Please message Heasleys4hemp [1468764] to configure it properly.';
         return null;
@@ -28,7 +28,7 @@
 
 
    function getCoreResUsed($factions) {
-   $data = unserialize(file_get_contents('api/factiontree.json'));
+   $data = unserialize(file_get_contents('../misc/api/factiontree.json'));
    $factiontree = json_decode($data, true);
 	//var_dump($factiontree);
 	//echo $factiontree;
@@ -462,7 +462,7 @@ function Suppression($factiontree, $Arr) {
 
 
 
-$data = unserialize(file_get_contents('api/factiontree.json'));
+$data = unserialize(file_get_contents('../misc/api/factiontree.json'));
 $factiontree = json_decode($data, true);
 
 

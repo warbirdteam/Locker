@@ -13,7 +13,7 @@
   }
     //get faction api json from file
     try{
-        $data = unserialize(file_get_contents('api/'.$fid.'.json')); }
+        $data = unserialize(file_get_contents('../misc/api/'.$fid.'.json')); }
     catch(Exception $ex){
         $errormsg = 'There was an error with the faction ID entered. Please message Heasleys4hemp [1468764] to configure it properly.';
         return $errormsg;
@@ -24,9 +24,9 @@
   }//end of init()
 
    function getLevels($factions) {
-   $data = unserialize(file_get_contents('api/factiontree.json'));
+   $data = unserialize(file_get_contents('../misc/api/factiontree.json'));
    $factiontree = json_decode($data, true);
-   
+
    $respectCore = 0;
    $basecrim = 0;
    $basefort = 0;
@@ -36,7 +36,7 @@
    $baseste = 0;
    $baseagg = 0;
    $basesup = 0;
-   
+
    $_13= 0;
    $_14= 0;
    $_15= 0;
@@ -121,7 +121,7 @@
 
 		case 'Criminality':
 		 $basecrim = $branch['branchmultiplier'];
-		 
+
 		 switch(true) {
 
 		 case stristr($branch['name'],'Nerve'):
@@ -319,7 +319,7 @@
 
 
 
-$data = unserialize(file_get_contents('api/factiontree.json'));
+$data = unserialize(file_get_contents('../misc/api/factiontree.json'));
 $factiontree = json_decode($data, true);
 
 $factions = initAPI();
