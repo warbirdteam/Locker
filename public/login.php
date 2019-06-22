@@ -1,6 +1,10 @@
 <?php
+require_once('bootstrap.php');
+use Cascade\Cascade;
+
 session_start();
 include_once("../misc/db_connect.php");
+
 if(isset($_POST['login_button'])) {
 	$user_email = trim($_POST['user_email']);
 	$user_password = sha1(trim($_POST['password']));
@@ -18,7 +22,9 @@ if(isset($_POST['login_button'])) {
 		$_SESSION['role'] = $row['userrole'];
 		$_SESSION['username'] = $row['username'];
 		$_SESSION['useremail'] = $row['useremail'];
-	} else {				
+		Cascade::getLogger('audit')->info('Successful login.', ['user' => $user_email]);
+	} else {
+		Cascade::getLogger('audit')->info('Failed login.', ['user' => $user_email]);
 		echo "email or password does not exist."; // wrong details 
 	}		
 }

@@ -2,8 +2,12 @@
     "name": "warbirdteam/locker",
     "description": "Torn-related website.",
     "type": "project",
-    "require": {},
+    "require": {
+        "monolog/monolog": "^1.24",
+        "bramus/monolog-colored-line-formatter": "~2.0",
+        "theorchard/monolog-cascade": "^0.5.1"
+    },
     "autoload": {
-        "psr-4": {"Locker\\": "src/"}
+        "psr-4": {"Locker\\": "src/Locker"}
     }
 }
