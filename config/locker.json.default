@@ -1,0 +1,66 @@
+{
+    "mysql": {
+        "server": "db",
+        "username": "locker",
+        "password": "userpass",
+        "database": "locker"
+    },
+    "monologCascade": {
+        "version": 1,
+        "formatters": {
+            "colored": {
+                "class": "Bramus\\Monolog\\Formatter\\ColoredLineFormatter"
+            },
+            "stack": {
+                "class": "Monolog\\Formatter\\LineFormatter",
+                "includeStacktraces": true
+            }
+        },
+        "handlers": {
+            "console": {
+                "class": "Monolog\\Handler\\StreamHandler",
+                "level": "INFO",
+                "formatter": "colored",
+                "stream": "php://stderr"
+            },
+            "locker_log": {
+                "class": "Monolog\\Handler\\RotatingFileHandler",
+                "level": "INFO",
+                "filename": "/var/log/locker/locker.log",
+                "maxFiles": 30
+            },
+            "error_log": {
+                "class": "Monolog\\Handler\\RotatingFileHandler",
+                "level": "ERROR",
+                "filename": "/var/log/locker/error.log",
+                "maxFiles": 30,
+                "formatter": "stack"
+            },
+            "audit_log": {
+                "class": "Monolog\\Handler\\RotatingFileHandler",
+                "level": "INFO",
+                "filename": "/var/log/locker/audit.log",
+                "maxFiles": 30
+            }
+        },
+        "processors": {
+            "general_info": {
+                "class": "\\Locker\\Monolog\\Processor\\GeneralInfo"
+            }
+        },
+        "loggers": {
+            "default": {
+                "handlers": [
+                    "console", "locker_log", "error_log"
+                ],
+                "processors": ["general_info"]
+            },
+            "audit": {
+                "handlers": [
+                    "console", "audit_log"
+                ],
+                "processors": ["general_info"]
+            }
+        }
+    }
+}
