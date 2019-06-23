@@ -58,6 +58,16 @@ Class Validation {
 	 *
 	 * In this case, validation will stop at the first failure.
 	 *
+	 * A full example:
+	 *
+	 * $validation = new \Locker\Validation();
+	 * $validation->validate($_POST, [
+	 *    'email' => ['type' => 'email', 'args' => ['Invalid Email Address']],
+	 *    'password' => ['type' => 'minLength', 'args' => [8, 'Password is Too Short']]
+	 * ]);
+	 * $clean = $validation->getClean();
+	 * $errors = $validation->getErrors();
+	 *
 	 * @param array $data Incoming data to validate.
 	 * @param array $config Validation configuration.
 	 * @throws RuntimeException If you attempt to use a validation type that doesn't exist.
