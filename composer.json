@@ -5,9 +5,13 @@
     "require": {
         "monolog/monolog": "^1.24",
         "bramus/monolog-colored-line-formatter": "~2.0",
-        "theorchard/monolog-cascade": "^0.5.1"
+        "theorchard/monolog-cascade": "^0.5.1",
+        "beberlei/assert": "^3.2"
     },
     "autoload": {
         "psr-4": {"Locker\\": "src/Locker"}
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.2"
     }
 }
