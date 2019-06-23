@@ -6,7 +6,8 @@
   if(htmlspecialchars($_GET["fid"]) == ""){
 
       $errormsg = 'There was an error. You did not enter a faction ID. Please try again.';
-      return $errormsg;
+      $fid = 13784;
+      //return $errormsg;
   }else{
   $fid = htmlspecialchars($_GET["fid"]);
 
