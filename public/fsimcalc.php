@@ -6,7 +6,7 @@
   if(htmlspecialchars($_GET["fid"]) == ""){
 
       $errormsg = 'There was an error. You did not enter a faction ID. Please try again.';
-      $fid = 13784;
+      $fid = '13784'; //default to warbirds because it's easier to handle errors this way
       //return $errormsg;
   }else{
   $fid = htmlspecialchars($_GET["fid"]);
@@ -124,7 +124,10 @@
 		 $basecrim = $branch['branchmultiplier'];
 
 		 switch(true) {
-
+       echo $branch['name'];
+       echo($string."\r");
+       echo $branch['level'];
+       echo($string."\r");
 		 case stristr($branch['name'],'Nerve'):
 		   $_13 = $branch['level'];
 		 break;
