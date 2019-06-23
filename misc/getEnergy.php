@@ -15,14 +15,17 @@ else {
        $json = file_get_contents($jsonurl);
        $data = json_decode($json, true);
 
-       if ($data['error']) {echo 'Error';}
+       if (is_array($data) || is_object($data)) {
+
+       if (isset($data['error'])) {echo 'Error';}
        else{
-            if ($data['timestamp']) {
+            if (isset($data['timestamp'])) {
                 $sql = "insert into current_data VALUES ('" . $data['player_id'] . "','" . $data['name'] . "','" . $data['energy']['current'] . "/" . $data['energy']['maximum'] . "','" . $data['cooldowns']['drug'] . "','" . $data['cooldowns']['booster'] . "','" . $data['refills']['energy_refill_used'] . "','" . $data['refills']['nerve_refill_used'] . "')";
                 $conn->query($sql);
             }
        }
       }
+    }
     }
  }
 ?>
