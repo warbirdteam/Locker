@@ -15,7 +15,7 @@ function getFactionInfo($apikey,$fid) {
    } else { if (isset($factions['timestamp'])) {
      file_put_contents($file, serialize($data));
    }}
- }
+
 
 }//end of getFactionInfo Function
 
@@ -34,7 +34,6 @@ function getFactionTree($apikey) {
      } else { if (isset($factions['timestamp'])) {
        file_put_contents($file, serialize($data));
      }}
-   }
 
 }//end of getFactionTree Function
 
