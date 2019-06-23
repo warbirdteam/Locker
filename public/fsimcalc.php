@@ -125,10 +125,13 @@
 
      if (isset($branch['name'])) {
        $upgradename = $branch['name'];
-       echo $upgradename;
+       $upgradelevel = $branch['level'];
+       echo $upgradename . '\n';
+       echo $upgradelevel . '\n';
 		 switch(true) {
 		 case stristr($branch['name'],'Nerve'):
 		   $_13 = $branch['level'];
+       echo '  13: - ' . $_13 . '\n';
 		 break;
 
 		 case stristr($branch['name'],'Crimes'):
