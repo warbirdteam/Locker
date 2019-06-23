@@ -124,29 +124,24 @@
 		 $basecrim = $branch['branchmultiplier'];
 
      if (isset($branch['name'])) {
-       $upgradename = $branch['name'];
-       $upgradelevel = $branch['level'];
-       echo $upgradename . '\n';
-       echo $upgradelevel . '\n';
 		 switch(true) {
-		 case stristr($branch['name'],'Nerve'):
+		 case strstr($branch['name'],'Nerve'):
 		   $_13 = $branch['level'];
-       echo '  13: - ' . $_13 . '\n';
 		 break;
 
-		 case stristr($branch['name'],'Crimes'):
+		 case strstr($branch['name'],'Crimes'):
 		   $_14 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Jail time'):
+		 case strstr($branch['name'],'Jail time'):
 		   $_15 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Bust nerve'):
+		 case strstr($branch['name'],'Bust nerve'):
 		   $_16 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Bust skill'):
+		 case strstr($branch['name'],'Bust skill'):
 		   $_17 = $branch['level'];
 		 break;
 
