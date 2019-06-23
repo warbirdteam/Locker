@@ -9,9 +9,10 @@ function getFactionInfo($apikey,$fid) {
    $factions = json_decode($data, true); // decode the JSON feed
 
  if (is_array($factions) || is_object($factions)) {
-   if ($factions['error']) {
-     echo 'Error';
-   } else { if ($factions['timestamp']) {
+   if (isset($factions['error'])) {
+         return false;
+     }
+   } else { if (isset($factions['timestamp'])) {
      file_put_contents($file, serialize($data));
    }}
  }
@@ -26,13 +27,14 @@ function getFactionTree($apikey) {
    $file = 'api/factiontree.json';
    $factions = json_decode($data, true);
 
- if (is_array($factions) || is_object($factions)) {
-     if ($factions['error']) {
-       echo 'Error';
-     } else { if ($factions['timestamp']) {
+   if (is_array($factions) || is_object($factions)) {
+     if (isset($factions['error'])) {
+           return false;
+       }
+     } else { if (isset($factions['timestamp'])) {
        file_put_contents($file, serialize($data));
      }}
- }
+   }
 
 }//end of getFactionTree Function
 
