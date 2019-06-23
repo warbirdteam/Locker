@@ -5,7 +5,7 @@ Locker is an application for managing user data from [Torn City](https://https:/
 If you want to quickly deploy Locker, you may want to look into [DockerLocker](https://github.com/AKermodeBear/docker-locker). If you want a more traditional deployment, you will need:
 
  1. An http server. Apache or nginx is fine.
- 2. PHP 7.2 with the following extensions:
+ 2. PHP 7.2-mbstring with the following extensions:
 	 1. pdo
 	 2. pdo_mysql
 	 3. mysqli
@@ -36,3 +36,9 @@ UserRole: `admin` for an admin, empty otherwise.
 UserEmail: Email address to use for logging in.
 
 At that point you should be able to access Locker and log in.
+
+# Tests
+
+We now have unit tests using the PHPUnit Framework. You can run them via:
+
+`vendor/bin/phpunit --bootstrap vendor/autoload.php tests/`
