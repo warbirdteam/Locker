@@ -125,9 +125,9 @@
 
 		 switch(true) {
        echo $branch['name'];
-       echo($string."\r");
+       echo "next line\n";
        echo $branch['level'];
-       echo($string."\r");
+       echo "next line\n";
 		 case stristr($branch['name'],'Nerve'):
 		   $_13 = $branch['level'];
 		 break;
