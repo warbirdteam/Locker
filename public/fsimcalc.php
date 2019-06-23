@@ -123,11 +123,10 @@
 		case 'Criminality':
 		 $basecrim = $branch['branchmultiplier'];
 
+     if (isset($branch['name'])) {
+       $upgradename = $branch['name'];
+       echo $upgradename;
 		 switch(true) {
-       echo $branch['name'];
-       echo "next line\n";
-       echo $branch['level'];
-       echo "next line\n";
 		 case stristr($branch['name'],'Nerve'):
 		   $_13 = $branch['level'];
 		 break;
@@ -149,7 +148,7 @@
 		 break;
 
 
-		 }
+   }}
 		break;
 
 		case 'Fortitude':
