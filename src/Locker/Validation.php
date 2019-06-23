@@ -93,14 +93,14 @@ Class Validation {
 					throw new \RuntimeException("Missing validation type for '$key'");
 				}
 
-				if (!method_exists('Assert\Assertion', $arg['type'])) {
+				if (!method_exists('\Assert\Assertion', $arg['type'])) {
 					throw new \RuntimeException("Invalid Assertion: Assertion::{$arg['type']}");
 				}
 
 				$methodArgs = array_merge([$item], isset($arg['args']) ? $arg['args'] : []);
 
 				try {
-					call_user_func_array(['Assert\Assertion', $arg['type']], $methodArgs);
+					call_user_func_array(['\Assert\Assertion', $arg['type']], $methodArgs);
 				} catch (\Exception $ex) {
 					if (isset($arg['default'])) {
 						$item = $arg['default'];
