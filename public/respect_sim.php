@@ -6,7 +6,7 @@ if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('
 <link rel="stylesheet" href="css/respect_sim.css">
 
 
-<div class="container border border-light shadow pt-3 mb-4 rounded" style="background-color: #d2dae2;">
+<div class="container border border-light shadow pt-2 my-4 rounded" style="background-color: #d2dae2;">
 	<div class="container mb-4" align="center">
 <div class="container">
 
@@ -16,7 +16,7 @@ if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('
       <div class="col-lg-4 col-md-6">
 
 
-          <div class="card border border-dark shadow mb-4">
+          <div class="card border border-dark shadow mb-3">
             <div class="card-header p-0"><button class="btn btn-link btn-lg btn-block" type="button" data-toggle="collapse" data-target="#collapseCri">
             <div class="position-static">Criminality</div>
             </button></div><p class="pt-2">Criminality Respect: <span id="crimTot" class="font-weight-bold">0</span></p>
