@@ -8,14 +8,15 @@ function getFactionInfo($apikey,$fid) {
 
    $factions = json_decode($data, true); // decode the JSON feed
 
-
+ if (is_array($factions) || is_object($factions)) {
    if ($factions['error']) {
      echo 'Error';
    } else { if ($factions['timestamp']) {
      file_put_contents($file, serialize($data));
    }}
-}
+ }
 
+}//end of getFactionInfo Function
 
 
 function getFactionTree($apikey) {
@@ -24,14 +25,16 @@ function getFactionTree($apikey) {
    $data = file_get_contents($url);
    $file = 'api/factiontree.json';
    $factions = json_decode($data, true);
-   if ($factions['error']) {
-     echo 'Error';
-   } else { if ($factions['timestamp']) {
-     file_put_contents($file, serialize($data));
-   }}
 
+ if (is_array($factions) || is_object($factions)) {
+     if ($factions['error']) {
+       echo 'Error';
+     } else { if ($factions['timestamp']) {
+       file_put_contents($file, serialize($data));
+     }}
+ }
 
-}
+}//end of getFactionTree Function
 
 //Warbird's related
 //getFactionInfo('APIKEY','35507'); //Skive's Key / The Nest ID  - Inactive
