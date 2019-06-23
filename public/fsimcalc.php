@@ -87,31 +87,31 @@
 	     switch ($branch['branch']) {
 		case 'Core':
 		 switch(true) {
-		  case stristr($branch['name'],' armory'):
+		  case strstr($branch['name'],' armory'):
 		    $respectCore += (int)$branch['basecost'];
 		  break;
 
-		  case stristr($branch['name'],'Point storage'):
+		  case strstr($branch['name'],'Point storage'):
 		    $respectCore += (int)$branch['basecost'];
 		  break;
 
-		  case stristr($branch['name'],'Laboratory'):
+		  case strstr($branch['name'],'Laboratory'):
 		    $respectCore += (int)$branch['basecost'];
 		  break;
 
-		  case stristr($branch['name'],'Chaining'):
+		  case strstr($branch['name'],'Chaining'):
 		  for($i = $branch['level']; $i>=1; $i--) {
 		     $respectCore += (int)$factiontree['factiontree']['10'][$i]['base_cost'];
 		  }
 		  break;
 
-		  case stristr($branch['name'],'Capacity'):
+		  case strstr($branch['name'],'Capacity'):
 		  for($i = $branch['level']; $i>=1; $i--) {
 		     $respectCore += (int)$factiontree['factiontree']['11'][$i]['base_cost'];
 		  }
 		  break;
 
-		  case stristr($branch['name'],'Territory');
+		  case strstr($branch['name'],'Territory');
 		  for($i = $branch['level']; $i>=1; $i--) {
 		     $respectCore += (int)$factiontree['factiontree']['12'][$i]['base_cost'];
 		  }
@@ -123,7 +123,6 @@
 		case 'Criminality':
 		 $basecrim = $branch['branchmultiplier'];
 
-     if (isset($branch['name'])) {
 		 switch(true) {
 		 case strstr($branch['name'],'Nerve'):
 		   $_13 = $branch['level'];
@@ -144,42 +143,40 @@
 		 case strstr($branch['name'],'Bust skill'):
 		   $_17 = $branch['level'];
 		 break;
-
-
-   }}
+   } //switch true
 		break;
 
 		case 'Fortitude':
 		 $basefort = $branch['branchmultiplier'];
 		 switch(true) {
 
-		 case stristr($branch['name'],'Medical Cooldown'):
+		 case strstr($branch['name'],'Medical Cooldown'):
 		   $_18 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Reviving'):
+		 case strstr($branch['name'],'Reviving'):
 		   $_19 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Hospital time'):
+		 case strstr($branch['name'],'Hospital time'):
 		   $_20 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Life regeneration'):
+		 case strstr($branch['name'],'Life regeneration'):
 		   $_21 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Medical effectiveness'):
+		 case strstr($branch['name'],'Medical effectiveness'):
 		   $_22 = $branch['level'];
 		 break;
 
-		 }
+		 }//switch true
 		break;
 
 		case 'Voracity':
 		 $basevor = $branch['branchmultiplier'];
 		 switch(true) {
-		 case stristr($branch['name'],'Candy effect'):
+		 case strstr($branch['name'],'Candy effect'):
 		 $_23 = $branch['level'];
 		 /* for($i = $branch['level']; $i>=1; $i--) {
 
@@ -188,18 +185,18 @@
 		  }*/
 		 break;
 
-		 case stristr($branch['name'],'Energy drink effect'):
+		 case strstr($branch['name'],'Energy drink effect'):
 		 $_24 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Booster cooldown'):
+		 case strstr($branch['name'],'Booster cooldown'):
 		  $_25 = $branch['level'];
 		 break;
 
-		 case stristr($branch['name'],'Alcohol effect'):
+		 case strstr($branch['name'],'Alcohol effect'):
 		  $_26 = $branch['level'];
 		 break;
-		 }
+		 }//switch true
 
 		//echo "Voracity: " . $respectVor . "<br/>";
 		break;
@@ -207,96 +204,96 @@
 	case 'Toleration':
 	   $basetol = $branch['branchmultiplier'];
 	   switch (true) {
-		case stristr($branch['name'],'Side effects'):
+		case strstr($branch['name'],'Side effects'):
 			$_27 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Overdosing'):
+		case strstr($branch['name'],'Overdosing'):
 			$_28 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Addiction'):
+		case strstr($branch['name'],'Addiction'):
 			$_29 = $branch['level'];
 		break;
-	   }
+	   }//switch true
 	break;
 
 	case 'Excursion':
 	   $baseexcur = $branch['branchmultiplier'];
 	   switch (true) {
-		case stristr($branch['name'],'Hunting'):
+		case strstr($branch['name'],'Hunting'):
 			$_31 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Overseas banking'):
+		case strstr($branch['name'],'Overseas banking'):
 			$_32 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Travel capacity'):
+		case strstr($branch['name'],'Travel capacity'):
 			$_33 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Travel cost'):
+		case strstr($branch['name'],'Travel cost'):
 			$_34 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Rehab cost'):
+		case strstr($branch['name'],'Rehab cost'):
 			$_35 = $branch['level'];
 		break;
-	   }
+	   }//switch true
 	break;
 
 	case 'Steadfast':
 	   $baseste = $branch['branchmultiplier'];
 	   switch (true) {
-		case stristr($branch['name'],'Strength training'):
+		case strstr($branch['name'],'Strength training'):
 			$_36 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Speed training'):
+		case strstr($branch['name'],'Speed training'):
 			$_37 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Defense training'):
+		case strstr($branch['name'],'Defense training'):
 			$_38 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Dexterity training'):
+		case strstr($branch['name'],'Dexterity training'):
 			$_39 = $branch['level'];
 		break;
-	   }
+	   }//switch true
 	break;
 
 	case 'Aggression':
 	   $baseagg = $branch['branchmultiplier'];
 	   switch (true) {
-	   	case stristr($branch['name'],'Hospitalization'):
+	   	case strstr($branch['name'],'Hospitalization'):
 			$_40 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Damage'):
+		case strstr($branch['name'],'Damage'):
 			$_41 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Strength'):
+		case strstr($branch['name'],'Strength'):
 			$_42 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Speed'):
+		case strstr($branch['name'],'Speed'):
 			$_43 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Accuracy'):
+		case strstr($branch['name'],'Accuracy'):
 			$_44 = $branch['level'];
 		break;
-
-	   }
+	   }//switch true
 	break;
 
 	case 'Suppression':
 	   $basesup = $branch['branchmultiplier'];
 	   switch (true) {
-		case stristr($branch['name'],'Maximum life'):
+		case strstr($branch['name'],'Maximum life'):
 			$_45 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Dexterity'):
+		case strstr($branch['name'],'Dexterity'):
 			$_46 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Defense'):
+		case strstr($branch['name'],'Defense'):
 			$_47 = $branch['level'];
 		break;
-		case stristr($branch['name'],'Escape'):
+		case strstr($branch['name'],'Escape'):
 			$_48 = $branch['level'] ?? "";
 		break;
-	   }
+	   }//switch true
 	break;
+
 	     }//switch branch
 	   }
 	}
