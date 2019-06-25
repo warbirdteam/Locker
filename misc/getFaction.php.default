@@ -1,0 +1,45 @@
+<?php
+
+function getFactionInfo($apikey,$fid) {
+
+   $url = 'https://api.torn.com/faction/' . $fid . '?selections=timestamp,basic,upgrades,stats&key=' . $apikey; // url to api json
+   $data = file_get_contents($url);
+   $file = __DIR__ . 'api/' . $fid . '.json';
+
+   $factions = json_decode($data, true); // decode the JSON feed
+
+ if (is_array($factions) || is_object($factions)) {
+   if (isset($factions['error'])) {
+         return false;
+     }
+   } else { if (isset($factions['timestamp'])) {
+     file_put_contents($file, serialize($data));
+   }}
+
+
+}//end of getFactionInfo Function
+
+
+function getFactionTree($apikey) {
+
+   $url = 'https://api.torn.com/torn/?selections=timestamp,factiontree&key=' . $apikey;
+   $data = file_get_contents($url);
+   $file = __DIR__ . 'api/factiontree.json';
+   $factions = json_decode($data, true);
+
+   if (is_array($factions) || is_object($factions)) {
+     if (isset($factions['error'])) {
+           return false;
+       }
+     } else { if (isset($factions['timestamp'])) {
+       file_put_contents($file, serialize($data));
+     }}
+
+}//end of getFactionTree Function
+
+//Warbird's related
+//getFactionInfo('APIKEY','35507'); //Skive's Key / The Nest ID  - Inactive
+getFactionInfo('APIKEY','35507'); //Hakawai's Key / The Nest ID
+getFactionInfo('APIKEY','13784'); //Heasleys4hemp's key / Warbirds ID
+//getFactionTree('APIKEY'); //Heasleys4hemp's key  // only needed this to happen once
+?>
