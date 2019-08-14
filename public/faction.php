@@ -46,7 +46,7 @@ switch ($action) {
 
         <?php
         // Get member rows
-        $result = $conn->query("SELECT * FROM current_data");
+        $result = $conn->query("SELECT userid, name, energy, cooldown_drug, cooldown_booster, refill_energy, refill_nerve FROM current_data");
 
         if($result === false)
         {
@@ -56,6 +56,12 @@ switch ($action) {
 
         if($result->num_rows > 0){
           while($row = $result->fetch_assoc()){
+		if($row['refill_energy'] == '') {
+		  $row['refill_energy'] = '0';
+	 	}
+		if($row['refill_nerve'] == '') {
+		  $row['refill_nerve'] = '0';
+		}
         ?>
 
          <tr>
@@ -63,8 +69,8 @@ switch ($action) {
            <td><?php echo $row["energy"] ?></td>
            <td><?php echo gmdate("H:i:s",$row["cooldown_drug"]) ?></td>
            <td><?php echo gmdate("H:i:s",$row["cooldown_booster"]) ?></td>
-           <td><?php echo $row["refill_energy"] ?></td>
-           <td><?php echo $row["refill_energy"] ?></td>
+           <td><?php echo $row['refill_energy'] ?></td>
+           <td><?php echo $row['refill_nerve'] ?></td>
          </tr>
 
         <?php } }else{ ?>

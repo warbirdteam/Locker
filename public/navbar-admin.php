@@ -33,6 +33,8 @@ $row = mysqli_fetch_assoc($resultset);
           <a class="dropdown-item" href="chain-energy.php"><i class="fas fa-file-code"></i></i> CSV Energy Reports</a>
 					<a class="dropdown-item" href="respect_sim.php"><i class="fas fa-calculator"></i> Respect Simulator</a>
           <a class="dropdown-item" href="faction.php"><i class="fas fa-battery-half"></i> Energy</a>
+          <a class="dropdown-item" href="nestgetFaction.php"><i class="fas fa-battery-half"></i> The Nest</a>
+          <a class="dropdown-item" href="getnestChain.php"><i class="fas fa-unlock"></i> The Nest Chain History</a>
         </div>
       </li>
 
