@@ -1,5 +1,6 @@
 <?php
 session_start();
+//Admin Only Page
 if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {header("Location: welcome.php");}
 
 include_once("../../../../db_connect_stats.php");
