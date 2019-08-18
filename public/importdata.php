@@ -9,7 +9,7 @@ if(isset($_POST['importSubmit'])){
    // Allowed mime types
     $csvMimes = array('text/x-comma-separated-values', 'text/comma-separated-values', 'application/octet-stream', 'application/vnd.ms-excel', 'application/x-csv', 'text/x-csv', 'text/csv', 'application/csv', 'application/excel', 'application/vnd.msexcel', 'text/plain');
 
-	            $statconn->query("Truncate table strb4");
+	      $statconn->query("Truncate table strb4");
 				$statconn->query("Truncate table spdb4");
 				$statconn->query("Truncate table defb4");
 				$statconn->query("Truncate table dexb4");

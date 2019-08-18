@@ -1,5 +1,4 @@
 <?php
-session_start();
 if(!isset($_SESSION['user_session'])){
 	header("Location: index.php");
 }
@@ -30,7 +29,7 @@ $row = mysqli_fetch_assoc($resultset);
           Faction
         </a>
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
-					<a class="dropdown-item" href="respect_sim.php"><i class="fas fa-calculator"></i> Respect Simulator</a>
+					<a class="dropdown-item" href="https://warbirds.heasleys.org/faction_sim.html"><i class="fas fa-calculator"></i> Respect Simulator</a>
           <a class="dropdown-item" href="faction.php"><i class="fas fa-battery-half"></i> Energy</a>
         </div>
       </li>
