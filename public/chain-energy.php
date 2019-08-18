@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['title'] = 'Energy Reports';
 //Admin Only Page
 if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {header("Location: welcome.php");}
 

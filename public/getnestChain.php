@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['title'] = 'Nest Chain History';
 if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('navbar.php');}
 include_once("../misc/db_connect.php");
 
@@ -14,7 +15,6 @@ $apikey = 'AuSfpjzFPNZ07Yaw';
 	$chains = json_decode($data);
 
 ?>
-<!DOCTYPE html><html><head><title>Nest Chain History</title></head><body>
 
 <?php
 if (count($chains->chains)) {
@@ -73,11 +73,11 @@ function dateDiff($time1, $time2, $precision = 6) {
         $ttime = strtotime("+" . $add . " " . $interval, $time1);
         $looped++;
       }
- 
+
       $time1 = strtotime("+" . $looped . " " . $interval, $time1);
       $diffs[$interval] = $looped;
     }
-    
+
     $count = 0;
     $times = array();
     // Loop thru all diffs
@@ -86,7 +86,7 @@ function dateDiff($time1, $time2, $precision = 6) {
       if ($count >= $precision) {
         break;
       }
-      // Add value and interval 
+      // Add value and interval
       // if value is bigger than 0
       if ($value > 0) {
         // Add s if value is not 1
