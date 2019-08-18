@@ -21,7 +21,6 @@ $('document').ready(function() {
 	/* Handling login functionality */
 	function submitForm() {
 		var data = $("#login-form").serialize();
-		console.log(data);
 		$.ajax({
 			type : 'POST',
 			url  : 'login.php',
