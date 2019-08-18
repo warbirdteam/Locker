@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['title'] = 'Faction Members';
 
 if($_SESSION['role'] == 'admin') {
 	include('navbar-admin.php');
@@ -8,27 +9,55 @@ if($_SESSION['role'] == 'admin') {
 }
 
 
-
-   $url = 'https://api.torn.com/faction/35507?selections=timestamp,basic,upgrades,stats&key=AuSfpjzFPNZ07Yaw'; // url to api json
+	 $fid = '35507';
+   $url = 'https://api.torn.com/faction/'. $fid .'?selections=timestamp,basic&key=' . $_SESSION['key']; // url to api json
    $data = file_get_contents($url);
 
    $factions = json_decode($data, true); // decode the JSON feed
 
    $members = $factions['members'];
+?>
 
-echo '<!DOCTYPE html><html><head><title>Nest Members</title></head><body>';
-echo '<center><table border=1>';
-echo '<thead><tr><td colspan=4 align=center><h3>The Nest</h3></td></tr>';
-echo '<tr><th>Name</th><th>Days in Faction</th><th>Last Action</th><th>Status</th></tr></thead><tbody>';
-$count=0;
+<div class="container">
+  <div class="row">
+   <div class="col border border-dark shadow pt-4 mt-4 rounded">
+		 <h3 align=center><?php echo $factions['name']; ?></h3>
+			<table class="table table-hover table-striped table-dark" border=1>
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Days in Faction</th>
+						<th scope="col">Last Action</th>
+						<th scope="col">Status</th>
+					</tr>
+				</thead>
+			<tbody>
 
-foreach($members as $member) {
-	echo '<tr><td>' . $member['name'] . '</td><td>'  . $member['days_in_faction'] . '</td><td>' , $member['last_action'] . '</td><td>' . $member['status'][0] . ' ' .  $member[status][1] . '</td></tr>';
-	$count++;
+			<?php
+			$count=0;
+			while ($member = current($members)) {
+				$userid = key($members);
+				if ( strpos( $member['last_action'], 'day ago' ) !== false || strpos( $member['last_action'], 'days ago' ) !== false) {
+					$class = 'class="bg-danger"';
+				} else {$class = '';}
+				echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $userid . '" target="_blank">' . $member['name'] . ' [' . $userid . ']</a></td><td>'  . $member['days_in_faction'] . '</td><td>'. $member['last_action'] . '</td><td>' . $member['status'][0] . ' ' .  $member['status'][1] . '</td></tr>';
+				$count++;
+			next($members);
+			}
+			?>
 
-}
+			</tbody>
+				<tfoot>
+					<tr>
+						<td colspan=4 align=center>Total: <?php echo $count; ?></td>
+					</tr>
+				</tfoot>
+			</table>
 
-echo '</tbody><tfoot><tr><td colspan=2 align=right>Total:</td><td colspan=2 align=center> ' . $count . '</td></tr></tfoot></table></center>';
+			</div> <!-- col -->
+		</div> <!-- row -->
+	</div> <!-- container -->
 
-echo '</body></html>';
+<?php
+include('footer.php');
 ?>

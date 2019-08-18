@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION['title'] = 'Faction';
 if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('navbar.php');}
 
 // Load the database configuration file
