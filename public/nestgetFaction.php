@@ -37,7 +37,7 @@ if($_SESSION['role'] == 'admin') {
 			$count=0;
 			while ($member = current($members)) {
 				$userid = key($members);
-				if ( strpos( $member['last_action'], 'day ago' ) !== false || strpos( $member['last_action'], 'days ago' ) !== false) {
+				if ( strpos( $member['last_action']['relative'], 'day ago' ) !== false || strpos( $member['last_action']['relative'], 'days ago' ) !== false) {
 					$class = 'class="bg-danger"';
 				} else {$class = '';}
 				echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $userid . '" target="_blank">' . $member['name'] . ' [' . $userid . ']</a></td><td>'  . $member['days_in_faction'] . '</td><td>'. $member['last_action'] . '</td><td>' . $member['status'][0] . ' ' .  $member['status'][1] . '</td></tr>';
