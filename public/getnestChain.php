@@ -5,14 +5,9 @@ if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('
 include_once("../misc/db_connect.php");
 
 
-$apikey = 'AuSfpjzFPNZ07Yaw';
-
-
-        $url = "https://api.torn.com/faction/?selections=chains&key=" . $apikey;
-
+        $url = "https://api.torn.com/faction/?selections=chains&key=" . $_SESSION['key'];
         $data = file_get_contents($url);
-
-	$chains = json_decode($data);
+        $chains = json_decode($data);
 
 ?>
 
