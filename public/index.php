@@ -1,7 +1,6 @@
 <?php
 include('header.php');
 include_once("../misc/db_connect.php");
-//this is a test
 ?>
 <title>Login</title>
 <script type="text/javascript" src="script/jquery.validate.js"></script>
