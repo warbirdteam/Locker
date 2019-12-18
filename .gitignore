@@ -1,5 +1,6 @@
 /vendor/
 *~
 config/locker.json
+config/key.json
 api/
 misc/test.php

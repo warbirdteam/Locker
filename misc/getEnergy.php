@@ -1,10 +1,21 @@
 <?php
-include_once("db_connectPDO.php");
+include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
-  	$stmt = $pdo->query("SELECT tornid,tornuserkey FROM users");
-    foreach ($stmt as $row)
-    {
-      $apikey = $row['tornuserkey'];
+    $connect = new DB_connect();
+    $pdo = $connect->connect();
+
+    $db_api = new DB_request();
+    $rows = $db_api->getAPIKEYList();
+    $count = $db_api->row_count;
+
+    if($count > 0){
+
+    foreach ($rows as $row){
+
+      $uncrypt = new API_Crypt();
+      $unenc_api = $uncrypt->unpad($row['enc_api'], $row['iv'], $row['tag']);
+
+      $apikey = $unenc_api;
       $jsonurl = "https://api.torn.com/user/?selections=timestamp,cooldowns,bars,basic,refills&key=" . $apikey;
       $json = file_get_contents($jsonurl);
       $data = json_decode($json, true);
@@ -32,4 +43,5 @@ include_once("db_connectPDO.php");
           }//else
       }
     }//foreach
+  }//if Count
 ?>
