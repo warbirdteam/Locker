@@ -3,7 +3,7 @@ session_start();
 $_SESSION['title'] = "Login";
 include('includes/header.php');
 ?>
-<script src="/js/index.js"></script>
+<script src="js/index.js"></script>
 <?php
 include('includes/navbar-index.php');
 include_once("..\includes\autoloader.inc.php");

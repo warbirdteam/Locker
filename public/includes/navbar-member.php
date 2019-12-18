@@ -24,9 +24,9 @@ if(!isset($_SESSION['userid'])){
           Faction
         </a>
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
-					<a class="dropdown-item" href="/faction.php"><i class="fas fa-calculator"></i> Faction</a>
+					<a class="dropdown-item" href="faction.php"><i class="fas fa-calculator"></i> Faction</a>
           <a class="dropdown-item" href="#"><i class="fas fa-calculator"></i> Leaderboards</a>
-          <a class="dropdown-item" href="/chains.php"><i class="fas fa-unlock"></i> Chain History</a>
+          <a class="dropdown-item" href="chains.php"><i class="fas fa-unlock"></i> Chain History</a>
         </div>
       </li>
 
@@ -37,7 +37,7 @@ if(!isset($_SESSION['userid'])){
         <div class="dropdown-menu" aria-labelledby="navProfileDropdown">
           <a class="dropdown-item" href="#"><i class="fas fa-user"></i> View Profile</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/process/logout.php"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+          <a class="dropdown-item" href="process/logout.php"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
         </div>
       </li>
 

@@ -19,12 +19,12 @@ if (isset($_POST['apikey']) && !empty($_POST['apikey'])) {
 		$_SESSION['username'] = $row['username'];
 		$_SESSION['factionid'] = $row['factionid'];
 		//Cascade::getLogger('audit')->info('Successful login.', ['user' => $user_email]);
-		header("Location: /welcome.php");
+		header("Location: ../welcome.php");
 		exit();
 	} else {
 		//Cascade::getLogger('audit')->info('Failed login.', ['user' => $user_email]);
-		$error = new Error_Message("No user found. You are not registered.","index.php");
+		$error = new Error_Message("No user found. You are not registered.","../index.php");
 	}
 }
-$error = new Error_Message("You did not enter anything into the API Textbox.","index.php");
+$error = new Error_Message("You did not enter anything into the API Textbox.","../index.php");
 ?>

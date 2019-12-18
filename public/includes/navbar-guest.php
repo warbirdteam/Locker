@@ -27,7 +27,7 @@ if(!isset($_SESSION['userid'])){
         <div class="dropdown-menu" aria-labelledby="navProfileDropdown">
           <a class="dropdown-item" href="#"><i class="fas fa-user"></i> View Profile</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/process/logout.php"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+          <a class="dropdown-item" href="process/logout.php"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
         </div>
       </li>
 

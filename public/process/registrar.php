@@ -13,5 +13,5 @@ if (isset($_POST['apikey']) && !empty($_POST['apikey'])) {
 
 }
 
-$error = new Error_Message("You did not enter anything into the API Textbox.","register.php");
+$error = new Error_Message("You did not enter anything into the API Textbox.","../register.php");
 ?>

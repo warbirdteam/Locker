@@ -13,18 +13,18 @@ class DB_login extends DB_connect {
     $this->apikey = $apikey;
 
     if (strlen($this->apikey) != 16) {
-      $error = new Error_Message("API Key invalid. Please try again.","index.php");
+      $error = new Error_Message("API Key invalid. Please try again.","../index.php");
     }
 
     if (!preg_match('/^[A-Za-z0-9_-]+$/', $this->apikey)) {
-        $error = new Error_Message("API Key invalid. Please try again.","index.php");
+        $error = new Error_Message("API Key invalid. Please try again.","../index.php");
     }
 
     $this->checkPlayerAPI();
 
     $faction_list = array("13784","35507","30085");
     if(!in_array($this->factionid, $faction_list)){
-      $error = new Error_Message("You are not part of the Warbirds Family.","index.php");
+      $error = new Error_Message("You are not part of the Warbirds Family.","../index.php");
     }
 
   }
@@ -38,7 +38,7 @@ class DB_login extends DB_connect {
     if (is_array($player) || is_object($player)) {
       if (isset($player['error'])) {
         //APIKEY probably invalid
-        $error = new Error_Message('API Key Error Code: ' . $player['error']['code'] . ' - ' . $player['error']['error'],"index.php");
+        $error = new Error_Message('API Key Error Code: ' . $player['error']['code'] . ' - ' . $player['error']['error'],"../index.php");
       } else {
          if (isset($player['timestamp'])) {
             $this->userid = $player['player_id'];
@@ -56,7 +56,7 @@ class DB_login extends DB_connect {
     $stmt->execute([$this->userid]);
     $row = $stmt->fetch();
     if(empty($row)) {
-      $error = new Error_Message("No user found. You are not registered.","index.php");
+      $error = new Error_Message("No user found. You are not registered.","../index.php");
     } else {
       $this->updateAPIKEY($row['enc_api'],$row['iv'],$row['tag']);
     }

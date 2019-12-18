@@ -24,11 +24,11 @@ if(!isset($_SESSION['userid'])){
           Faction
         </a>
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
-          <a class="dropdown-item" href="/chain-energy.php"><i class="fas fa-file-code"></i></i> CSV Energy Reports</a>
+          <a class="dropdown-item" href="chain-energy.php"><i class="fas fa-file-code"></i></i> CSV Energy Reports</a>
 					<a class="dropdown-item" href="https://www.heasleys.org/fs/"><i class="fas fa-calculator"></i> Respect Simulator</a>
-          <a class="dropdown-item" href="/energy.php"><i class="fas fa-battery-half"></i> Energy</a>
-          <a class="dropdown-item" href="/faction.php"><i class="fas fa-battery-half"></i> Faction</a>
-          <a class="dropdown-item" href="/chains.php"><i class="fas fa-unlock"></i> Chain History</a>
+          <a class="dropdown-item" href="energy.php"><i class="fas fa-battery-half"></i> Energy</a>
+          <a class="dropdown-item" href="faction.php"><i class="fas fa-battery-half"></i> Faction</a>
+          <a class="dropdown-item" href="chains.php"><i class="fas fa-unlock"></i> Chain History</a>
         </div>
       </li>
 
@@ -39,7 +39,7 @@ if(!isset($_SESSION['userid'])){
         <div class="dropdown-menu" aria-labelledby="navProfileDropdown">
           <a class="dropdown-item" href="#"><i class="fas fa-user"></i> View Profile</a>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/process/logout.php"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
+          <a class="dropdown-item" href="process/logout.php"><i class="fas fa-sign-out-alt"></i> Sign Out</a>
         </div>
       </li>
 

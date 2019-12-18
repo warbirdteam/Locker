@@ -13,18 +13,18 @@ class DB_register extends DB_connect {
     $this->apikey = $apikey;
 
     if (strlen($this->apikey) != 16) {
-      $error = new Error_Message("API Key invalid. Please try again.","register.php");
+      $error = new Error_Message("API Key invalid. Please try again.","../register.php");
     }
 
     if (!preg_match('/^[A-Za-z0-9_-]+$/', $this->apikey)) {
-        $error = new Error_Message("API Key invalid. Please try again.","register.php");
+        $error = new Error_Message("API Key invalid. Please try again.","../register.php");
     }
 
     $this->checkPlayerAPI();
 
     $faction_list = array("13784","35507","30085");
     if(!in_array($this->factionid, $faction_list)){
-      $error = new Error_Message("You are not part of the Warbirds Family.","register.php");
+      $error = new Error_Message("You are not part of the Warbirds Family.","../register.php");
     }
 
     $this->checkPlayerDB();
@@ -42,7 +42,7 @@ class DB_register extends DB_connect {
     if (is_array($player) || is_object($player)) {
       if (isset($player['error'])) {
         //APIKEY probably invalid
-        $error = new Error_Message('API Key Error Code: ' . $player['error']['code'] . ' - ' . $player['error']['error'],"register.php");
+        $error = new Error_Message('API Key Error Code: ' . $player['error']['code'] . ' - ' . $player['error']['error'],"../register.php");
       } else {
          if (isset($player['timestamp'])) {
             $this->userid = $player['player_id'];
@@ -62,7 +62,7 @@ class DB_register extends DB_connect {
 	  $uid = $stmt->fetchColumn();
 
     if ($uid == $this->userid) {
-      $error = new Error_Message("User already registered. Please login.","register.php");
+      $error = new Error_Message("User already registered. Please login.","../register.php");
     }
 
   }
@@ -76,9 +76,9 @@ class DB_register extends DB_connect {
       $stmt = $this->connect()->prepare($sql);
       $result = $stmt->execute([$this->userid, $this->username, $this->factionid, 'member', $enc_api, $crypt->iv, $crypt->tag]);
       if($result){
-        $error = new Error_Message("User registered successfully! You may now login.","register.php");
+        $error = new Error_Message("User registered successfully! You may now login.","../register.php");
       } else {
-        $error = new Error_Message("There was an error registering. Please try again.","register.php");
+        $error = new Error_Message("There was an error registering. Please try again.","../register.php");
       }
 
   }
