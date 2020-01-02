@@ -41,7 +41,6 @@ if($count > 0 && $count_api > 0){
              continue;//go back to while, try again with same user but different apikey.
            } else {
              if (isset($user['timestamp'])) {
-                 echo "<pre>".$user['name']." [".$user['player_id']."]</pre>";
                //check to see if personalstat exists (if personalstat is zero, it won't exists in api), else set to 0
                  $xantaken = isset($user['personalstats']['xantaken']) ? $user['personalstats']['xantaken'] : 0;
                  $refills = isset($user['personalstats']['refills']) ? $user['personalstats']['refills'] : 0;
