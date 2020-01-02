@@ -37,6 +37,10 @@ if($count > 0 && $count_api > 0){
         if (is_array($user) || is_object($user)) {
            if (isset($user['error'])) {
              //incorrect key
+             echo "Error Code: ".$user['error']['code']." using ".$rows_api[$i]['tornid']."'s key.";
+             if ($user['error']['code'] == 2) {
+               //add reminder to update api key
+             }
              $i++;
              continue;//go back to while, try again with same user but different apikey.
            } else {
