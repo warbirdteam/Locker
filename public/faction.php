@@ -67,7 +67,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 					<?php
 					$db_nest_members = new DB_request();
-					$rows = $db_nest_members->getFactionMembers('35507');
+					$rows = $db_nest_members->getFactionMembersByFaction('35507');
 					$count = $db_nest_members->row_count;
 
 					if($count > 0){
@@ -98,13 +98,14 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 								<th scope="col">Name</th>
 								<th scope="col">Days in Faction</th>
 								<th scope="col">Last Action</th>
+								<th scope="col">Status</th>
 							</tr>
 						</thead>
 					<tbody>
 
 					<?php
 					$db_wb_members = new DB_request();
-					$rows = $db_wb_members->getFactionMembers('13784');
+					$rows = $db_wb_members->getFactionMembersByFaction('13784');
 					$count = $db_wb_members->row_count;
 
 					if($count > 0){
@@ -112,7 +113,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							if ( strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false) {
 								$class = 'class="bg-danger"';
 							} else {$class = '';}
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td></tr>';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					}
 					?>
@@ -135,13 +136,14 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 								<th scope="col">Name</th>
 								<th scope="col">Days in Faction</th>
 								<th scope="col">Last Action</th>
+								<th scope="col">Status</th>
 							</tr>
 						</thead>
 					<tbody>
 
 					<?php
 					$db_wbng_members = new DB_request();
-					$rows = $db_wbng_members->getFactionMembers('30085');
+					$rows = $db_wbng_members->getFactionMembersByFaction('30085');
 					$count = $db_wbng_members->row_count;
 
 					if($count > 0){
@@ -149,7 +151,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							if ( strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false) {
 								$class = 'class="bg-danger"';
 							} else {$class = '';}
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td></tr>';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					}
 					?>

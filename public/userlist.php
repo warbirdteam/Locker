@@ -1,36 +1,36 @@
 <?php
 session_start();
 $_SESSION['title'] = 'Userlist';
-include('../includes/header.php');
+include('includes/header.php');
 ?>
 
-<script src="../js/jquery.tablesorter.js"></script>
-<script src="../js/jquery.tablesorter.widgets.js"></script>
-<script src="../js/tablesort.js"></script>
+<script src="js/jquery.tablesorter.js"></script>
+<script src="js/jquery.tablesorter.widgets.js"></script>
+<script src="js/tablesort.js"></script>
 
 <?php
 	switch ($_SESSION['role']) {
 	    case 'admin':
-	        include('../includes/navbar-admin.php');
+	        include('includes/navbar-admin.php');
 	        break;
 	    case 'leadership':
-	        header("Location: /welcome.php");
+	        header("Location: welcome.php");
 	        break;
 	    case 'guest':
-	        header("Location: /welcome.php");
+	        header("Location: welcome.php");
 	        break;
 	    case 'member':
-	        header("Location: /welcome.php");
+	        header("Location: welcome.php");
 	        break;
 	    default:
           $_SESSION = array();
 	        $_SESSION['error'] = "You are not logged in.";
-	        header("Location: /index.php");
+	        header("Location: index.php");
 	        break;
 	}
 
 // Load classes
-include_once(__DIR__ . "/../../includes/autoloader.inc.php");
+include_once(__DIR__ . "/../includes/autoloader.inc.php");
 ?>
 
 <div class="container">
@@ -78,3 +78,7 @@ include_once(__DIR__ . "/../../includes/autoloader.inc.php");
 </div> <!-- col -->
 </div> <!-- row -->
 </div> <!-- container -->
+
+<?php
+include('includes/footer.php');
+?>

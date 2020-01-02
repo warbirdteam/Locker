@@ -17,11 +17,23 @@ class DB_request extends DB_connect {
 
     }
 
-    public function getFactionMembers($factionid) {
+    public function getFactionMembersByFaction($factionid) {
 
       $sql = "SELECT * FROM members where factionid=?";
       $stmt = $this->connect()->prepare($sql);
       $stmt->execute([$factionid]);
+      $row = $stmt->fetchAll();
+      $this->row_count = $stmt->rowCount();
+      if(empty($row)) {
+        return NULL;
+      }
+      return $row;
+    }
+
+    public function getFactionMembers() {
+
+      $sql = "SELECT * FROM members";
+      $stmt = $this->connect()->query($sql);
       $row = $stmt->fetchAll();
       $this->row_count = $stmt->rowCount();
       if(empty($row)) {

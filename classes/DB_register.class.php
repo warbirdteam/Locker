@@ -76,7 +76,7 @@ class DB_register extends DB_connect {
       $stmt = $this->connect()->prepare($sql);
       $result = $stmt->execute([$this->userid, $this->username, $this->factionid, 'member', $enc_api, $crypt->iv, $crypt->tag]);
       if($result){
-        $error = new Error_Message("User registered successfully! You may now login.","../register.php");
+        $error = new Error_Message("User registered successfully! You may now login.","../index.php");
       } else {
         $error = new Error_Message("There was an error registering. Please try again.","../register.php");
       }

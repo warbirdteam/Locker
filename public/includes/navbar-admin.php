@@ -24,7 +24,7 @@ if(!isset($_SESSION['userid'])){
           Admin
         </a>
         <div class="dropdown-menu" aria-labelledby="navAdminDropdown">
-          <a class="dropdown-item" href="admin/userlist.php"><i class="fas fa-user-friends"></i></i> Userlist</a>
+          <a class="dropdown-item" href="userlist.php"><i class="fas fa-user-friends"></i></i> Userlist</a>
         </div>
       </li>
        <li class="nav-item active dropdown">
