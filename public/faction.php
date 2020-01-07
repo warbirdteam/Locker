@@ -34,7 +34,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 <div class="container">
 
 	<div class="row">
-		<div class="col-xl-10 col-lg-10 col-md-12 pt-3 mx-auto">
+		<div class="col-xl-12 col-lg-12 col-md-12 pt-3 mx-auto">
 			<div class="card border border-dark shadow rounded mt-4">
 				<h5 class="card-header">Faction Members</h5>
 				<div class="card-body">
@@ -50,7 +50,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 				<a class="nav-link" id="wbng-members-tab" data-toggle="tab" href="#wbng-members" role="tab">WBNG Members</a>
 				</li>
 			</ul>
-			<div class="tab-content" id="chainTabContent">
+			<div class="tab-content" id="memberTabsContent">
 
 				<div class="tab-pane fade  show active" id="nest-members" role="tabpanel">
 
@@ -77,13 +77,15 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							} else {$class = '';}
 							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td><td>'. $row['status'] . '</td></tr>';
 						}
+					} else {
+						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
 					}
 					?>
 
 					</tbody>
 						<tfoot>
 							<tr>
-								<td colspan=3 align=center>Total: <?php echo $count; ?></td>
+								<td colspan=4 align=center>Total: <?php echo $count; ?></td>
 							</tr>
 						</tfoot>
 					</table>
@@ -115,13 +117,15 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							} else {$class = '';}
 							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td><td>'. $row['status'] . '</td></tr>';
 						}
+					} else {
+						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
 					}
 					?>
 
 					</tbody>
 						<tfoot>
 							<tr>
-								<td colspan=3 align=center>Total: <?php echo $count; ?></td>
+								<td colspan=4 align=center>Total: <?php echo $count; ?></td>
 							</tr>
 						</tfoot>
 					</table>
@@ -153,13 +157,15 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							} else {$class = '';}
 							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td><td>'. $row['status'] . '</td></tr>';
 						}
+					} else {
+						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
 					}
 					?>
 
 					</tbody>
 						<tfoot>
 							<tr>
-								<td colspan=3 align=center>Total: <?php echo $count; ?></td>
+								<td colspan=4 align=center>Total: <?php echo $count; ?></td>
 							</tr>
 						</tfoot>
 					</table>
@@ -172,7 +178,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 
 				</div>
-		 </div>
+
 		</div> <!-- col -->
 	</div> <!-- row -->
 

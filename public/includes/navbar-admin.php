@@ -20,28 +20,30 @@ if(!isset($_SESSION['userid'])){
          <a class="nav-item nav-link" href="welcome.php">Home</a>
        </li>
 			 <li class="nav-item active dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navAdminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#navAdm" id="navAdminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Admin
         </a>
         <div class="dropdown-menu" aria-labelledby="navAdminDropdown">
-          <a class="dropdown-item" href="userlist.php"><i class="fas fa-user-friends"></i></i> Userlist</a>
+          <a class="dropdown-item" href="userlist.php"><i class="fas fa-list-alt"></i></i> Userlist</a>
         </div>
       </li>
        <li class="nav-item active dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navFactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#navFac" id="navFactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Faction
         </a>
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
           <a class="dropdown-item" href="chain-energy.php"><i class="fas fa-file-code"></i></i> CSV Energy Reports</a>
 					<a class="dropdown-item" href="https://www.heasleys.org/fs/"><i class="fas fa-calculator"></i> Respect Simulator</a>
-          <a class="dropdown-item" href="energy.php"><i class="fas fa-battery-half"></i> Energy</a>
-          <a class="dropdown-item" href="faction.php"><i class="fas fa-battery-half"></i> Faction</a>
-          <a class="dropdown-item" href="chains.php"><i class="fas fa-unlock"></i> Chain History</a>
+          <a class="dropdown-item" href="energy.php"><i class="fas fa-battery-three-quarters"></i> Energy</a>
+          <a class="dropdown-item" href="faction.php"><i class="fas fa-users"></i> Faction</a>
+					<a class="dropdown-item" href="memberinfo.php"><i class="fas fa-archive"></i> Member Information</a>
+					<a class="dropdown-item" href="#"><i class="fas fa-crown"></i> Leaderboards</a>
+          <a class="dropdown-item" href="chains.php"><i class="fas fa-link"></i> Chain History</a>
         </div>
       </li>
 
        <li class="nav-item active dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <?php echo $_SESSION['username']; ?>
         </a>
         <div class="dropdown-menu" aria-labelledby="navProfileDropdown">

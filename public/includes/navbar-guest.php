@@ -21,7 +21,7 @@ if(!isset($_SESSION['userid'])){
        </li>
 
        <li class="nav-item active dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <?php echo $_SESSION['username']; ?>
         </a>
         <div class="dropdown-menu" aria-labelledby="navProfileDropdown">
