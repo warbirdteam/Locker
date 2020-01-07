@@ -7,6 +7,11 @@ include('includes/header.php');
 <script src="js/jquery.tablesorter.js"></script>
 <script src="js/jquery.tablesorter.widgets.js"></script>
 <script src="js/tablesort.js"></script>
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
 
 <?php
 	switch ($_SESSION['role']) {
@@ -41,393 +46,161 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
           <ul class="nav nav-tabs" id="memberTabs" role="tablist">
     				<li class="nav-item">
-    				<a class="nav-link active" id="nest-members-week-tab" data-toggle="tab" href="#nest-members-week" role="tab">Nest Members: 7 Days</a>
+    				<a class="nav-link active" id="nest-members-week-tab" data-toggle="tab" href="#week-35507" role="tab">Nest Members: 7 Days</a>
     				</li>
             <li class="nav-item">
-    				<a class="nav-link" id="nest-members-month-tab" data-toggle="tab" href="#nest-members-month" role="tab">Nest Members: 30 Days</a>
+    				<a class="nav-link" id="nest-members-month-tab" data-toggle="tab" href="#month-35507" role="tab">Nest Members: 30 Days</a>
     				</li>
     				<li class="nav-item">
-    				<a class="nav-link" id="wb-members-week-tab" data-toggle="tab" href="#wb-members-week" role="tab">Warbirds Members: 7 Days</a>
+    				<a class="nav-link" id="wb-members-week-tab" data-toggle="tab" href="#week-13784" role="tab">Warbirds Members: 7 Days</a>
     				</li>
             <li class="nav-item">
-    				<a class="nav-link" id="wb-members-month-tab" data-toggle="tab" href="#wb-members-month" role="tab">Warbirds Members: 30 Days</a>
+    				<a class="nav-link" id="wb-members-month-tab" data-toggle="tab" href="#month-13784" role="tab">Warbirds Members: 30 Days</a>
     				</li>
     				<li class="nav-item">
-    				<a class="nav-link" id="wbng-members-week-tab" data-toggle="tab" href="#wbng-members-week" role="tab">WBNG Members: 7 Days</a>
+    				<a class="nav-link" id="wbng-members-week-tab" data-toggle="tab" href="#week-30085" role="tab">WBNG Members: 7 Days</a>
     				</li>
             <li class="nav-item">
-    				<a class="nav-link" id="wbng-members-month-tab" data-toggle="tab" href="#wbng-members-month" role="tab">WBNG Members: 30 Days</a>
+    				<a class="nav-link" id="wbng-members-month-tab" data-toggle="tab" href="#month-30085" role="tab">WBNG Members: 30 Days</a>
     				</li>
     			</ul>
+	<div class="tab-content" id="memberTabsContent">
+<?php
+
+$factions = array( "35507", "13784", "30085" );
+
+foreach ($factions as $faction) { ?>
+
+
+		<div class="tab-pane fade<?php if($faction == '35507'){echo ' show active';}?>" id="week-<?php echo $faction;?>" role="tabpanel">
+
+			<table class="table table-hover table-striped table-dark" border=1>
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Donator</th>
+						<th scope="col">Property</th>
+						<th scope="col">Last Action</th>
+						<th scope="col">Xanax</th>
+						<th scope="col">Overdoses</th>
+						<th scope="col">Energy Refills</th>
+						<th scope="col">Nerve Refills</th>
+						<th scope="col">Consumables Used</th>
+						<th scope="col">Energy Drinks Used</th>
+						<th scope="col">Stat Enhancers Used</th>
+						<th scope="col">Times Travelled</th>
+						<th scope="col">Dump Searches</th>
+					</tr>
+				</thead>
+			<tbody>
+<?php
+			$db_member_list = new DB_request();
+			$rows = $db_member_list->getFactionMembersByFaction($faction);
+			$count = $db_member_list->row_count;
+
+			if($count > 0){
+				$counter = 0;
+				foreach ($rows as $row){
+
+
+
+					$db_memberinfo = new DB_request();
+					$data = $db_memberinfo->getMemberInfoByIDWeek($row['userid']);
+					$membercount = $db_memberinfo->row_count;
+
+					if ($membercount > 0){
+							$counter++;
+							$lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$title = round((time() - $row['last_action'])/60/60);
+							$title .= ' hours ago';
+
+							$propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
+
+							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
+					}
+				}
+			} else {
+				echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
+			}
+?>
+			</tbody>
+				<tfoot>
+					<tr>
+						<td colspan=13 align=center>Total: <?php echo $counter . '/' . $count;?> </td>
+					</tr>
+				</tfoot>
+			</table>
+
+		</div>
+
+
+		<div class="tab-pane fade" id="month-<?php echo $faction;?>" role="tabpanel">
+
+			<table class="table table-hover table-striped table-dark" border=1>
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">Name</th>
+						<th scope="col">Donator</th>
+						<th scope="col">Property</th>
+						<th scope="col">Last Action</th>
+						<th scope="col">Xanax</th>
+						<th scope="col">Overdoses</th>
+						<th scope="col">Energy Refills</th>
+						<th scope="col">Nerve Refills</th>
+						<th scope="col">Consumables Used</th>
+						<th scope="col">Energy Drinks Used</th>
+						<th scope="col">Stat Enhancers Used</th>
+						<th scope="col">Times Travelled</th>
+						<th scope="col">Dump Searches</th>
+					</tr>
+				</thead>
+			<tbody>
+<?php
+			$db_member_list = new DB_request();
+			$rows = $db_member_list->getFactionMembersByFaction($faction);
+			$count = $db_member_list->row_count;
+
+			if($count > 0){
+				$counter = 0;
+				foreach ($rows as $row){
+
+
 
-          <div class="tab-content" id="memberTabsContent">
-
-            <div class="tab-pane fade active show" id="nest-members-week" role="tabpanel">
-
-    					<table class="table table-hover table-striped table-dark" border=1>
-    						<thead class="thead-dark">
-    							<tr>
-    								<th scope="col">Name</th>
-    								<th scope="col">Donator</th>
-                    <th scope="col">Property</th>
-    								<th scope="col">Last Action</th>
-    								<th scope="col">Xanax</th>
-                    <th scope="col">Overdoses</th>
-                    <th scope="col">Energy Refills</th>
-                    <th scope="col">Nerve Refills</th>
-                    <th scope="col">Consumables Used</th>
-                    <th scope="col">Energy Drinks Used</th>
-                    <th scope="col">Stat Enhancers Used</th>
-                    <th scope="col">Times Travelled</th>
-                    <th scope="col">Dump Searches</th>
-    							</tr>
-    						</thead>
-    					<tbody>
-
-    					<?php
-    					$db_member_list = new DB_request();
-    					$rows = $db_member_list->getFactionMembersByFaction('35507');
-    					$count = $db_member_list->row_count;
-
-    					if($count > 0){
-    						foreach ($rows as $row){
-
-
-
-                  $db_memberinfo = new DB_request();
-                  $data = $db_memberinfo->getMemberInfoByIDWeek($row['userid']);
-                  $membercount = $db_memberinfo->row_count;
-
-                  if ($membercount > 0){
-        							$lastactionclass = strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false ? 'class="bg-danger"' : '';
-
-                      $propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
-
-        							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td ' . $lastactionclass . '>'. $row["last_action"] . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
-                  } else {
-                    echo '<tr><td colspan=13 align=center>No member data found...</td></tr>';
-                  }
-                }
-    					} else {
-                echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
-              }
-    					?>
-
-    					</tbody>
-    						<tfoot>
-    							<tr>
-    								<td colspan=13 align=center>Total: <?php echo $count; ?></td>
-    							</tr>
-    						</tfoot>
-    					</table>
-
-    				</div>
-
-
-            <div class="tab-pane fade" id="nest-members-month" role="tabpanel">
-
-    					<table class="table table-hover table-striped table-dark" border=1>
-    						<thead class="thead-dark">
-    							<tr>
-    								<th scope="col">Name</th>
-    								<th scope="col">Donator</th>
-                    <th scope="col">Property</th>
-    								<th scope="col">Last Action</th>
-    								<th scope="col">Xanax</th>
-                    <th scope="col">Overdoses</th>
-                    <th scope="col">Energy Refills</th>
-                    <th scope="col">Nerve Refills</th>
-                    <th scope="col">Consumables Used</th>
-                    <th scope="col">Energy Drinks Used</th>
-                    <th scope="col">Stat Enhancers Used</th>
-                    <th scope="col">Times Travelled</th>
-                    <th scope="col">Dump Searches</th>
-    							</tr>
-    						</thead>
-    					<tbody>
-
-    					<?php
-    					$db_member_list = new DB_request();
-    					$rows = $db_member_list->getFactionMembersByFaction('35507');
-    					$count = $db_member_list->row_count;
-
-    					if($count > 0){
-    						foreach ($rows as $row){
-
-
-
-                  $db_memberinfo = new DB_request();
-                  $data = $db_memberinfo->getMemberInfoByIDMonth($row['userid']);
-                  $membercount = $db_memberinfo->row_count;
-
-                  if ($membercount > 0){
-        							$lastactionclass = strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false ? 'class="bg-danger"' : '';
-
-                      $propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
-
-        							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td ' . $lastactionclass . '>'. $row["last_action"] . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
-                  } else {
-                    echo '<tr><td colspan=13 align=center>No member data found...</td></tr>';
-                  }
-                }
-    					} else {
-                echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
-              }
-    					?>
-
-    					</tbody>
-    						<tfoot>
-    							<tr>
-    								<td colspan=13 align=center>Total: <?php echo $count; ?></td>
-    							</tr>
-    						</tfoot>
-    					</table>
-
-    				</div>
-
-            <div class="tab-pane fade" id="wb-members-week" role="tabpanel">
-
-    					<table class="table table-hover table-striped table-dark" border=1>
-    						<thead class="thead-dark">
-    							<tr>
-    								<th scope="col">Name</th>
-    								<th scope="col">Donator</th>
-                    <th scope="col">Property</th>
-    								<th scope="col">Last Action</th>
-    								<th scope="col">Xanax</th>
-                    <th scope="col">Overdoses</th>
-                    <th scope="col">Energy Refills</th>
-                    <th scope="col">Nerve Refills</th>
-                    <th scope="col">Consumables Used</th>
-                    <th scope="col">Energy Drinks Used</th>
-                    <th scope="col">Stat Enhancers Used</th>
-                    <th scope="col">Times Travelled</th>
-                    <th scope="col">Dump Searches</th>
-    							</tr>
-    						</thead>
-    					<tbody>
-
-    					<?php
-    					$db_member_list = new DB_request();
-    					$rows = $db_member_list->getFactionMembersByFaction('13784');
-    					$count = $db_member_list->row_count;
-
-    					if($count > 0){
-    						foreach ($rows as $row){
-
-
-
-                  $db_memberinfo = new DB_request();
-                  $data = $db_memberinfo->getMemberInfoByIDWeek($row['userid']);
-                  $membercount = $db_memberinfo->row_count;
-
-                  if ($membercount > 0){
-        							$lastactionclass = strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false ? 'class="bg-danger"' : '';
-
-                      $propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
-
-        							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td ' . $lastactionclass . '>'. $row["last_action"] . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
-                  } else {
-                    echo '<tr><td colspan=13 align=center>No member data found...</td></tr>';
-                  }
-                }
-    					} else {
-                echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
-              }
-    					?>
-
-    					</tbody>
-    						<tfoot>
-    							<tr>
-    								<td colspan=13 align=center>Total: <?php echo $count; ?></td>
-    							</tr>
-    						</tfoot>
-    					</table>
-
-    				</div>
-
-            <div class="tab-pane fade" id="wb-members-month" role="tabpanel">
-
-    					<table class="table table-hover table-striped table-dark" border=1>
-    						<thead class="thead-dark">
-    							<tr>
-    								<th scope="col">Name</th>
-    								<th scope="col">Donator</th>
-                    <th scope="col">Property</th>
-    								<th scope="col">Last Action</th>
-    								<th scope="col">Xanax</th>
-                    <th scope="col">Overdoses</th>
-                    <th scope="col">Energy Refills</th>
-                    <th scope="col">Nerve Refills</th>
-                    <th scope="col">Consumables Used</th>
-                    <th scope="col">Energy Drinks Used</th>
-                    <th scope="col">Stat Enhancers Used</th>
-                    <th scope="col">Times Travelled</th>
-                    <th scope="col">Dump Searches</th>
-    							</tr>
-    						</thead>
-    					<tbody>
-
-    					<?php
-    					$db_member_list = new DB_request();
-    					$rows = $db_member_list->getFactionMembersByFaction('13784');
-    					$count = $db_member_list->row_count;
-
-    					if($count > 0){
-    						foreach ($rows as $row){
-
-
-
-                  $db_memberinfo = new DB_request();
-                  $data = $db_memberinfo->getMemberInfoByIDMonth($row['userid']);
-                  $membercount = $db_memberinfo->row_count;
-
-                  if ($membercount > 0){
-                      $lastactionclass = strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false ? 'class="bg-danger"' : '';
-
-                      $propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
-
-        							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td ' . $lastactionclass . '>'. $row["last_action"] . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
-                  } else {
-                    echo '<tr><td colspan=13 align=center>No member data found...</td></tr>';
-                  }
-                }
-    					} else {
-                echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
-              }
-    					?>
-
-    					</tbody>
-    						<tfoot>
-    							<tr>
-    								<td colspan=13 align=center>Total: <?php echo $count; ?></td>
-    							</tr>
-    						</tfoot>
-    					</table>
-
-    				</div>
-
-            <div class="tab-pane fade" id="wbng-members-week" role="tabpanel">
-
-    					<table class="table table-hover table-striped table-dark" border=1>
-    						<thead class="thead-dark">
-    							<tr>
-    								<th scope="col">Name</th>
-    								<th scope="col">Donator</th>
-                    <th scope="col">Property</th>
-    								<th scope="col">Last Action</th>
-    								<th scope="col">Xanax</th>
-                    <th scope="col">Overdoses</th>
-                    <th scope="col">Energy Refills</th>
-                    <th scope="col">Nerve Refills</th>
-                    <th scope="col">Consumables Used</th>
-                    <th scope="col">Energy Drinks Used</th>
-                    <th scope="col">Stat Enhancers Used</th>
-                    <th scope="col">Times Travelled</th>
-                    <th scope="col">Dump Searches</th>
-    							</tr>
-    						</thead>
-    					<tbody>
-
-    					<?php
-    					$db_member_list = new DB_request();
-    					$rows = $db_member_list->getFactionMembersByFaction('30085');
-    					$count = $db_member_list->row_count;
-
-    					if($count > 0){
-    						foreach ($rows as $row){
-
-
-
-                  $db_memberinfo = new DB_request();
-                  $data = $db_memberinfo->getMemberInfoByIDWeek($row['userid']);
-                  $membercount = $db_memberinfo->row_count;
-
-                  if ($membercount > 0){
-        							$lastactionclass = strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false ? 'class="bg-danger"' : '';
-
-                      $propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
-
-        							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td ' . $lastactionclass . '>'. $row["last_action"] . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
-                  } else {
-                    echo '<tr><td colspan=13 align=center>No member data found...</td></tr>';
-                  }
-                }
-    					} else {
-                echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
-              }
-    					?>
-
-    					</tbody>
-    						<tfoot>
-    							<tr>
-    								<td colspan=13 align=center>Total: <?php echo $count; ?></td>
-    							</tr>
-    						</tfoot>
-    					</table>
-
-    				</div>
-
-            <div class="tab-pane fade" id="wbng-members-month" role="tabpanel">
-
-    					<table class="table table-hover table-striped table-dark" border=1>
-    						<thead class="thead-dark">
-    							<tr>
-    								<th scope="col">Name</th>
-    								<th scope="col">Donator</th>
-                    <th scope="col">Property</th>
-    								<th scope="col">Last Action</th>
-    								<th scope="col">Xanax</th>
-                    <th scope="col">Overdoses</th>
-                    <th scope="col">Energy Refills</th>
-                    <th scope="col">Nerve Refills</th>
-                    <th scope="col">Consumables Used</th>
-                    <th scope="col">Energy Drinks Used</th>
-                    <th scope="col">Stat Enhancers Used</th>
-                    <th scope="col">Times Travelled</th>
-                    <th scope="col">Dump Searches</th>
-    							</tr>
-    						</thead>
-    					<tbody>
-
-    					<?php
-    					$db_member_list = new DB_request();
-    					$rows = $db_member_list->getFactionMembersByFaction('30085');
-    					$count = $db_member_list->row_count;
-
-    					if($count > 0){
-    						foreach ($rows as $row){
-
-
-
-                  $db_memberinfo = new DB_request();
-                  $data = $db_memberinfo->getMemberInfoByIDMonth($row['userid']);
-                  $membercount = $db_memberinfo->row_count;
-
-                  if ($membercount > 0){
-        							$lastactionclass = strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false ? 'class="bg-danger"' : '';
-
-                      $propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
-
-        							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td ' . $lastactionclass . '>'. $row["last_action"] . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
-                  } else {
-                    echo '<tr><td colspan=13 align=center>No member data found...</td></tr>';
-                  }
-                }
-    					} else {
-                echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
-              }
-    					?>
-
-    					</tbody>
-    						<tfoot>
-    							<tr>
-    								<td colspan=13 align=center>Total: <?php echo $count; ?></td>
-    							</tr>
-    						</tfoot>
-    					</table>
-
-    				</div>
+					$db_memberinfo = new DB_request();
+					$data = $db_memberinfo->getMemberInfoByIDMonth($row['userid']);
+					$membercount = $db_memberinfo->row_count;
+
+					if ($membercount > 0){
+							$counter++;
+							$lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$title = round((time() - $row['last_action'])/60/60);
+							$title .= ' hours ago';
+
+							$propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
+
+							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
+					}
+				}
+			} else {
+				echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
+			}
+?>
+			</tbody>
+				<tfoot>
+					<tr>
+						<td colspan=13 align=center>Total: <?php echo $counter . '/' . $count;?></td>
+					</tr>
+				</tfoot>
+			</table>
+
+		</div>
+<?php
+}//foreach faction
+?>
+
+
+
+
 
 
           </div>

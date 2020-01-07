@@ -57,7 +57,7 @@ if($count > 0 && $count_api > 0){
                  $statenhancers = isset($user['personalstats']['statenhancersused']) ? $user['personalstats']['statenhancersused'] : 0;
                  $donator = isset($user['donator']) ? $user['donator'] : 0;
                  $property = isset($user['property']) ? $user['property'] : "Shack";
-                 $last_action = isset($user['last_action']['relative']) ? $user['last_action']['relative'] : "N/A";
+                 $last_action = isset($user['last_action']['timestamp']) ? $user['last_action']['timestamp'] : "N/A";
 
                  $sql = "INSERT INTO memberinfo (factionid, userid, username, donator, property, last_action, xanax, overdosed, refill_energy, refill_nerve, consumablesused, energydrinkused, statenhancersused, travel, dumpsearches) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                  $stmtinsert = $pdo->prepare($sql);

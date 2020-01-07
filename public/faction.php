@@ -7,6 +7,11 @@ include('includes/header.php');
 <script src="js/jquery.tablesorter.js"></script>
 <script src="js/jquery.tablesorter.widgets.js"></script>
 <script src="js/tablesort.js"></script>
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
 
 <?php
 	switch ($_SESSION['role']) {
@@ -72,10 +77,10 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 					if($count > 0){
 						foreach ($rows as $row){
-							if ( strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false) {
-								$class = 'class="bg-danger"';
-							} else {$class = '';}
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td><td>'. $row['status'] . '</td></tr>';
+							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$title = round((time() - $row['last_action'])/60/60);
+							$title .= ' hours ago';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					} else {
 						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
@@ -112,10 +117,10 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 					if($count > 0){
 						foreach ($rows as $row){
-							if ( strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false) {
-								$class = 'class="bg-danger"';
-							} else {$class = '';}
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td><td>'. $row['status'] . '</td></tr>';
+							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$title = round((time() - $row['last_action'])/60/60);
+							$title .= ' hours ago';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					} else {
 						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
@@ -152,10 +157,10 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 					if($count > 0){
 						foreach ($rows as $row){
-							if ( strpos( $row['last_action'], 'day ago' ) !== false || strpos( $row['last_action'], 'days ago' ) !== false) {
-								$class = 'class="bg-danger"';
-							} else {$class = '';}
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td>'. $row['last_action'] . '</td><td>'. $row['status'] . '</td></tr>';
+							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$title = round((time() - $row['last_action'])/60/60);
+							$title .= ' hours ago';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					} else {
 						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';

@@ -4,10 +4,11 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
     $connect = new DB_connect();
     $pdo = $connect->connect();
 
-getFactionUsers('1468764', $pdo); //get Warbird Members via Heasleys4hemp key
-getFactionUsers('2169837', $pdo); //get Nest Members via Vulture Key
+getFactionUsers('1468764', '13784', $pdo); //get Warbird Members via Heasleys4hemp key
+getFactionUsers('1468764', '35507', $pdo); //get Nest Members
+getFactionUsers('1468764', '30085', $pdo); //get WBNG Members
 
-function getFactionUsers($id, $pdo) {
+function getFactionUsers($id, $fid, $pdo) {
 
   $sql = "SELECT tornid,enc_api,iv,tag FROM users WHERE tornid = ?";
   $stmtselect = $pdo->prepare($sql);
@@ -19,7 +20,7 @@ function getFactionUsers($id, $pdo) {
 
   $apikey = $unenc_api;
 
-  $url ='https://api.torn.com/faction/?selections=timestamp,basic&key=' . $apikey;
+  $url ='https://api.torn.com/faction/' . $fid . '?selections=timestamp,basic&key=' . $apikey;
   $data = file_get_contents($url);
   $faction = json_decode($data, true); // decode the JSON feed
 
@@ -71,11 +72,11 @@ function getFactionUsers($id, $pdo) {
               if($row) {
                 $sql = "UPDATE members SET name = ?, factionid = ?, days_in_faction = ?, last_action = ?, status = ? WHERE userid = ?";
                 $stmtinsert = $pdo->prepare($sql);
-                $stmtinsert->execute([$member['name'],$fid,$member['days_in_faction'],$member['last_action']['relative'],$member['status']['description'] . "  " . $member['status']['details'],$userid]);
+                $stmtinsert->execute([$member['name'],$fid,$member['days_in_faction'],$member['last_action']['timestamp'],$member['status']['description'] . "  " . $member['status']['details'],$userid]);
               } else {
                 $sql = "INSERT INTO members VALUES (?,?,?,?,?,?)";
                 $stmtinsert = $pdo->prepare($sql);
-                $stmtinsert->execute([$userid,$fid,$member['name'],$member['days_in_faction'],$member['last_action']['relative'],$member['status']['description'] . "   " . $member['status']['details']]);
+                $stmtinsert->execute([$userid,$fid,$member['name'],$member['days_in_faction'],$member['last_action']['timestamp'],$member['status']['description'] . "   " . $member['status']['details']]);
               }
 
        next($members);
