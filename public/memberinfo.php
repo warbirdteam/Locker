@@ -123,13 +123,13 @@ foreach ($factions as $faction) { ?>
 					}
 				}
 			} else {
-				echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
+				echo '<tr><td colspan=14 align=center>No members found...</td></tr>';
 			}
 ?>
 			</tbody>
 				<tfoot>
 					<tr>
-						<td colspan=13 align=center>Total: <?php echo $counter . '/' . $count;?> </td>
+						<td colspan=14 align=center>Total: <?php echo $counter . '/' . $count;?> </td>
 					</tr>
 				</tfoot>
 			</table>
@@ -189,13 +189,13 @@ foreach ($factions as $faction) { ?>
 					}
 				}
 			} else {
-				echo '<tr><td colspan=13 align=center>No members found...</td></tr>';
+				echo '<tr><td colspan=14 align=center>No members found...</td></tr>';
 			}
 ?>
 			</tbody>
 				<tfoot>
 					<tr>
-						<td colspan=13 align=center>Total: <?php echo $counter . '/' . $count;?></td>
+						<td colspan=14 align=center>Total: <?php echo $counter . '/' . $count;?></td>
 					</tr>
 				</tfoot>
 			</table>
