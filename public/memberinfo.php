@@ -81,6 +81,7 @@ foreach ($factions as $faction) { ?>
 						<th scope="col">Donator</th>
 						<th scope="col">Property</th>
 						<th scope="col">Last Action</th>
+            <th scope="col">XanScore<i class="far fa-copyright"></i></th>
 						<th scope="col">Xanax</th>
 						<th scope="col">Overdoses</th>
 						<th scope="col">Energy Refills</th>
@@ -108,7 +109,7 @@ foreach ($factions as $faction) { ?>
 					$data = $db_memberinfo->getMemberInfoByIDWeek($row['userid']);
 					$membercount = $db_memberinfo->row_count;
 
-					if ($membercount > 0){
+          if ($membercount > 0){
 							$counter++;
 							$lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
 							$title = round((time() - $row['last_action'])/60/60);
@@ -118,7 +119,7 @@ foreach ($factions as $faction) { ?>
 
 							$donatorclass = $data[0]['donator'] == 0 ? 'class="bg-danger"' : '';
 
-							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
+							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
 					}
 				}
 			} else {
@@ -146,6 +147,7 @@ foreach ($factions as $faction) { ?>
 						<th scope="col">Donator</th>
 						<th scope="col">Property</th>
 						<th scope="col">Last Action</th>
+            <th scope="col">XanScore<i class="far fa-copyright"></i></th>
 						<th scope="col">Xanax</th>
 						<th scope="col">Overdoses</th>
 						<th scope="col">Energy Refills</th>
@@ -173,7 +175,7 @@ foreach ($factions as $faction) { ?>
 					$data = $db_memberinfo->getMemberInfoByIDMonth($row['userid']);
 					$membercount = $db_memberinfo->row_count;
 
-					if ($membercount > 0){
+          if ($membercount > 0){
 							$counter++;
 							$lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
 							$title = round((time() - $row['last_action'])/60/60);
@@ -183,7 +185,7 @@ foreach ($factions as $faction) { ?>
 
 							$donatorclass = $data[0]['donator'] == 0 ? 'class="bg-danger"' : '';
 
-							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
+							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
 					}
 				}
 			} else {
