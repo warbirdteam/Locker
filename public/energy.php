@@ -38,7 +38,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 <div class="container">
   <div class="row">
    <div class="col border border-dark shadow py-4 mt-4 rounded">
-
+<div class="table-responsive">
    <table class="table table-hover table-striped table-dark">
       <thead class="thead-dark">
         <tr>
@@ -85,6 +85,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
         <?php } ?>
       </tbody>
    </table>
+ </div>
 
 
 

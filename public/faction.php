@@ -58,7 +58,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 			<div class="tab-content" id="memberTabsContent">
 
 				<div class="tab-pane fade  show active" id="nest-members" role="tabpanel">
-
+					<div class="table-responsive">
 					<table class="table table-hover table-striped table-dark" border=1>
 						<thead class="thead-dark">
 							<tr>
@@ -94,11 +94,11 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							</tr>
 						</tfoot>
 					</table>
-
+				</div>
 				</div>
 
 				<div class="tab-pane fade" id="wb-members" role="tabpanel">
-
+					<div class="table-responsive">
 					<table class="table table-hover table-striped table-dark" border=1>
 						<thead class="thead-dark">
 							<tr>
@@ -134,11 +134,11 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							</tr>
 						</tfoot>
 					</table>
-
+				</div>
 				</div>
 
 				<div class="tab-pane fade" id="wbng-members" role="tabpanel">
-
+					<div class="table-responsive">
 					<table class="table table-hover table-striped table-dark" border=1>
 						<thead class="thead-dark">
 							<tr>
@@ -174,7 +174,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							</tr>
 						</tfoot>
 					</table>
-
+				</div>
 				</div>
 
 				</div>

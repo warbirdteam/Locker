@@ -55,7 +55,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 		<div class="tab-content" id="chainTabContent">
 
 			<div class="tab-pane fade  show active" id="nest-chains" role="tabpanel">
-
+				<div class="table-responsive">
 				<table class="table table-hover table-striped table-dark py-4 mt-4">
 					 <thead class="thead-dark">
 						 <tr>
@@ -93,11 +93,11 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 						 <?php } ?>
 					 </tbody>
 				</table>
-
+			</div>
 			</div>
 
 			<div class="tab-pane fade" id="wb-chains" role="tabpanel">
-
+				<div class="table-responsive">
 				<table class="table table-hover table-striped table-dark py-4 mt-4">
 					 <thead class="thead-dark">
 						 <tr>
@@ -135,11 +135,11 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 						 <?php } ?>
 					 </tbody>
 				</table>
-
+			</div>
 			</div>
 
 			<div class="tab-pane fade" id="wbng-chains" role="tabpanel">
-
+				<div class="table-responsive">
 				<table class="table table-hover table-striped table-dark py-4 mt-4">
 					 <thead class="thead-dark">
 						 <tr>
@@ -177,7 +177,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 						 <?php } ?>
 					 </tbody>
 				</table>
-
+			</div>
 			</div>
 
 			</div>
