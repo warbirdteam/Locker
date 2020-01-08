@@ -25,8 +25,8 @@ include_once("..\includes\autoloader.inc.php");
       <hr/>
       <form method="post" id="login-form" action="process/login.php">
           <div class="col">
-
-              <input type="text" class="form-control" name="apikey" id="apikey" placeholder="Please enter your Torn API Key">
+              <span>Please enter your Torn API Key.</span>
+              <input type="password" class="form-control" name="apikey" id="apikey" autocomplete="current-password" minlength="16" maxlength="16" required>
 
               <div class="form-check my-2">
                   <input class="form-check-input" type="checkbox" id="apichkbox">
