@@ -80,7 +80,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
 							$title = round((time() - $row['last_action'])/60/60);
 							$title .= ' hours ago';
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					} else {
 						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
@@ -120,7 +120,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
 							$title = round((time() - $row['last_action'])/60/60);
 							$title .= ' hours ago';
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					} else {
 						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
@@ -160,7 +160,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
 							$title = round((time() - $row['last_action'])/60/60);
 							$title .= ' hours ago';
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('d-m-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					} else {
 						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
