@@ -4,7 +4,7 @@ $(function() {
 
   $("table").tablesorter({
     theme: 'bootstrap',
-    sortInitialOrder: "desc",
+    sortInitialOrder: "asc",
     widthFixed: false,
     emptyTo: 'top',
     sortList: [
