@@ -6,7 +6,7 @@ include('includes/header.php');
 
 <script src="js/jquery.tablesorter.js"></script>
 <script src="js/jquery.tablesorter.widgets.js"></script>
-<script src="js/tablesort.js"></script>
+<script src="js/tablesort-faction.js"></script>
 <script>
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
@@ -39,20 +39,20 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 <div class="container">
 
 	<div class="row">
-		<div class="col-xl-12 col-lg-12 col-md-12 pt-3 mx-auto">
+		<div class="col pt-3 mx-auto">
 			<div class="card border border-dark shadow rounded mt-4">
 				<h5 class="card-header">Faction Members</h5>
 				<div class="card-body">
 
 			<ul class="nav nav-tabs" id="memberTabs" role="tablist">
 				<li class="nav-item">
-				<a class="nav-link active" id="nest-members-tab" data-toggle="tab" href="#nest-members" role="tab">Nest Members</a>
+				<a class="nav-link active" id="nest-members-tab" data-toggle="tab" href="#nest-members" role="tab">Nest</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" id="wb-members-tab" data-toggle="tab" href="#wb-members" role="tab">Warbirds Members</a>
+				<a class="nav-link" id="wb-members-tab" data-toggle="tab" href="#wb-members" role="tab">Warbirds</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" id="wbng-members-tab" data-toggle="tab" href="#wbng-members" role="tab">WBNG Members</a>
+				<a class="nav-link" id="wbng-members-tab" data-toggle="tab" href="#wbng-members" role="tab">WBNG</a>
 				</li>
 			</ul>
 			<div class="tab-content" id="memberTabsContent">
@@ -62,10 +62,10 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 					<table class="table table-hover table-striped table-dark" border=1>
 						<thead class="thead-dark">
 							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Days in Faction</th>
-								<th scope="col">Last Action</th>
-								<th scope="col">Status</th>
+								<th scope="col" class="text-truncate">Name</th>
+								<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="left" title="Days in Faction">DiF</th>
+								<th scope="col" class="text-truncate">Last Action</th>
+								<th scope="col" class="text-truncate">Status</th>
 							</tr>
 						</thead>
 					<tbody>
@@ -100,12 +100,12 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 				<div class="tab-pane fade" id="wb-members" role="tabpanel">
 					<div class="table-responsive">
 					<table class="table table-hover table-striped table-dark" border=1>
-						<thead class="thead-dark">
+            <thead class="thead-dark">
 							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Days in Faction</th>
-								<th scope="col">Last Action</th>
-								<th scope="col">Status</th>
+								<th scope="col" class="text-truncate">Name</th>
+								<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="left" title="Days in Faction">DiF</th>
+								<th scope="col" class="text-truncate">Last Action</th>
+								<th scope="col" class="text-truncate">Status</th>
 							</tr>
 						</thead>
 					<tbody>
@@ -140,12 +140,12 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 				<div class="tab-pane fade" id="wbng-members" role="tabpanel">
 					<div class="table-responsive">
 					<table class="table table-hover table-striped table-dark" border=1>
-						<thead class="thead-dark">
+            <thead class="thead-dark">
 							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Days in Faction</th>
-								<th scope="col">Last Action</th>
-								<th scope="col">Status</th>
+								<th scope="col" class="text-truncate">Name</th>
+								<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="left" title="Days in Faction">DiF</th>
+								<th scope="col" class="text-truncate">Last Action</th>
+								<th scope="col" class="text-truncate">Status</th>
 							</tr>
 						</thead>
 					<tbody>
