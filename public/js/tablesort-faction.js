@@ -8,7 +8,7 @@ $(function() {
     widthFixed: false,
     emptyTo: 'top',
     sortList: [
-      [2, 1]
+      [2, 0]
     ],
 
     // widget code contained in the jquery.tablesorter.widgets.js file
