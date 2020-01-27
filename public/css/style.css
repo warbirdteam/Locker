@@ -34,3 +34,7 @@ body {
 #btn-submit{
 	height:45px;
 }
+
+td.fit {
+		width: 1%;
+}

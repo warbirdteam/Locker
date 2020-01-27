@@ -46,22 +46,22 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
           <ul class="nav nav-tabs" id="memberTabs" role="tablist">
     				<li class="nav-item">
-    				<a class="nav-link active" id="nest-members-week-tab" data-toggle="tab" href="#week-35507" role="tab">Nest Members: 7 Days</a>
+    				<a class="nav-link active" id="nest-members-week-tab" data-toggle="tab" href="#week-35507" role="tab">Nest: 7 Days</a>
     				</li>
             <li class="nav-item">
-    				<a class="nav-link" id="nest-members-month-tab" data-toggle="tab" href="#month-35507" role="tab">Nest Members: 30 Days</a>
+    				<a class="nav-link" id="nest-members-month-tab" data-toggle="tab" href="#month-35507" role="tab">Nest: 30 Days</a>
     				</li>
     				<li class="nav-item">
-    				<a class="nav-link" id="wb-members-week-tab" data-toggle="tab" href="#week-13784" role="tab">Warbirds Members: 7 Days</a>
+    				<a class="nav-link" id="wb-members-week-tab" data-toggle="tab" href="#week-13784" role="tab">Warbirds: 7 Days</a>
     				</li>
             <li class="nav-item">
-    				<a class="nav-link" id="wb-members-month-tab" data-toggle="tab" href="#month-13784" role="tab">Warbirds Members: 30 Days</a>
+    				<a class="nav-link" id="wb-members-month-tab" data-toggle="tab" href="#month-13784" role="tab">Warbirds: 30 Days</a>
     				</li>
     				<li class="nav-item">
-    				<a class="nav-link" id="wbng-members-week-tab" data-toggle="tab" href="#week-30085" role="tab">WBNG Members: 7 Days</a>
+    				<a class="nav-link" id="wbng-members-week-tab" data-toggle="tab" href="#week-30085" role="tab">WBNG: 7 Days</a>
     				</li>
             <li class="nav-item">
-    				<a class="nav-link" id="wbng-members-month-tab" data-toggle="tab" href="#month-30085" role="tab">WBNG Members: 30 Days</a>
+    				<a class="nav-link" id="wbng-members-month-tab" data-toggle="tab" href="#month-30085" role="tab">WBNG: 30 Days</a>
     				</li>
     			</ul>
 	<div class="tab-content" id="memberTabsContent">
@@ -74,23 +74,23 @@ foreach ($factions as $faction) { ?>
 
 		<div class="tab-pane fade<?php if($faction == '35507'){echo ' show active';}?>" id="week-<?php echo $faction;?>" role="tabpanel">
       <div class="table-responsive">
-			<table class="table table-hover table-striped table-dark" border=1>
-				<thead class="thead-dark">
+			<table class="table table-hover table-striped table-dark table-fit" border=1>
+        <thead class="thead-dark">
 					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Donator</th>
-						<th scope="col">Property</th>
-						<th scope="col">Last Action</th>
-            <th scope="col">XanScore<i class="far fa-copyright"></i></th>
-						<th scope="col">Xanax</th>
-						<th scope="col">Overdoses</th>
-						<th scope="col">Energy Refills</th>
-						<th scope="col">Nerve Refills</th>
-						<th scope="col">Consumables Used</th>
-						<th scope="col">Energy Drinks Used</th>
-						<th scope="col">Stat Enhancers Used</th>
-						<th scope="col">Times Travelled</th>
-						<th scope="col">Dump Searches</th>
+						<th scope="col" class="text-truncate">Name</th>
+						<th scope="col" class="text-truncate">Donator</th>
+						<th scope="col" class="text-truncate">Property</th>
+						<th scope="col" class="text-truncate">Last Action</th>
+            <th scope="col" class="text-truncate">XanScore<i class="far fa-copyright"></i></th>
+						<th scope="col" class="text-truncate">Xanax</th>
+						<th scope="col" class="text-truncate">ODs</th>
+						<th scope="col" class="text-truncate">Energy Rx</th>
+						<th scope="col" class="text-truncate">Nerve Rx</th>
+						<th scope="col" class="text-truncate">Boosters</th>
+						<th scope="col" class="text-truncate">Cans</th>
+						<th scope="col" class="text-truncate">SEs</th>
+						<th scope="col" class="text-truncate">Travels</th>
+						<th scope="col" class="text-truncate">Dump</th>
 					</tr>
 				</thead>
 			<tbody>
@@ -111,15 +111,15 @@ foreach ($factions as $faction) { ?>
 
           if ($membercount > 0){
 							$counter++;
-							$lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="fit bg-danger"' : 'class="fit"';
 							$title = round((time() - $row['last_action'])/60/60);
 							$title .= ' hours ago';
 
-							$propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
+							$propertyclass = strpos($data[0]["property"],'Private Island') !== false ? 'class="fit"' : 'class="fit bg-danger"';
 
-							$donatorclass = $data[0]['donator'] == 0 ? 'class="bg-danger"' : '';
+							$donatorclass = $data[0]['donator'] == 0 ? 'class="fit bg-danger"' : 'class="fit"';
 
-							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
+							echo '<tr><td class="fit"><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td class="fit">'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td class="fit">'.$data[0]["xanaxweek"].'</td><td class="fit">'.$data[0]["overdosedweek"].'</td><td class="fit">'.$data[0]["refill_energyweek"].'</td><td class="fit">'.$data[0]["refill_nerveweek"].'</td><td class="fit">'.$data[0]["boostersusedweek"].'</td><td class="fit">'.$data[0]["energydrinkusedweek"].'</td><td class="fit">'.$data[0]["statenhancersusedweek"].'</td><td class="fit">'.$data[0]["travelweek"].'</td><td class="fit">'.$data[0]["dumpsearchesweek"].'</td></tr>';
 					}
 				}
 			} else {
@@ -143,20 +143,20 @@ foreach ($factions as $faction) { ?>
 			<table class="table table-hover table-striped table-dark" border=1>
 				<thead class="thead-dark">
 					<tr>
-						<th scope="col">Name</th>
-						<th scope="col">Donator</th>
-						<th scope="col">Property</th>
-						<th scope="col">Last Action</th>
-            <th scope="col">XanScore<i class="far fa-copyright"></i></th>
-						<th scope="col">Xanax</th>
-						<th scope="col">Overdoses</th>
-						<th scope="col">Energy Refills</th>
-						<th scope="col">Nerve Refills</th>
-						<th scope="col">Consumables Used</th>
-						<th scope="col">Energy Drinks Used</th>
-						<th scope="col">Stat Enhancers Used</th>
-						<th scope="col">Times Travelled</th>
-						<th scope="col">Dump Searches</th>
+						<th scope="col" class="text-truncate">Name</th>
+						<th scope="col" class="text-truncate">Donator</th>
+						<th scope="col" class="text-truncate">Property</th>
+						<th scope="col" class="text-truncate">Last Action</th>
+            <th scope="col" class="text-truncate">XanScore<i class="far fa-copyright"></i></th>
+						<th scope="col" class="text-truncate">Xanax</th>
+						<th scope="col" class="text-truncate">ODs</th>
+						<th scope="col" class="text-truncate">Energy Rx</th>
+						<th scope="col" class="text-truncate">Nerve Rx</th>
+						<th scope="col" class="text-truncate">Boosters</th>
+						<th scope="col" class="text-truncate">Cans</th>
+						<th scope="col" class="text-truncate">SEs</th>
+						<th scope="col" class="text-truncate">Travels</th>
+						<th scope="col" class="text-truncate">Dump</th>
 					</tr>
 				</thead>
 			<tbody>
@@ -177,15 +177,15 @@ foreach ($factions as $faction) { ?>
 
           if ($membercount > 0){
 							$counter++;
-							$lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="fit bg-danger"' : 'class="fit"';
 							$title = round((time() - $row['last_action'])/60/60);
 							$title .= ' hours ago';
 
-							$propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
+							$propertyclass = strpos($data[0]["property"],'Private Island') !== false ? 'class="fit"' : 'class="fit bg-danger"';
 
-							$donatorclass = $data[0]['donator'] == 0 ? 'class="bg-danger"' : '';
+							$donatorclass = $data[0]['donator'] == 0 ? 'class="fit bg-danger"' : 'class="fit"';
 
-							echo '<tr><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["consumablesusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
+							echo '<tr><td class="fit"><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td class="fit">'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td class="fit">'.$data[0]["xanaxweek"].'</td><td class="fit">'.$data[0]["overdosedweek"].'</td><td class="fit">'.$data[0]["refill_energyweek"].'</td><td class="fit">'.$data[0]["refill_nerveweek"].'</td><td class="fit">'.$data[0]["boostersusedweek"].'</td><td class="fit">'.$data[0]["energydrinkusedweek"].'</td><td class="fit">'.$data[0]["statenhancersusedweek"].'</td><td class="fit">'.$data[0]["travelweek"].'</td><td class="fit">'.$data[0]["dumpsearchesweek"].'</td></tr>';
 					}
 				}
 			} else {

@@ -50,6 +50,7 @@ if($count > 0 && $count_api > 0){
                  $refills = isset($user['personalstats']['refills']) ? $user['personalstats']['refills'] : 0;
                  $nerverefills = isset($user['personalstats']['nerverefills']) ? $user['personalstats']['nerverefills'] : 0;
                  $consumablesused = isset($user['personalstats']['consumablesused']) ? $user['personalstats']['consumablesused'] : 0;
+                 $boostersused = isset($user['personalstats']['boostersused']) ? $user['personalstats']['boostersused'] : 0;
                  $energydrinkused = isset($user['personalstats']['energydrinkused']) ? $user['personalstats']['energydrinkused'] : 0;
                  $traveltimes = isset($user['personalstats']['traveltimes']) ? $user['personalstats']['traveltimes'] : 0;
                  $dumpsearches = isset($user['personalstats']['dumpsearches']) ? $user['personalstats']['dumpsearches'] : 0;
@@ -59,9 +60,9 @@ if($count > 0 && $count_api > 0){
                  $property = isset($user['property']) ? $user['property'] : "Shack";
                  $last_action = isset($user['last_action']['timestamp']) ? $user['last_action']['timestamp'] : "N/A";
 
-                 $sql = "INSERT INTO memberinfo (factionid, userid, username, donator, property, last_action, xanax, overdosed, refill_energy, refill_nerve, consumablesused, energydrinkused, statenhancersused, travel, dumpsearches) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                 $sql = "INSERT INTO memberinfo (factionid, userid, username, donator, property, last_action, xanax, overdosed, refill_energy, refill_nerve, consumablesused, boostersused, energydrinkused, statenhancersused, travel, dumpsearches) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
                  $stmtinsert = $pdo->prepare($sql);
-                 $stmtinsert->execute([$row['factionid'],$row['userid'],$user['name'],$donator,$property,$last_action,$xantaken,$overdosed,$refills,$nerverefills,$consumablesused,$energydrinkused,$statenhancers,$traveltimes,$dumpsearches]);
+                 $stmtinsert->execute([$row['factionid'],$row['userid'],$user['name'],$donator,$property,$last_action,$xantaken,$overdosed,$refills,$nerverefills,$consumablesused,$boostersused,$energydrinkused,$statenhancers,$traveltimes,$dumpsearches]);
 
                $complete = true;
                $i++;
