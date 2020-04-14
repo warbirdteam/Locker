@@ -74,7 +74,7 @@ foreach ($factions as $faction) { ?>
 
 		<div class="tab-pane fade<?php if($faction == '35507'){echo ' show active';}?>" id="week-<?php echo $faction;?>" role="tabpanel">
       <div class="table-responsive">
-			<table class="table table-hover table-striped table-dark table-fit" border=1>
+			<table class="table table-hover table-striped table-dark table-fit table-sm" border=1>
         <thead class="thead-dark">
 					<tr>
 						<th scope="col" class="text-truncate">Name</th>
@@ -140,7 +140,7 @@ foreach ($factions as $faction) { ?>
 
 		<div class="tab-pane fade" id="month-<?php echo $faction;?>" role="tabpanel">
 			<div class="table-responsive">
-			<table class="table table-hover table-striped table-dark" border=1>
+			<table class="table table-hover table-striped table-dark table-fit table-sm" border=1>
 				<thead class="thead-dark">
 					<tr>
 						<th scope="col" class="text-truncate">Name</th>
@@ -220,3 +220,7 @@ foreach ($factions as $faction) { ?>
 
 
   </div> <!-- container -->
+
+  <?php
+  include('includes/footer.php');
+  ?>

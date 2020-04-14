@@ -19,6 +19,7 @@ if (isset($_POST['apikey']) && !empty($_POST['apikey'])) {
 		$_SESSION['username'] = $row['username'];
 		$_SESSION['factionid'] = $row['factionid'];
 		//Cascade::getLogger('audit')->info('Successful login.', ['user' => $user_email]);
+		$login->refreshJSON();
 		header("Location: ../welcome.php");
 		exit();
 	} else {

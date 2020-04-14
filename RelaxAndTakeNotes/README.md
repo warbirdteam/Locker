@@ -8,7 +8,9 @@ $_SESSION['username'] = $row['username']; //Torn Username
 $_SESSION['factionid'] = $row['factionid']; //Torn Faction ID
 ```
 
-
+```
+print("<pre>".print_r($array_data,true)."</pre>");
+```
 
 
 For each webpage users will look at, such as welcome.php, you must include the following.

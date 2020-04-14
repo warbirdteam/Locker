@@ -94,14 +94,45 @@ class DB_request extends DB_connect {
       return $row;
     }
 
+    public function getSelfAPIKey($userid) {
+      $sql = "SELECT tornid,userrole,enc_api,iv,tag FROM users WHERE tornid=?";
+      $stmt = $this->connect()->prepare($sql);
+      $stmt->execute([$userid]);
+      $row = $stmt->fetch();
+      if(empty($row)) {
+        return NULL;
+      }
+
+      return $row;
+    }
+
+    public function getAllFactionLookups() {
+      $sql = "SELECT * from faction_lookup_factions";
+      $stmt = $this->connect()->query($sql);
+      $row = $stmt->fetchAll();
+      $this->row_count = $stmt->rowCount();
+      if(empty($row)) {
+        return NULL;
+      }
+
+      return $row;
+    }
+
+    public function getUsersInLookup($lookup_id) {
+      $sql = "SELECT * from faction_lookups where lookup_id=?";
+      $stmt = $this->connect()->prepare($sql);
+      $stmt->execute([$lookup_id]);
+      $row = $stmt->fetchAll();
+      $this->row_count = $stmt->rowCount();
+      if(empty($row)) {
+        return NULL;
+      }
+
+      return $row;
+    }
+
 
     public function getMemberInfoByIDWeek($userid) {
-      /*
-SELECT * FROM
-(SELECT userid,username,donator,property FROM `memberinfo` WHERE userid=1468764 ORDER BY timestamp DESC LIMIT 1) as tmpinfo
-JOIN
-(SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek from (SELECT * FROM memberinfo WHERE userid=1468764 AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) order by timestamp desc) as tmpweek) as tmpmath
-*/
       $sql = "SELECT * FROM (SELECT userid,username,donator,property FROM memberinfo WHERE userid=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/7) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek from (SELECT * FROM memberinfo WHERE userid=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) order by timestamp desc) as tmpweek) as tmpmath";
       $stmt = $this->connect()->prepare($sql);
       $stmt->execute([$userid,$userid]);

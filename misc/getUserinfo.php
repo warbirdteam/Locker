@@ -70,8 +70,8 @@ if($count > 0 && $count_api > 0){
            }//else
         }//if isarray
 
-$complete = true;
-$i++;
+        $complete = true;
+
     }//while complete
 
 

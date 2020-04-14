@@ -64,6 +64,25 @@ class DB_login extends DB_connect {
 
   }
 
+  public function refreshJSON() {
+
+       $url = 'https://api.torn.com/user/?selections=networth,bazaar,display,inventory,hof,travel,events,messages,education,medals,honors,notifications,personalstats,workstats,crimes,icons,money,perks,battlestats,profile,basic,attacksfull,revivesfull,stocks,properties,jobpoints,merits,refills,weaponexp,ammo,gym,timestamp&key=' . $this->apikey; // url to api json
+       $data = file_get_contents($url);
+       $file = __DIR__.'/../TornAPIs/' . $this->factionid . '/'.$this->userid.'.json';
+
+
+       $json = json_decode($data, true); // decode the JSON feed
+
+
+       if (is_array($json) || is_object($json)) {
+
+         file_put_contents($file, serialize($data));
+
+       }
+
+
+  }
+
   private function updateAPIKEY($enc_api, $iv, $tag) {
 
     $uncrypt = new API_Crypt();

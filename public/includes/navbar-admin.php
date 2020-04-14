@@ -32,15 +32,24 @@ if(!isset($_SESSION['userid'])){
           Faction
         </a>
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
-          <a class="dropdown-item" href="chain-energy.php"><i class="fas fa-file-code"></i></i> CSV Energy Reports</a>
+          <a class="dropdown-item" href="chain-energy.php"><i class="fas fa-file-code"></i> CSV Energy Reports</a>
 					<a class="dropdown-item" href="https://www.heasleys.org/fs/"><i class="fas fa-calculator"></i> Respect Simulator</a>
           <a class="dropdown-item" href="energy.php"><i class="fas fa-battery-three-quarters"></i> Energy</a>
           <a class="dropdown-item" href="faction.php"><i class="fas fa-users"></i> Faction</a>
 					<a class="dropdown-item" href="memberinfo.php"><i class="fas fa-archive"></i> Member Information</a>
-					<a class="dropdown-item" href="#"><i class="fas fa-crown"></i> Leaderboards</a>
+					<a class="dropdown-item" href="leaderboards.php"><i class="fas fa-crown"></i> Leaderboards</a>
           <a class="dropdown-item" href="chains.php"><i class="fas fa-link"></i> Chain History</a>
         </div>
       </li>
+
+			<li class="nav-item active dropdown">
+			 <a class="nav-link dropdown-toggle" href="#navTools" id="navToolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				 Tools
+			 </a>
+			 <div class="dropdown-menu" aria-labelledby="navToolsDropdown">
+				 <a class="dropdown-item" href="faction-lookup.php"><i class="fas fa-search"></i> Faction Lookup</a>
+			 </div>
+		  </li>
 
        <li class="nav-item active dropdown">
         <a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

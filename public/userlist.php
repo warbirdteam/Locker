@@ -47,7 +47,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
         </tr>
       </thead>
       <tbody>
-
+				<form>
 
         <?php
         // Get member rows
@@ -64,14 +64,26 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
            <td><?php echo $row['tornid'] ?></td>
            <td><?php echo $row['username'] ?></td>
            <td><?php echo $row['factionid'] ?></td>
-           <td><?php echo $row['userrole'] ?></td>
+           <td>
+						 <div class="input-group mb-3">
+							  <select class="custom-select" id="userrole">
+									<option><?php echo $row['userrole'] ?></option>
+							    <option value="1">Guest</option>
+							    <option value="2">Member</option>
+							    <option value="3">Leadership</option>
+									<option value="4">Admin</option>
+							  </select>
+							</div>
+						</td>
          </tr>
 
         <?php } }else{ ?>
           <tr><td colspan="4">No information found...</td></tr>
         <?php } ?>
+			</form>
       </tbody>
    </table>
+	 <button>Submit</button>
 
 
 

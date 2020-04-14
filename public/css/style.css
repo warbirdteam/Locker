@@ -38,3 +38,10 @@ body {
 td.fit {
 		width: 1%;
 }
+
+.bg-secondary-light {
+	background-color: #f7f7f7!important;
+}
+.bg-secondary-light:hover {
+	background-color: #eaeaea!important;
+}

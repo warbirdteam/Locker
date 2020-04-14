@@ -26,7 +26,7 @@ if(!isset($_SESSION['userid'])){
         <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
 					<a class="dropdown-item" href="faction.php"><i class="fas fa-users"></i> Faction</a>
 					<a class="dropdown-item" href="memberinfo.php"><i class="fas fa-archive"></i> Member Information</a>
-          <a class="dropdown-item" href="#"><i class="fas fa-crown"></i> Leaderboards</a>
+          <a class="dropdown-item" href="leaderboards.php"><i class="fas fa-crown"></i> Leaderboards</a>
           <a class="dropdown-item" href="chains.php"><i class="fas fa-link"></i> Chain History</a>
         </div>
       </li>
