@@ -198,7 +198,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 <div class="card border border-dark shadow rounded mt-4">
   <div class="card-body">
 
-    <label for="flookup"><u>Lookup information on faction</u></label>
+    <label for="flookup"><u>Lookup information on faction:</u></label>
     <form method="post" id="lookup-form" action="process/lookup.php">
       <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -209,6 +209,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
           <button class="btn btn-outline-secondary" type="submit" id="fidlookup_button"><i class="fas fa-search"></i> Lookup</button>
         </div>
       </div>
+      <span id="fidlookup_warning" hidden><b>Please wait, this may take several minutes...</b></span>
     </form>
 
   </div>
@@ -220,7 +221,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 
 </div> <!-- container -->
-
+<script src="js/faction-lookup.js"></script>
 <?php
 include('includes/footer.php');
 ?>

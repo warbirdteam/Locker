@@ -76,6 +76,10 @@ class DB_login extends DB_connect {
 
        if (is_array($json) || is_object($json)) {
 
+         if (!is_dir(__DIR__.'/../TornAPIs/' . $this->factionid)) {
+          mkdir(__DIR__.'/../TornAPIs/' . $this->factionid);
+         }
+
          file_put_contents($file, serialize($data));
 
        }
