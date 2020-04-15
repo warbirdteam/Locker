@@ -100,6 +100,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
                                           <li class="list-group-item"><span>Respect: <b><?php echo number_format($lookup_info['respect']); ?></b></span></li>
                                           <li class="list-group-item"><span>Leader: <b><a href="https://www.torn.com/profiles.php?XID=<?php echo $lookup_info['leader']; ?>" target="_blank"><?php echo $lookup_info['leader']; ?></a></b></span></li>
                                           <li class="list-group-item"><span>Co-Leader: <b><a href="https://www.torn.com/profiles.php?XID=<?php echo $lookup_info['co_leader']; ?>" target="_blank"><?php echo $lookup_info['co_leader']; ?></a></b></span></li>
+                                          <li class="list-group-item"><span>Total Members: <b><?php echo number_format($lookup_info['total_members']); ?></b></span></li>
                                           <li class="list-group-item"><span>Age: <b><?php echo number_format($lookup_info['age']); ?></b></span></li>
                                           <li class="list-group-item"><span>Best Chain: <b><?php echo number_format($lookup_info['best_chain']); ?></b></span></li>
                                         </ul>
