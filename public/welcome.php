@@ -1,62 +1,102 @@
 <?php
 session_start();
-$_SESSION['title'] = 'Welcome';
-if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('navbar.php');}
-$apikey =  $_SESSION['key']; // currernt user apikey
-
+$_SESSION['title'] = 'Welcome!'; //Add whatever title you wish here. This will be displayed in the tab of your browser
+include('includes/header.php'); //required to include basic bootstrap and javascript files
+//Add extra scripts/css below this. This could be tablesorter javascript files or custom css files
 ?>
+
+
 
 <?php
-//$apikey = "UtuyM2roWM6vDjKj"; //Heasleys4hemp's apikey
-//$jsonurl = "https://api.torn.com/faction/13784?selections=basic&key=jIirMCNvK8q2hf8u";
-$jsonurl = "https://api.torn.com/user/?selections=timestamp,networth,bazaar,display,inventory,hof,travel,education,medals,honors,notifications,personalstats,workstats,crimes,icons,cooldowns,perks,battlestats,bars,profile,basic,stocks,properties,jobpoints,merits,refills,discord,gym&key=" . $apikey;
-   $json = file_get_contents($jsonurl); //gets output of API
+//Add extra scripts/css before this.
+//determine if user is an admin, leadership, member, or guest and include appropriate navbar file
+switch ($_SESSION['role']) {
+    case 'admin':
+        include('includes/navbar-admin.php');
+        break;
+    case 'leadership':
+        include('includes/navbar-leadership.php');
+        break;
+    case 'guest':
+        include('includes/navbar-guest.php');
+        break;
+    case 'member':
+        include('includes/navbar-member.php');
+        break;
+    default:
+        $_SESSION = array();
+        $_SESSION['error'] = "You are not logged in.";
+        header("Location: /index.php");
+        break;
+}
 
-$data = json_decode($json, true);
 
-//echo '<pre>'; print_r($data); echo '</pre>';
 
-/*
-   $decodedString =  new RecursiveIteratorIterator ( new RecursiveArrayIterator(json_decode($json, true)), RecursiveIteratorIterator::SELF_FIRST); //parses API JSON output
-echo "<table border='1'><tr>";
-foreach($decodedString as $key=>$value) {
-    if(is_array($value)) {
-     echo "<td>$key: </td></tr>";
+if (empty($_SESSION['factionid'])) {
+    $_SESSION = array();
+    $_SESSION['error'] = "You are not logged in.";
+    header("Location: /index.php");
+} else {
+
+    $filename = __DIR__. '/../TornAPIs/' . $_SESSION['factionid'] . "/".$_SESSION['userid'].".json";
+    if (file_exists($filename)) {
+      $data = unserialize(file_get_contents($filename));
+      $json = json_decode($data, true); // decode the JSON feed
+      //print("<pre>".print_r($json,true)."</pre>");
     } else {
-     echo "<td>$key</td><td align='right'> $value</td></tr>";
+      $_SESSION = array();
+      $_SESSION['error'] = "You are not logged in.";
+      header("Location: /index.php");
     }
 }
-echo "</table>";
-function printValues($arr) {
-    global $count;
-    global $values;
 
-    // Check input is an array
-    if(!is_array($arr)){
-        die("ERROR: Input is not an array");
-    }
-
-    /*
-    Loop through array, if value is itself an array recursively call the
-    function else add the value found to the output items array,
-    and increment counter by 1 for each value found
-    */
-		/*
-    foreach($arr as $key=>$value){
-        if(is_array($value)){
-            printValues($value);
-        } else{
-            $values[] = $value;
-            $count++;
-        }
-    }
-
-    // Return total count and values found in array
-    return array('total' => $count, 'values' => $values);
-}*/
 ?>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  google.charts.load('current', {'packages':['corechart']});
+  google.charts.setOnLoadCallback(drawChart);
 
+  function drawChart() {
+
+    var data = google.visualization.arrayToDataTable([
+      ['Networth', 'Value'],
+      ['Pending', <?php echo (int)$json["personalstats"]["networthpending"] ?>],
+      ['Wallet', <?php echo (int)$json["personalstats"]["networthwallet"] ?>],
+      ['Bank', <?php echo (int)$json["personalstats"]["networthbank"] ?>],
+      ['Points', <?php echo (int)$json["personalstats"]["networthpoints"] ?>],
+      ['Cayman Islands', <?php echo (int)$json["personalstats"]["networthcayman"] ?>],
+      ['Vault', <?php echo (int)$json["personalstats"]["networthvault"] ?>],
+      ['Piggy Bank', <?php echo (int)$json["personalstats"]["networthpiggybank"] ?>],
+      ['Items', <?php echo (int)$json["personalstats"]["networthitems"] ?>],
+      ['Display Case', <?php echo (int)$json["personalstats"]["networthdisplaycase"] ?>],
+      ['Bazaar', <?php echo (int)$json["personalstats"]["networthbazaar"] ?>],
+      ['Properties', <?php echo (int)$json["personalstats"]["networthproperties"] ?>],
+      ['Stock Market', <?php echo (int)$json["personalstats"]["networthstockmarket"] ?>],
+      ['Auction House', <?php echo (int)$json["personalstats"]["networthauctionhouse"] ?>],
+      ['Company', <?php echo (int)$json["personalstats"]["networthcompany"] ?>],
+      ['Bookie', <?php echo (int)$json["personalstats"]["networthbookie"] ?>]
+    ]);
+
+    var formatter = new google.visualization.NumberFormat({pattern:'$###,###'});
+    formatter.format(data,1);
+
+    var options = {
+      title: 'Networth: $<?php echo number_format($json['networth']);?>',
+      legend: {position: 'left', alignment: 'center'},
+      width: '100%',
+      chartArea:{width:'1000',height:'100%'},
+      pieSliceText: 'none',
+      titleTextStyle: {fontSize: 16}
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('networthchart'));
+
+    chart.draw(data, options);
+  }
+</script>
+
+<?php
+/*
 <script type="text/javascript">
 
       // Load the Visualization API and the corechart package.
@@ -111,40 +151,72 @@ function printValues($arr) {
       }
     </script>
 
-
+*/ ?>
 
 
 <div class="content">
 
 <div class="container-fluid pt-2">
-	<div class='alert alert-success'>
-		<button class='close' data-dismiss='alert'>&times;</button>
-		Hello <?php echo $data['name'] ?>,<br>Welcome to the members page.<br>
+  <div class="col pt-3">
+   <div class="card border border-dark shadow rounded">
+     <h5 class="card-header"><?php echo $_SESSION['username']; ?></h5>
+     <div class="card-body">
+
+       <div class="row">
+  <div class="col-4">
+    <div class="list-group" id="list-tab" role="tablist">
+      <a class="list-group-item list-group-item-action active" id="list-battlestats-list" data-toggle="list" href="#list-battlestats" role="tab" aria-controls="home">Battlestats</a>
+      <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">Networth</a>
     </div>
+  </div>
+  <div class="col-8">
+    <div class="tab-content" id="nav-tabContent">
+
+      <div class="tab-pane fade show active" id="list-battlestats" role="tabpanel" aria-labelledby="list-battlestats-list">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b>Strength</b>: <?php echo number_format($json['strength']); ?></li>
+          <li class="list-group-item"><b>Defense</b>: <?php echo number_format($json['defense']); ?></li>
+          <li class="list-group-item"><b>Speed</b>: <?php echo number_format($json['speed']); ?></li>
+          <li class="list-group-item"><b>Dexterity</b>: <?php echo number_format($json['dexterity']); ?></li>
+          <li class="list-group-item"><b>Total</b>: <?php echo number_format($json['total']); ?></li>
+        </ul>
+      </div>
+
+      <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
+            <div id="networthchart"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+     </div>
+   </div>
+  </div> <!-- col -->
 </div>
 
 <div class="container-fluid mt-3">
 
 	<div class="row pb-3">
 
-		 <div class="col-lg-9 col-md-6 pt-3">
+		 <div class="col-lg-9 col-md-6 pt-3" hidden>
 			<div class="card border border-dark shadow rounded">
-			  <h5 class="card-header">Networth: $<?php echo number_format($data["networth"]["total"]) ?></h5>
+			  <h5 class="card-header">Networth: $</h5>
 			  <div class="card-body">
 
-			   <div id="chart_div"></div>
+
 
 			  </div>
 			</div>
 		 </div> <!-- col -->
 
 
-		 <div class="col-lg-3 col-md-6 pt-3">
+		 <div class="col-lg-3 col-md-6 pt-3" hidden>
 			<div class="card border border-dark shadow rounded">
 			  <h5 class="card-header">Everything</h5>
 			  <div class="card-body">
 
-			   <p class="card-text"><?php echo '<pre>'; print_r($data); echo '</pre>';?></p>
+
 
 			  </div>
 			</div>
@@ -156,5 +228,5 @@ function printValues($arr) {
 
 </div> <!-- content -->
 <?php
-include('footer.php');
+include('includes/footer.php');
 ?>

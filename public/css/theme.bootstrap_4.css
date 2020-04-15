@@ -18,7 +18,7 @@
 	background-position: right 5px center;
 	background-repeat: no-repeat;
 	cursor: pointer;
-	white-space: normal;
+	/*white-space: normal;*/
 }
 .tablesorter-bootstrap:not(.table-dark) thead:not(.thead-dark) .tablesorter-header,
 .tablesorter-bootstrap:not(.table-dark) tfoot th,

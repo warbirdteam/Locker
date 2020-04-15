@@ -1,8 +1,37 @@
 <?php
 session_start();
 $_SESSION['title'] = 'Energy Reports';
-//Admin Only Page
-if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {header("Location: welcome.php");}
+include('includes/header.php');
+?>
+
+<script src="js/jquery.tablesorter.js"></script>
+<script src="js/jquery.tablesorter.widgets.js"></script>
+<script src="js/tablesort.js"></script>
+<script src="js/bs-custom-file-input.js"></script> <!-- File input -->
+
+<?php
+	switch ($_SESSION['role']) {
+	    case 'admin':
+	        include('includes/navbar-admin.php');
+	        break;
+	    case 'leadership':
+	        include('includes/navbar-leadership.php');
+	        break;
+	    case 'guest':
+	        header("Location: /welcome.php");
+	        break;
+	    case 'member':
+	        header("Location: /welcome.php");
+	        break;
+	    default:
+					$_SESSION = array();
+	        $_SESSION['error'] = "You are not logged in.";
+	        header("Location: /index.php");
+	        break;
+	}
+include_once(__DIR__ . "/../includes/autoloader.inc.php");
+
+
 
 include_once("../../../../db_connect_stats.php");
 
@@ -361,5 +390,5 @@ $(document).ready(function(){
 
 
 <?php
-include('footer.php');
+include('includes/footer.php');
 ?>

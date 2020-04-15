@@ -1,110 +1,196 @@
 <?php
 session_start();
-$_SESSION['title'] = 'Faction';
-if ($_SESSION['role'] == 'admin') {include('navbar-admin.php');} else {include('navbar.php');}
-
-// Load the database configuration file
-include_once("../misc/db_connect.php");
-
-/*$action = htmlspecialchars($_GET["action"]);
-
-//something for later, idk just an idea
-switch ($action) {
-    case "energy":
-
-    break;
-    case "":
-    //
-    break;
-    default:
-    //
-    break;
-
-}*/
-
-
+$_SESSION['title'] = 'Faction Members';
+include('includes/header.php');
 ?>
 
+<script src="js/jquery.tablesorter.js"></script>
+<script src="js/jquery.tablesorter.widgets.js"></script>
+<script src="js/tablesort-faction.js"></script>
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
 
+<?php
+	switch ($_SESSION['role']) {
+	    case 'admin':
+	        include('includes/navbar-admin.php');
+	        break;
+	    case 'leadership':
+	        include('includes/navbar-leadership.php');
+	        break;
+	    case 'guest':
+	        header("Location: /welcome.php");
+	        break;
+	    case 'member':
+	        include('includes/navbar-member.php');
+	        break;
+	    default:
+					$_SESSION = array();
+	        $_SESSION['error'] = "You are not logged in.";
+	        header("Location: /index.php");
+	        break;
+	}
+include_once(__DIR__ . "/../includes/autoloader.inc.php");
+?>
 
 <div class="container">
-  <div class="row">
-   <div class="col border border-dark shadow py-4 mt-4 rounded">
 
-   <table class="table table-hover table-striped table-dark">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">Player</th>
-          <th scope="col">Energy</th>
-          <th scope="col">Drug Cooldown</th>
-          <th scope="col">Booster Cooldown</th>
-          <th scope="col">Energy Refill Used</th>
-          <th scope="col">Nerve Refill Used</th>
-        </tr>
-      </thead>
-      <tbody>
+	<div class="row">
+		<div class="col pt-3 mx-auto">
+			<div class="card border border-dark shadow rounded mt-4">
+				<h5 class="card-header">Faction Members</h5>
+				<div class="card-body">
+
+			<ul class="nav nav-tabs" id="memberTabs" role="tablist">
+				<li class="nav-item">
+				<a class="nav-link active" id="nest-members-tab" data-toggle="tab" href="#nest-members" role="tab">Nest</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" id="wb-members-tab" data-toggle="tab" href="#wb-members" role="tab">Warbirds</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" id="wbng-members-tab" data-toggle="tab" href="#wbng-members" role="tab">WBNG</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="memberTabsContent">
+
+				<div class="tab-pane fade  show active" id="nest-members" role="tabpanel">
+					<div class="table-responsive">
+					<table class="table table-hover table-striped table-dark" border=1>
+						<thead class="thead-dark">
+							<tr>
+								<th scope="col" class="text-truncate">Name</th>
+								<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="left" title="Days in Faction">DiF</th>
+								<th scope="col" class="text-truncate">Last Action</th>
+								<th scope="col" class="text-truncate">Status</th>
+							</tr>
+						</thead>
+					<tbody>
+
+					<?php
+					$db_nest_members = new DB_request();
+					$rows = $db_nest_members->getFactionMembersByFaction('35507');
+					$count = $db_nest_members->row_count;
+
+					if($count > 0){
+						foreach ($rows as $row){
+							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$title = round((time() - $row['last_action'])/60/60);
+							$title .= ' hours ago';
+              if (strpos($row['status'], 'Resting in Peace') !== false) {$class = 'class="bg-info"';}
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
+						}
+					} else {
+						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
+					}
+					?>
+
+					</tbody>
+						<tfoot>
+							<tr>
+								<td colspan=4 align=center>Total: <?php echo $count; ?></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				</div>
+
+				<div class="tab-pane fade" id="wb-members" role="tabpanel">
+					<div class="table-responsive">
+					<table class="table table-hover table-striped table-dark" border=1>
+            <thead class="thead-dark">
+							<tr>
+								<th scope="col" class="text-truncate">Name</th>
+								<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="left" title="Days in Faction">DiF</th>
+								<th scope="col" class="text-truncate">Last Action</th>
+								<th scope="col" class="text-truncate">Status</th>
+							</tr>
+						</thead>
+					<tbody>
+
+					<?php
+					$db_wb_members = new DB_request();
+					$rows = $db_wb_members->getFactionMembersByFaction('13784');
+					$count = $db_wb_members->row_count;
+
+					if($count > 0){
+						foreach ($rows as $row){
+							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$title = round((time() - $row['last_action'])/60/60);
+							$title .= ' hours ago';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
+						}
+					} else {
+						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
+					}
+					?>
+
+					</tbody>
+						<tfoot>
+							<tr>
+								<td colspan=4 align=center>Total: <?php echo $count; ?></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				</div>
+
+				<div class="tab-pane fade" id="wbng-members" role="tabpanel">
+					<div class="table-responsive">
+					<table class="table table-hover table-striped table-dark" border=1>
+            <thead class="thead-dark">
+							<tr>
+								<th scope="col" class="text-truncate">Name</th>
+								<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="left" title="Days in Faction">DiF</th>
+								<th scope="col" class="text-truncate">Last Action</th>
+								<th scope="col" class="text-truncate">Status</th>
+							</tr>
+						</thead>
+					<tbody>
+
+					<?php
+					$db_wbng_members = new DB_request();
+					$rows = $db_wbng_members->getFactionMembersByFaction('30085');
+					$count = $db_wbng_members->row_count;
+
+					if($count > 0){
+						foreach ($rows as $row){
+							$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+							$title = round((time() - $row['last_action'])/60/60);
+							$title .= ' hours ago';
+							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
+						}
+					} else {
+						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
+					}
+					?>
+
+					</tbody>
+						<tfoot>
+							<tr>
+								<td colspan=4 align=center>Total: <?php echo $count; ?></td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				</div>
+
+				</div>
+			</div>
 
 
-        <?php
-        // Get member rows
-        $result = $conn->query("SELECT userid, name, energy, cooldown_drug, cooldown_booster, refill_energy, refill_nerve FROM current_data");
 
-        if($result === false)
-        {
-           user_error("Query failed: ".$conn->error."\n$query");
-           return false;
-        } else {
+				</div>
 
-        if($result->num_rows > 0){
-          while($row = $result->fetch_assoc()){
-		if($row['refill_energy'] == '') {
-		  $row['refill_energy'] = '0';
-	 	}
-		if($row['refill_nerve'] == '') {
-		  $row['refill_nerve'] = '0';
-		}
-        ?>
+		</div> <!-- col -->
+	</div> <!-- row -->
 
-         <tr>
-           <td><?php echo $row["name"] . ' [' . $row["userid"] . ']' ?></td>
-           <td><?php echo $row["energy"] ?></td>
-           <td><?php echo gmdate("H:i:s",$row["cooldown_drug"]) ?></td>
-           <td><?php echo gmdate("H:i:s",$row["cooldown_booster"]) ?></td>
-           <td><?php echo $row['refill_energy'] ?></td>
-           <td><?php echo $row['refill_nerve'] ?></td>
-         </tr>
 
-        <?php } }else{ ?>
-          <tr><td colspan="5">No information found...</td></tr>
-        <?php } } ?>
-      </tbody>
-   </table>
+	</div> <!-- container -->
 
 <?php
-
-/*
-echo '<tr>';
-echo '<th scope="row">' . $data["name"] . ' [' . $data["player_id"] . ']</th>';
-echo '<td>' . $data["energy"]["current"].'/'.$data["energy"]["maximum"] . '</td>';
-echo '<td>' . gmdate("H:i:s",$data["cooldowns"]["drug"])  . '</td>';
-echo '<td>' . gmdate("H:i:s",$data["cooldowns"]["booster"]) . '</td>';
-echo '<td>' . $data["refills"]["energy_refill_used"] . '</td>';
-echo '<td>' . $data["refills"]["energy_refill_used"] . '</td>';
-echo '</tr>';
-*/
-
-?>
-
-
-
-
-</div> <!-- col -->
-</div> <!-- row -->
-</div> <!-- container -->
-
-
-
-
-<?php
-include('footer.php');
+include('includes/footer.php');
 ?>

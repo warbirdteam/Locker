@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+$(document).ready(function(){
+$("#postdata").click(function(){ 
+    
+postkey=$("#apikey").val();
+poststat=$("#poststat").val();
+posttornid=$("#posttarget").val();
+postthreshold=$("#postthreshold").val();
+
+
+        $.post("getStats.php", {key:postkey, stat:poststat, target:posttornid, threshold:postthreshold },function(postresult){
+        $("#postdiv").html(postresult);
+        });
+
+});
+});
+</script>
+<style>
+#postdiv{
+    margin-left: 50px;
+    width:50%;
+    background-color:#eee;
+}   
+</style>
+
+</head>
+
+<body>
+<div class="container">
+<center><h1>Stat Monitoring</h1></center>
+    <form class="form-horizontal" role="form">
+      <div class="form-group">
+        <label for="apikey1" class="col-sm-2 control-label">API Key:</label>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="apikey" placeholder="Enter Your API Key">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="stat1" class="col-sm-2 control-label">Stat to Monitor:</label>
+        <div class="col-sm-2">
+        <select class="form-control" id="poststat">
+          <option>useractivity</option>
+          <option>itemsbought</option>
+          <option>pointsbought</option>
+          <option>weaponsbought</option>
+          <option>trades</option>
+          <option>itemssent</option>
+          <option>auctionswon</option>
+          <option>auctionsells</option>
+          <option>pointsold</option>
+          <option>attackswon</option>
+          <option>attackslost</option>
+          <option>attacksdraw</option>
+          <option>bestkillstreak</option>
+          <option>moneymugged</option>
+          <option>attacksstealthed</option>
+          <option>attackhits</option>
+          <option>attackmisses</option>
+          <option>attackdamage</option>
+          <option>attackcriticalhits</option>
+          <option>respectforfaction</option>
+          <option>onehitkills</option>
+          <option>defendswon</option>
+          <option>defendslost</option>
+          <option>defendsstalemated</option>
+          <option>bestdamage</option>
+          <option>roundsfired</option>
+          <option>yourunaway</option>
+          <option>theyrunaway</option>
+          <option>highestbeaten</option>
+          <option>peoplebusted</option>
+          <option>failedbust</option>
+          <option>peoplebought</option>
+          <option>peopleboughtspent</option>
+          <option>virusescoded</option>
+          <option>cityfinds</option>
+          <option>traveltimes</option>
+          <option>bountiesplaced</option>
+          <option>bountiesreceived</option>
+          <option>bountiescollected</option>
+          <option>totalbountyreward</option>
+          <option>revives</option>
+          <option>revivesreceived</option>
+          <option>medicalitemsused</option>
+          <option>statenhanceruserd</option>
+          <option>trainsreceived</option>
+          <option>totalbountyspent</option>
+          <option>drugsused</option>
+          <option>overdosed</option>
+          <option>meritsbought</option>
+          <option>logins</option>
+          <option>personalplaced</option>
+          <option>classifiedadsplaced</option>
+          <option>mailssent</option>
+          <option>friendmailssent</option>
+          <option>factionmailssent</option>
+          <option>companymailssent</option>
+          <option>spousemailssent</option>
+          <option>largestmug</option>
+          <option>xantaken</option>
+          <option>axehits</option>
+          <option>rifhits</option>
+          <option>smghits</option>
+          <option>slahits</option>
+          <option>argtravel</option>
+          <option>mextravel</option>
+          <option>lontravel</option>
+          <option>soutravel</option>
+          <option>cantravel</option>
+          <option>dumpfinds</option>
+          <option>dumpsearches</option>
+          <option>daysbeendonator</option>
+          <option>jailed</option>
+          <option>hospital</option>
+          <option>networth</option>
+          <option>stockpayouts</option>
+          <option>missioncreditsearned</option>
+          <option>contractscompleted</option>
+          <option>dukecontractscompleted</option>
+          <option>h2hhits</option>
+          <option>traveltime</option>
+          <option>piehits</option>
+          <option>organisedcrimes</option>
+          <option>switravel</option>
+          <option>rehabs</option>
+          <option>rehabcost</option>
+          <option>bazaarcustomers</option>
+          <option>bazaarsales</option>
+          <option>bazaarprofit</option>
+          <option>consumablesused</option>
+          <option>alcoholused</option>
+          <option>territorytime</option>
+          <option>itemsdumped</option>
+          <option>kettaken</option>
+          <option>grehits</option>
+          <option>victaken</option>
+          <option>cantaken</option>
+          <option>hawtravel</option>
+          <option>dubtravel</option>
+          <option>lsdtaken</option>
+          <option>caytravel</option>
+          <option>attacksassisted</option>
+          <option>energydrinkused</option>
+          <option>boosterused</option>
+          <option>exttaken</option>
+          <option>missionscompleted</option>
+          <option>unarmoredwon</option>
+          <option>awards</option>
+          <option>heahits/option>
+          <option>pishits</option>
+          <option>japtravel</option>
+          <option>refills</option>
+        </select>          
+          
+        </div>
+      </div>      
+      <div class="form-group">
+        <label for="target1" class="col-sm-2 control-label">Target:</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" id="posttarget" placeholder="Enter Target ID">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="threshold1" class="col-sm-2 control-label">Threshold:</label>
+        <div class="col-sm-3">
+          <input type="text" class="form-control" id="postthreshold" placeholder="Number of events to trigger notification">
+        </div>
+      </div>
+    </form>
+   </div> 
+<div class="col-sm-offset-2 col-sm-5">   
+<center><button id="postdata" class="btn btn-sm">Start Monitoring</button></center>
+</div><br /><br /><br />
+<div id="postdiv"><h3></h3></div>
+</body>
+</html>

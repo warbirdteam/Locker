@@ -1,5 +1,8 @@
 /vendor/
 *~
 config/locker.json
+config/key.json
 api/
 misc/test.php
+TornAPIs/*
+!TornAPIs/README.md

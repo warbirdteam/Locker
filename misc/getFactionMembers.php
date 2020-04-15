@@ -1,19 +1,26 @@
 <?php
-include_once("db_connectPDO.php");
+include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
-getFactionUsers('1468764', $pdo); //get Warbird Members via Heasleys4hemp key
-getFactionUsers('2169837', $pdo); //get Nest Members via Vulture Key
+    $connect = new DB_connect();
+    $pdo = $connect->connect();
 
-function getFactionUsers($id, $pdo) {
+getFactionUsers('1468764', '13784', $pdo); //get Warbird Members via Heasleys4hemp key
+getFactionUsers('1468764', '35507', $pdo); //get Nest Members
+getFactionUsers('1468764', '30085', $pdo); //get WBNG Members
 
-  $sql = "SELECT tornid,tornuserkey FROM users WHERE tornid = ?";
+function getFactionUsers($id, $fid, $pdo) {
+
+  $sql = "SELECT tornid,enc_api,iv,tag FROM users WHERE tornid = ?";
   $stmtselect = $pdo->prepare($sql);
   $stmtselect->execute([$id]);
   $row = $stmtselect->fetch();
 
-  $apikey = $row['tornuserkey'];
+  $uncrypt = new API_Crypt();
+  $unenc_api = $uncrypt->unpad($row['enc_api'], $row['iv'], $row['tag']);
 
-  $url ='https://api.torn.com/faction/?selections=timestamp,basic&key=' . $apikey;
+  $apikey = $unenc_api;
+
+  $url ='https://api.torn.com/faction/' . $fid . '?selections=timestamp,basic&key=' . $apikey;
   $data = file_get_contents($url);
   $faction = json_decode($data, true); // decode the JSON feed
 
@@ -63,13 +70,13 @@ function getFactionUsers($id, $pdo) {
               $row = $stmtselect->fetch();
 
               if($row) {
-                $sql = "UPDATE members SET name = ?, factionid = ?, days_in_faction = ?, last_action = ? WHERE userid = ?";
+                $sql = "UPDATE members SET name = ?, factionid = ?, days_in_faction = ?, last_action = ?, status = ? WHERE userid = ?";
                 $stmtinsert = $pdo->prepare($sql);
-                $stmtinsert->execute([$member['name'],$fid,$member['days_in_faction'],$member['last_action'],$userid]);
+                $stmtinsert->execute([$member['name'],$fid,$member['days_in_faction'],$member['last_action']['timestamp'],$member['status']['description'] . "  " . $member['status']['details'],$userid]);
               } else {
-                $sql = "INSERT INTO members VALUES (?,?,?,?,?)";
+                $sql = "INSERT INTO members VALUES (?,?,?,?,?,?)";
                 $stmtinsert = $pdo->prepare($sql);
-                $stmtinsert->execute([$userid,$fid,$member['name'],$member['days_in_faction'],$member['last_action']]);
+                $stmtinsert->execute([$userid,$fid,$member['name'],$member['days_in_faction'],$member['last_action']['timestamp'],$member['status']['description'] . "   " . $member['status']['details']]);
               }
 
        next($members);
