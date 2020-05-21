@@ -1,14 +1,13 @@
 <?php
+//##### GUEST & MEMBER & LEADERSHIP & ADMIN ONLY PAGE
 session_start();
 $_SESSION['title'] = 'Welcome!'; //Add whatever title you wish here. This will be displayed in the tab of your browser
 include('includes/header.php'); //required to include basic bootstrap and javascript files
-//Add extra scripts/css below this. This could be tablesorter javascript files or custom css files
 ?>
 
 
 
 <?php
-//Add extra scripts/css before this.
 //determine if user is an admin, leadership, member, or guest and include appropriate navbar file
 switch ($_SESSION['role']) {
     case 'admin':
@@ -17,21 +16,24 @@ switch ($_SESSION['role']) {
     case 'leadership':
         include('includes/navbar-leadership.php');
         break;
-    case 'guest':
-        include('includes/navbar-guest.php');
-        break;
     case 'member':
         include('includes/navbar-member.php');
         break;
+    case 'guest':
+        include('includes/navbar-guest.php');
+        break;
     default:
         $_SESSION = array();
-        $_SESSION['error'] = "You are not logged in.";
+        $_SESSION['error'] = "You are no longer logged in.";
         header("Location: /index.php");
         break;
 }
 
+// Load classes
+include_once(__DIR__ . "/../includes/autoloader.inc.php");
+?>
 
-
+<?php
 if (empty($_SESSION['factionid'])) {
     $_SESSION = array();
     $_SESSION['error'] = "You are not logged in.";
@@ -157,6 +159,12 @@ if (empty($_SESSION['factionid'])) {
 <div class="content">
 
 <div class="container-fluid pt-2">
+  <?php
+  if (isset($_SESSION['error'])) {
+    echo '<div class="alert alert-danger my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'</div>';
+    unset($_SESSION['error']);
+  }
+  ?>
   <div class="col pt-3">
    <div class="card border border-dark shadow rounded">
      <h5 class="card-header"><?php echo $_SESSION['username']; ?></h5>

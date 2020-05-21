@@ -18,3 +18,7 @@ This is a basic header. In the webpage.php file, add this first, then add any ex
 	<script src="js/jquery-3.4.1.min.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/all.min.js"></script>
+
+  <script src="js/jquery.tablesorter.js"></script>
+  <script src="js/jquery.tablesorter.widgets.js"></script>
+  <script src="js/tablesort.js"></script>
