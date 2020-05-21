@@ -14,7 +14,6 @@ class Error_Message {
 
       session_unset();
       $_SESSION['error'] = $message;
-
       header("Location: " . $location);
       exit();
     }

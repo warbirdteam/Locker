@@ -16,7 +16,7 @@ include_once("..\includes\autoloader.inc.php");
   <?php
   if (isset($_SESSION['error']))
   {
-  echo '<div class="alert alert-danger my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'</div>';
+  echo '<div class="alert alert-danger my-3 col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-8 offset-2" role="alert">'.$_SESSION['error'].'</div>';
   unset($_SESSION['error']);
   }
   ?>

@@ -10,12 +10,11 @@ include_once("..\includes\autoloader.inc.php");
   <?php
   if (isset($_SESSION['error']))
   {
-  echo '<div class="alert alert-danger my-3" role="alert">'.$_SESSION['error'].'</div>';
+  echo '<div class="alert alert-danger my-3 col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-8 offset-2" role="alert">'.$_SESSION['error'].'</div>';
   unset($_SESSION['error']);
   }
   ?>
-  <div class="row">
-  <div class="col-xl-4 col-lg-5 col-md-6 col-sm-7 col-8 border border-dark shadow mx-auto align-self-center py-4 mt-4 rounded">
+  <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-8 offset-2 card border border-dark shadow rounded py-4 mt-4">
 
    <div>
       <h2 class="font-weight-light text-center pb-2">Register</h2>
@@ -40,7 +39,6 @@ include_once("..\includes\autoloader.inc.php");
 	 </div>
 
   </div>
-</div>
 </div>
 
 </div>
