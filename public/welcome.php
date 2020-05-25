@@ -57,14 +57,19 @@ if (empty($_SESSION['factionid'])) {
 
 
 <div class="content">
-
+  <?php
+  if (isset($_SESSION['error'])) {
+    echo '<div class="alert alert-danger my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'</div>';
+    unset($_SESSION['error']);
+  }
+  ?>
+  <?php
+  if (isset($_SESSION['success'])) {
+    echo '<div class="alert alert-success my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['success'].'</div>';
+    unset($_SESSION['success']);
+  }
+  ?>
   <div class="container-fluid pt-2 no-gutters">
-    <?php
-    if (isset($_SESSION['error'])) {
-      echo '<div class="alert alert-danger my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'</div>';
-      unset($_SESSION['error']);
-    }
-    ?>
 
     <!-- Leaderboard Card -->
     <div class="pt-3 col col-md-10 offset-md-1 col-lg-8 offset-lg-2">

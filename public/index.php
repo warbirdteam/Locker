@@ -14,10 +14,13 @@ include_once("..\includes\autoloader.inc.php");
 <div class="content">
   <div class="container">
     <?php
-    if (isset($_SESSION['error']))
-    {
+    if (isset($_SESSION['error'])) {
       echo '<div class="alert alert-danger my-3 col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-8 offset-2" role="alert">'.$_SESSION['error'].'</div>';
       unset($_SESSION['error']);
+    }
+    if (isset($_SESSION['success'])) {
+      echo '<div class="alert alert-success my-3 col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-8 offset-2" role="alert">'.$_SESSION['success'].'</div>';
+      unset($_SESSION['success']);
     }
     ?>
     <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-8 offset-2 card border border-dark shadow rounded py-4 mt-4">
