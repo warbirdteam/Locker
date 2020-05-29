@@ -26,11 +26,11 @@ $(function () {
 
           $("table").tablesorter({
             theme: 'bootstrap',
-            sortInitialOrder: "desc",
+            sortInitialOrder: "asc",
             widthFixed: false,
             emptyTo: 'top',
             sortList: [
-              [4, 1]
+              [5, 1]
             ],
             widgets : ["columns", "indexFirstColumn"],
 

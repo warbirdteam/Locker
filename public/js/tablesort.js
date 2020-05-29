@@ -13,28 +13,45 @@ $(function() {
 });
 
 
-  $("table").tablesorter({
+  $("table.faction_lookup_table").tablesorter({
     theme: 'bootstrap',
-    sortInitialOrder: "desc",
+    sortInitialOrder: "asc",
     widthFixed: false,
     emptyTo: 'top',
     sortList: [
       [4, 1]
     ],
-
-    // widget code contained in the jquery.tablesorter.widgets.js file
-    // use the zebra stripe widget if you plan on hiding any rows (filter widget)
-    // the uitheme widget is NOT REQUIRED!
-    widgets : ["columns", "indexFirstColumn"],
-
+    widgets : ["columns"],
     widgetOptions : {
-      // using the default zebra striping class name, so it actually isn't included in the theme variable above
-      // this is ONLY needed for bootstrap theming if you are using the filter widget, because rows are hidden
-
-      // class names added to columns when sorted
       columns: [ "primary", "secondary", "tertiary" ],
+    }
+  });
 
+  $("table.member_info_table").tablesorter({
+    theme: 'bootstrap',
+    sortInitialOrder: "asc",
+    widthFixed: false,
+    emptyTo: 'top',
+    sortList: [
+      [5, 1]
+    ],
+    widgets : ["columns", "indexFirstColumn"],
+    widgetOptions : {
+      columns: [ "primary", "secondary", "tertiary" ],
+    }
+  });
 
+  $("table.faction_member_table").tablesorter({
+    theme: 'bootstrap',
+    sortInitialOrder: "asc",
+    widthFixed: false,
+    emptyTo: 'top',
+    sortList: [
+      [3, 0]
+    ],
+    widgets : ["columns", "indexFirstColumn"],
+    widgetOptions : {
+      columns: [ "primary", "secondary", "tertiary" ],
     }
   });
 
