@@ -43,17 +43,6 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 				<div class="card-body">
 
           <div class="card-box mx-3">
-                <div class="dropdown float-right" hidden>
-                    <a href="#" class="dropdown-toggle arrow-none card-drop" data-toggle="dropdown" aria-expanded="false">
-                        <i class="mdi mdi-dots-horizontal"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Settings</a>
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">Download</a>
-                    </div>
-                </div>
                 <h4 class="header-title mb-3">Faction Lookup History</h4>
 
 
@@ -110,7 +99,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 
                                         <div class="table-responsive">
-                                        <table class="table table-hover table-striped table-fit table-sm" border=1>
+                                        <table class="faction_lookup_table table table-hover table-striped table-fit table-sm" border=1>
 
                                           <thead class="thead-dark">
                                             <tr>

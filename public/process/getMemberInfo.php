@@ -52,7 +52,7 @@ switch ($fid) {
 
 function memberInfo($faction, $timeline) {
   $tabledata = '';
-  echo '<table class="table table-hover table-striped table-dark table-sm" border=1 id="table_' . $faction . '_' . $timeline . '"><thead class="thead-dark">
+  echo '<table class="member_info_table table table-hover table-striped table-dark table-sm" border=1 id="table_' . $faction . '_' . $timeline . '"><thead class="thead-dark">
   <tr>
   <th scope="col" class="text-truncate sorter-false">#</th>
   <th scope="col" class="text-truncate">Name</th>
