@@ -30,7 +30,7 @@ class DB_request extends DB_connect {
       return $row;
     }
 
-    public function getFactionMembers() {
+    public function getAllMembers() {
 
       $sql = "SELECT * FROM members";
       $stmt = $this->connect()->query($sql);

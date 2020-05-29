@@ -59,6 +59,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 					<table class="table table-hover table-striped table-dark" border=1>
 						<thead class="thead-dark">
 							<tr>
+								<th scope="col" class="text-truncate sorter-false">#</th>
 								<th scope="col" class="text-truncate">Name</th>
 								<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="left" title="Days in Faction">DiF</th>
 								<th scope="col" class="text-truncate">Last Action</th>
@@ -78,7 +79,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 							$title = round((time() - $row['last_action'])/60/60);
 							$title .= ' hours ago';
               if (strpos($row['status'], 'Resting in Peace') !== false) {$class = 'class="bg-info"';}
-							echo '<tr ' . $class . '><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
+							echo '<tr ' . $class . '><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $row['userid'] . '" target="_blank">' . $row['name'] . ' [' . $row['userid'] . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'. $row['status'] . '</td></tr>';
 						}
 					} else {
 						echo '<tr><td colspan=4 align=center>No members found...</td></tr>';
@@ -88,7 +89,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 					</tbody>
 						<tfoot>
 							<tr>
-								<td colspan=4 align=center>Total: <?php echo $count; ?></td>
+								<td colspan=5 align=center>Total: <?php echo $count; ?></td>
 							</tr>
 						</tfoot>
 					</table>

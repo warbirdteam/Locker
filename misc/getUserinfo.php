@@ -5,7 +5,7 @@ $connect = new DB_connect();
 $pdo = $connect->connect();
 
 $db_members = new DB_request();
-$rows = $db_members->getFactionMembers();
+$rows = $db_members->getAllMembers();
 $count = $db_members->row_count;
 
 $db_api = new DB_request();
