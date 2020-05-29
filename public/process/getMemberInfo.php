@@ -30,8 +30,8 @@ if (isset($_POST["fid"])) {
   $fid = $_POST["fid"];
   if (isset($_POST["timeline"])) {
     $timeline = $_POST["timeline"];
-  } else {$error = new Error_Message("Something went wrong with member information lookup.","../welcome.php");}
-} else {$error = new Error_Message("Something went wrong with member information lookup.","../welcome.php");}
+  } else { $_SESSION['error'] = 'Something went wrong with member information lookup.'; exit("Error: Something went wrong with member information lookup.");}
+} else { $_SESSION['error'] = 'Something went wrong with member information lookup.'; exit("Error: Something went wrong with member information lookup.");}
 
 switch ($fid) {
 
@@ -46,7 +46,7 @@ switch ($fid) {
   break;
 
   default:
-  $error = new Error_Message("That was not a proper faction.","../welcome.php");
+    $_SESSION['error'] = 'Something went wrong with member information lookup.'; exit("Error: Something went wrong with member information lookup.");
   break;
 }
 
@@ -83,14 +83,23 @@ function memberInfo($faction, $timeline) {
 
 
       $db_memberinfo = new DB_request();
-      if ($timeline == 'week') {
+
+      switch ($timeline) {
+
+        case 'week':
         $data = $db_memberinfo->getMemberInfoByIDWeek($row['userid']);
-        $membercount = $db_memberinfo->row_count;
-      }
-      if ($timeline == 'month') {
+        break;
+        case 'month':
         $data = $db_memberinfo->getMemberInfoByIDMonth($row['userid']);
-        $membercount = $db_memberinfo->row_count;
+        break;
+
+        default:
+          $_SESSION['error'] = 'Something went wrong with member information lookup.';
+          exit("Error: Something went wrong with member information lookup.");
+        break;
       }
+
+      $membercount = $db_memberinfo->row_count;
 
       if ($membercount > 0){
         $counter++;

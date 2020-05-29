@@ -1,6 +1,6 @@
 $(function () {
 
-  $('a.nav-link').click(function() {
+  $('#memberTabs > li > a.nav-link').click(function() {
 
     let faction = $(this).data("fid");
     let time = $(this).data("timeline");
@@ -17,27 +17,31 @@ $(function () {
       })
 
       .done(function( data ) {
-        $('#' + time + '-' + faction + ' > div.table-responsive').html(data);
-        $('[data-toggle="tooltip"]').tooltip();
+        if (data.includes('Error')) {
+          window.location = "welcome.php";
+        } else {
+          $('#' + time + '-' + faction + ' > div.table-responsive').html(data);
+          $('[data-toggle="tooltip"]').tooltip();
 
 
-        $("table").tablesorter({
-          theme: 'bootstrap',
-          sortInitialOrder: "desc",
-          widthFixed: false,
-          emptyTo: 'top',
-          sortList: [
-            [4, 1]
-          ],
-          widgets : ["columns", "indexFirstColumn"],
+          $("table").tablesorter({
+            theme: 'bootstrap',
+            sortInitialOrder: "desc",
+            widthFixed: false,
+            emptyTo: 'top',
+            sortList: [
+              [4, 1]
+            ],
+            widgets : ["columns", "indexFirstColumn"],
 
-          widgetOptions : {
-            columns: [ "primary", "secondary", "tertiary" ],
-          }
-        });
+            widgetOptions : {
+              columns: [ "primary", "secondary", "tertiary" ],
+            }
+          });
 
-
+        }
       });
+
 
     }
 
