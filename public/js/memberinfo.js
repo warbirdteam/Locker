@@ -1,6 +1,6 @@
 $(function () {
 
-  $('a.nav-link').click(function() {
+  $('#memberTabs > li > a.nav-link').click(function() {
 
     let faction = $(this).data("fid");
     let time = $(this).data("timeline");
