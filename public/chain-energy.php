@@ -1,12 +1,10 @@
 <?php
+//##### LEADERSHIP & ADMIN ONLY PAGE
 session_start();
 $_SESSION['title'] = 'Energy Reports';
 include('includes/header.php');
 ?>
 
-<script src="js/jquery.tablesorter.js"></script>
-<script src="js/jquery.tablesorter.widgets.js"></script>
-<script src="js/tablesort.js"></script>
 <script src="js/bs-custom-file-input.js"></script> <!-- File input -->
 
 <?php
@@ -17,22 +15,26 @@ include('includes/header.php');
 	    case 'leadership':
 	        include('includes/navbar-leadership.php');
 	        break;
-	    case 'guest':
-	        header("Location: /welcome.php");
-	        break;
 	    case 'member':
+					$_SESSION['error'] = "You do not have access to that area.";
 	        header("Location: /welcome.php");
 	        break;
-	    default:
-					$_SESSION = array();
-	        $_SESSION['error'] = "You are not logged in.";
-	        header("Location: /index.php");
+	    case 'guest':
+					$_SESSION['error'] = "You do not have access to that area.";
+	        header("Location: /welcome.php");
 	        break;
+    default:
+        $_SESSION = array();
+        $_SESSION['error'] = "You are no longer logged in.";
+        header("Location: /index.php");
+    		break;
 	}
+
+// Load classes
 include_once(__DIR__ . "/../includes/autoloader.inc.php");
+?>
 
-
-
+<?php
 include_once("../../../../db_connect_stats.php");
 
 if(!empty($_GET['status'])){

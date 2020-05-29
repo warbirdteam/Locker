@@ -22,7 +22,7 @@ class DB_login extends DB_connect {
 
     $this->checkPlayerAPI();
 
-    $faction_list = array("13784","35507","30085");
+    $faction_list = array("13784","35507","30085","37132");
     if(!in_array($this->factionid, $faction_list)){
       $error = new Error_Message("You are not part of the Warbirds Family.","../index.php");
     }
