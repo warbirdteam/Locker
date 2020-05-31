@@ -8,7 +8,7 @@ class api_request {
 
   public function __construct($apikey) {
 
-    if ( isset($this->apikey) && !empty($this->apikey) ) {
+    if ( isset($apikey) && !empty($apikey) ) {
       $this->apikey = $apikey;
     } else {
       throw new Exception('API Key was not passed correctly or does not exist.');
