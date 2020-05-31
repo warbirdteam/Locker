@@ -6,7 +6,11 @@ class DB_connect2 {
   private $username;
   private $password;
   private $database;
+  private $pdo;
 
+  public function __construct() {
+    $this->connect();
+  }
 
   private function connect() {
     $config = json_decode(file_get_contents(__DIR__ . '/../config/locker.json'), true);
@@ -32,8 +36,8 @@ class DB_connect2 {
          throw new \PDOException($e->getMessage(), (int)$e->getCode());
     }
 
-    return $pdo;
 
+    $this->pdo = $pdo;
   }
 
 
