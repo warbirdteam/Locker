@@ -14,12 +14,12 @@ switch ($_SESSION['role']) {
   break;
   case 'guest':
   $_SESSION['error'] = "You do not have access to that.";
-  header("Location: /welcome.php");
+  exit("Error: You do not have access to that.");
   break;
   default:
   $_SESSION = array();
   $_SESSION['error'] = "You are no longer logged in.";
-  header("Location: /index.php");
+  exit("Error: You are no longer logged in.");
   break;
 }
 
