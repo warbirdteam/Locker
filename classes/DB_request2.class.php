@@ -34,7 +34,7 @@ class DB_request2 extends DB_connect2 {
 /////////////////////////////////////////////////
 
   public function updateMember($userid, $member) {
-    $sql = "UPDATE torn_members SET tornName = ?, days_in_faction = ?, last_action = ?, status_desc = ?, status_details WHERE tornID = ?";
+    $sql = "UPDATE torn_members SET tornName = ?, days_in_faction = ?, last_action = ?, status_desc = ?, status_details = ? WHERE tornID = ?";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$member['name'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details'], $userid]);
   }
