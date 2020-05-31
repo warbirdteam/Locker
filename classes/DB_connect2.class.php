@@ -1,6 +1,6 @@
 <?php
 
-class DB_connect {
+class DB_connect2 {
 
   private $host;
   private $username;
