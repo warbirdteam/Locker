@@ -4,7 +4,7 @@ class api_request {
 
   private $apikey;
 
-  /////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
   public function __construct($apikey) {
 
@@ -20,7 +20,7 @@ class api_request {
 
   }
 
-  /////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
   private function verifyString() {
     if (strlen($this->apikey) != 16) {
@@ -34,7 +34,7 @@ class api_request {
     return true;
   }
 
-  /////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
   private function verifyFaction($factionid) {
     $faction_list = array("13784","35507","30085","37132");
@@ -45,7 +45,7 @@ class api_request {
 
   }
 
-  /////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
   public function getFactionAPI($factionid) {
     $url = 'https://api.torn.com/faction/'. $factionid .'?selections=timestamp,basic&key=' . $this->apikey; // URL to Torn API
@@ -70,14 +70,16 @@ class api_request {
     }
   }
 
-  /////////////////////////////////////////////////
+/////////////////////////////////////////////////
 
   private function APIError($error) {
     //Check Error Code and describe reason, such as bad key, etc
     throw new Exception('API Key Error Code: ' . $json['error']['code'] . ' - ' . $json['error']['error']);
   }
 
-  /////////////////////////////////////////////////
+/////////////////////////////////////////////////
+////////           END OF CLASS          ////////
+/////////////////////////////////////////////////
 
 }
 ?>
