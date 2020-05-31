@@ -6,7 +6,7 @@ class DB_connect2 {
   private $username;
   private $password;
   private $database;
-  private $pdo;
+  protected $pdo;
 
   public function __construct() {
     $this->connect();
