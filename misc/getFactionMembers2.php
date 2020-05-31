@@ -23,17 +23,21 @@ function refreshFactionMembers($tornid, $factionid) {
 
   $dbMemberData = $db_request->getFactionMembersByFaction($fid);
 
-  $diff = array_diff_key($dbMemberData, $members);
+  if(!empty($dbMemberData)) {
 
-  //delete member from database if exists in diff array
-  while ($cut = current($diff)) {
-    $cutuser = key($diff);
-    $memberData = $db_request->getMemberByTornID($cutuser);
-    if ($memberData) {
-      $db_request->removeMemberByTornID($cutuser);
-    }
-    next($diff);
-  } //while
+    $diff = array_diff_key($dbMemberData, $members);
+
+    //delete member from database if exists in diff array
+    while ($cut = current($diff)) {
+      $cutuser = key($diff);
+      $memberData = $db_request->getMemberByTornID($cutuser);
+      if ($memberData) {
+        $db_request->removeMemberByTornID($cutuser);
+      }
+      next($diff);
+    } //while
+
+  }
 
 
 

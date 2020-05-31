@@ -12,7 +12,9 @@ class DB_request2 extends DB_connect2 {
     $stmt->execute([$factionid]);
     $row = $stmt->fetchAll(PDO::FETCH_UNIQUE);
     $this->row_count = $stmt->rowCount();
-
+    if(empty($row)) {
+      return NULL;
+    }
     return $row;
   }
 
