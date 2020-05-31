@@ -44,7 +44,7 @@ function refreshFactionMembers($tornid, $factionid) {
     if($row) {
       $db_request->updateMember($userid, $member);
     } else {
-      $db_request->insertMember($userid, $fid, $member)
+      $db_request->insertMember($userid, $fid, $member);
     }
 
     next($members);
