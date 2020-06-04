@@ -2,26 +2,18 @@
 //##### MEMBER & LEADERSHIP & ADMIN ONLY PAGE
 session_start();
 
-switch ($_SESSION['role']) {
-  case 'admin':
-  //continue
-  break;
-  case 'leadership':
-  //continue
-  break;
-  case 'member':
-  //continue
-  break;
-  case 'guest':
-  $_SESSION['error'] = "You do not have access to that.";
-  exit("Error: You do not have access to that.");
-  break;
-  default:
-  $_SESSION = array();
-  $_SESSION['error'] = "You are no longer logged in.";
-  exit("Error: You are no longer logged in.");
-  break;
+
+if (!isset($_SESSION['roleValue'])) {
+	$_SESSION = array();
+	$_SESSION['error'] = "You are no longer logged in.";
+	header("Location: /index.php");
 }
+
+if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+	$_SESSION['error'] = "You do not have access to that area.";
+	header("Location: /welcome.php");
+}
+
 
 include_once(__DIR__ . "/../../includes/autoloader.inc.php");
 
@@ -72,25 +64,38 @@ function memberInfo($faction, $timeline) {
   </tr>
   </thead><tbody>';
 
-  $db_member_list = new DB_request();
+  $db_member_list = new db_request();
   $rows = $db_member_list->getFactionMembersByFaction($faction);
   $count = $db_member_list->row_count;
 
   if($count > 0){
     $counter = 0;
-    foreach ($rows as $row){
+		foreach ($rows as $tornID => $row){
+
+			$memberInfo = $db_member_list->getMemberInfoByTornID($tornID);
+
+			if (empty($row) || empty($memberInfo)) {continue;} //skip iteration
+
+			if (isset($row['tornName'])) {$memberName = $row['tornName'];} else {continue;}
+			if (isset($row['last_action'])) {$lastaction = $row['last_action'];} else {continue;}
+			if (isset($memberInfo['donator'])) {$donator = $memberInfo['donator'];} else {continue;}
+			if (isset($memberInfo['property'])) {$property = $memberInfo['property'];} else {continue;}
 
 
 
-      $db_memberinfo = new DB_request();
+
+
+
+
+      $db_memberStats = new db_request();
 
       switch ($timeline) {
 
         case 'week':
-        $data = $db_memberinfo->getMemberInfoByIDWeek($row['userid']);
+        $data = $db_memberStats->getMemberStatsByIDWeek($tornID);
         break;
         case 'month':
-        $data = $db_memberinfo->getMemberInfoByIDMonth($row['userid']);
+        $data = $db_memberStats->getMemberStatsByIDMonth($tornID);
         break;
 
         default:
@@ -99,16 +104,16 @@ function memberInfo($faction, $timeline) {
         break;
       }
 
-      $membercount = $db_memberinfo->row_count;
+      $membercount = $db_memberStats->row_count;
 
       if ($membercount > 0){
         $counter++;
 
-        $title = round((time() - $row['last_action'])/60/60);
+        $title = round((time() - $lastaction)/60/60);
         $title .= ' hours ago';
 
 
-        if ($row['name'] == 'Geometroid') {
+        if ($memberName == 'Geometroid') {
           $fallenclass = ' class="bg-info"';
           $lastactionclass = 'class="bg-info"';
           $propertyclass = 'class="bg-info"';
@@ -116,13 +121,13 @@ function memberInfo($faction, $timeline) {
         } else {
           $fallenclass = '';
 
-          $lastactionclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
-          $propertyclass = strpos($data[0]["property"],'Private Island') !== false ? '' : 'class="bg-danger"';
-          $donatorclass = $data[0]['donator'] == 0 ? 'class="bg-danger"' : '';
+          $lastactionclass = ($lastaction <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+          $propertyclass = strpos($property,'Private Island') !== false ? '' : 'class="bg-danger"';
+          $donatorclass = $donator == 0 ? 'class="bg-danger"' : '';
 
         }
 
-        $tabledata .= '<tr'.$fallenclass.'><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $data[0]["userid"] . '" target="_blank">' . $row["name"] . ' [' . $data[0]["userid"] . ']</a></td><td ' . $donatorclass . '>'  . $data[0]["donator"] . '</td><td ' . $propertyclass . '>'. $data[0]["property"] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["boostersusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
+        $tabledata .= '<tr'.$fallenclass.'><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $tornID . '" target="_blank">' . $memberName . ' [' . $tornID . ']</a></td><td ' . $donatorclass . '>'  . $donator . '</td><td ' . $propertyclass . '>'. $property . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$lastaction) . '</td><td>'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["boostersusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
       }
     }
 

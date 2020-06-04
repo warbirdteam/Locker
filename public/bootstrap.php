@@ -1,7 +1,7 @@
 <?php
 define('CONFIG_DIR', realpath(__DIR__ . '/../config'));
 define('REQUEST_ID', uniqid());
-require_once('../vendor/autoload.php');
+require_once('../../vendor/autoload.php');
 
 use Cascade\Cascade;
 use Locker\Registry;

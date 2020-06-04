@@ -8,30 +8,20 @@ include('includes/header.php');
 
 
 <?php
-	switch ($_SESSION['role']) {
-	    case 'admin':
-	        include('includes/navbar-admin.php');
-	        break;
-	    case 'leadership':
-	        include('includes/navbar-leadership.php');
-	        break;
-	    case 'member':
-					$_SESSION['error'] = "You do not have access to that area.";
-	        header("Location: /welcome.php");
-	        break;
-	    case 'guest':
-					$_SESSION['error'] = "You do not have access to that area.";
-	        header("Location: /welcome.php");
-	        break;
-    default:
-        $_SESSION = array();
-        $_SESSION['error'] = "You are no longer logged in.";
-        header("Location: /index.php");
-    		break;
-	}
+include('includes/navbar-logged.php');
+?>
 
-// Load classes
-include_once(__DIR__ . "/../includes/autoloader.inc.php");
+<?php
+if (!isset($_SESSION['roleValue'])) {
+	$_SESSION = array();
+	$_SESSION['error'] = "You are no longer logged in.";
+	header("Location: /index.php");
+}
+
+if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+	$_SESSION['error'] = "You do not have access to that area.";
+	header("Location: /welcome.php");
+}
 ?>
 
 

@@ -1,152 +1,225 @@
 <?php
 
-class DB_request extends DB_connect {
+class db_request extends db_connect {
 
-    public $row_count;
+  public $row_count;
 
-    public function getEnergy() {
+  /////////////////////////////////////////////////
 
-      $sql = "SELECT * FROM current_data";
-    	$stmt = $this->connect()->query($sql);
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
-      return $row;
+  public function getFactionMembersByFaction($factionid) {
+    $sql = "SELECT * FROM torn_members where factionID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionid]);
+    $row = $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
 
+  /////////////////////////////////////////////////
+
+  public function getAllMembers() {
+    $sql = "SELECT * FROM torn_members";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getMemberByTornID($tornID) {
+    $sql = "SELECT * FROM torn_members WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function updateMember($userid, $member) {
+    $sql = "UPDATE torn_members SET tornName = ?, days_in_faction = ?, last_action = ?, status_desc = ?, status_details = ? WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$member['name'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details'], $userid]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getMemberInfoByTornID($tornID) {
+    $sql = "SELECT * FROM torn_members_info WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getAllMemberInfoOrderBy($sort) {
+    switch ($sort) {
+      case 'networth':
+      $sql = "SELECT * FROM torn_members_info ORDER BY networth DESC";
+      break;
+      case 'awards':
+      $sql = "SELECT * FROM torn_members_info ORDER BY awards DESC";
+      break;
+      case 'level':
+      $sql = "SELECT * FROM torn_members_info ORDER BY level DESC";
+      break;
+
+      default:
+      return NULL;
+      break;
     }
 
-    public function getFactionMembersByFaction($factionid) {
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([]);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
 
-      $sql = "SELECT * FROM members where factionid=?";
-      $stmt = $this->connect()->prepare($sql);
-      $stmt->execute([$factionid]);
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
-      return $row;
+  /////////////////////////////////////////////////
+
+  public function updateMemberInfo($tornID, $donator, $property, $networth, $awards, $age, $level) {
+    $sql = "UPDATE torn_members_info SET donator = ?, property = ?, networth = ?, awards = ?, age = ?, level = ? WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$donator, $property, $networth, $awards, $age, $level, $tornID]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function insertMemberInfo($tornID, $donator, $property, $networth, $awards, $age, $level) {
+    $sql = "INSERT INTO torn_members_info (tornID, donator, property, networth, awards, age, level) values (?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID, $donator, $property, $networth, $awards, $age, $level]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function insertMemberPersonalStats($tornID, $xantaken, $overdosed, $refills, $nerverefills, $consumablesused, $boostersused, $energydrinkused, $statenhancers, $traveltimes, $dumpsearches) {
+    $sql = "INSERT INTO torn_members_personalstats (tornID, xanax, overdosed, refill_energy, refill_nerve, consumablesused, boostersused, energydrinkused, statenhancersused, travel, dumpsearches) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID, $xantaken, $overdosed, $refills, $nerverefills, $consumablesused, $boostersused, $energydrinkused, $statenhancers, $traveltimes, $dumpsearches]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function insertMember($userid, $fid, $member) {
+    $sql = "INSERT INTO torn_members VALUES (?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid, $fid, $member['name'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details']]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function removeMemberByTornID($tornID) {
+    $sql = "DELETE FROM torn_members WHERE tornID = ?";
+    $stmtdelete = $this->pdo->prepare($sql);
+    $stmtdelete->execute([$tornID]);
+
+    $sql = "DELETE FROM torn_members_info WHERE tornID = ?";
+    $stmtdelete = $this->pdo->prepare($sql);
+    $stmtdelete->execute([$tornID]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getFactionByFactionID($fid) {
+    $sql = "SELECT * FROM torn_factions WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fid]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function updateFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
+    $sql = "UPDATE torn_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ? WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $fid]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function insertFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
+    $sql = "INSERT INTO torn_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect) values (?,?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getAllFactionLookups() {
+    $sql = "SELECT * from faction_lookup_factions";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
     }
 
-    public function getAllMembers() {
+    return $row;
+  }
 
-      $sql = "SELECT * FROM members";
-      $stmt = $this->connect()->query($sql);
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
-      return $row;
+  /////////////////////////////////////////////////
+
+  public function getUsersInLookup($lookup_id) {
+    $sql = "SELECT * from faction_lookups where lookup_id=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$lookup_id]);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
     }
 
-    public function getChainReports($factionid,$sizelimit) {
+    return $row;
+  }
 
-      switch ($factionid) {
-        case '13784':
-        $table = 'wbchains';
-        break;
-        case '35507':
-        $table = 'nestchains';
-        break;
-        default:
-        return NULL;
-        break;
+  /////////////////////////////////////////////////
 
-      }
+  public function insertFactionLookupFaction($faction) {
+    $sql = "INSERT INTO faction_lookup_factions (faction_id, faction_name, respect, leader, co_leader, age, best_chain, total_members) VALUES (?,?,?,?,?,?,?,?)";
+    $stmtinsert = $this->pdo->prepare($sql);
+    $stmtinsert->execute([$faction['ID'],$faction['name'],$faction['respect'],$faction['leader'],$faction['co-leader'],$faction['age'],$faction['best_chain'],count($faction['members'])]);
 
-      $sql = "SELECT * FROM ". $table ." WHERE hits >= :sizelimit";
-      $stmt = $this->connect()->prepare($sql);
-      //  $stmt->bindValue(':table', $table, PDO::PARAM_STR);
-      $stmt->bindValue(':sizelimit', $sizelimit, PDO::PARAM_INT);
-      $stmt->execute();
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
-      return $row;
+    $lookup_id = $this->pdo->lastInsertId();
+    return $lookup_id;
+  }
 
-    }
+  /////////////////////////////////////////////////
 
-    public function getUsers() {
-      $sql = "SELECT tornid,username,factionid,userrole FROM users";
-    	$stmt = $this->connect()->query($sql);
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
-      return $row;
-    }
+  public function insertFactionLookupPlayer($lookup_id, $userid, $username, $level, $days_in_faction, $last_action, $donator, $xantaken, $attackswon, $defendswon, $property, $refills, $nerverefills, $boostersused, $energydrinkused, $statenhancers, $enemies) {
+    $sql = "INSERT INTO faction_lookups (lookup_id, userid, username, level, days_in_faction, last_action, donator_status, xanax, attackswon, defendswon, property, energy_refills, nerve_refills, boosters, cans, stat_enhancers, enemies) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $stmtinsert = $this->pdo->prepare($sql);
+    $stmtinsert->execute([$lookup_id, $userid, $username, $level, $days_in_faction, $last_action, $donator, $xantaken, $attackswon, $defendswon, $property, $refills, $nerverefills, $boostersused, $energydrinkused, $statenhancers, $enemies]);
+  }
 
-    public function getAPIKEYList() {
-      $sql = "SELECT tornid,userrole,enc_api,iv,tag FROM users WHERE userrole != 'guest'";
-    	$stmt = $this->connect()->query($sql);
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
+  /////////////////////////////////////////////////
 
-      return $row;
-    }
-
-    public function getSelfAPIKey($userid) {
-      $sql = "SELECT tornid,userrole,enc_api,iv,tag FROM users WHERE tornid=?";
-      $stmt = $this->connect()->prepare($sql);
-      $stmt->execute([$userid]);
-      $row = $stmt->fetch();
-      if(empty($row)) {
-        return NULL;
-      }
-
-      return $row;
-    }
-
-    public function getAllFactionLookups() {
-      $sql = "SELECT * from faction_lookup_factions";
-      $stmt = $this->connect()->query($sql);
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
-
-      return $row;
-    }
-
-    public function getUsersInLookup($lookup_id) {
-      $sql = "SELECT * from faction_lookups where lookup_id=?";
-      $stmt = $this->connect()->prepare($sql);
-      $stmt->execute([$lookup_id]);
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
-
-      return $row;
-    }
-
-
-    public function getMemberInfoByIDWeek($userid) {
-      $sql = "SELECT * FROM (SELECT userid,username,donator,property FROM memberinfo WHERE userid=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/7) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek from (SELECT * FROM memberinfo WHERE userid=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) order by timestamp desc) as tmpweek) as tmpmath";
-      $stmt = $this->connect()->prepare($sql);
-      $stmt->execute([$userid,$userid]);
-      $row = $stmt->fetchAll();
-      $this->row_count = $stmt->rowCount();
-      if(empty($row)) {
-        return NULL;
-      }
-      return $row;
-    }
-
-    public function getMemberInfoByIDMonth($userid) {
-    $sql = "SELECT * FROM (SELECT userid,username,donator,property FROM memberinfo WHERE userid=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/30) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek from (SELECT * FROM memberinfo WHERE userid=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -30 DAY) order by timestamp desc) as tmpmonth) as tmpmath";
-    $stmt = $this->connect()->prepare($sql);
+  public function getMemberStatsByIDWeek($userid) {
+    $sql = "SELECT * FROM (SELECT tornID FROM torn_members_personalstats WHERE tornID=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/7) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek from (SELECT * FROM torn_members_personalstats WHERE tornID=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) order by timestamp desc) as tmpweek) as tmpmath";
+    $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$userid,$userid]);
     $row = $stmt->fetchAll();
     $this->row_count = $stmt->rowCount();
@@ -156,6 +229,123 @@ class DB_request extends DB_connect {
     return $row;
   }
 
-}
+  /////////////////////////////////////////////////
 
- ?>
+  public function getMemberStatsByIDMonth($userid) {
+    $sql = "SELECT * FROM (SELECT tornID FROM torn_members_personalstats WHERE tornID=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/30) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek from (SELECT * FROM torn_members_personalstats WHERE tornID=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -30 DAY) order by timestamp desc) as tmpmonth) as tmpmath";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid,$userid]);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getRawAPIKeyByUserID($userid) {
+    $sql = "SELECT siteID FROM torn_users WHERE tornID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid]);
+    $siteID = $stmt->fetchColumn();
+    if(empty($siteID)) {
+      throw new Exception('Could not find user associated with Torn ID.');
+    }
+
+    $sql = "SELECT enc_api, iv, tag FROM site_users WHERE siteID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$siteID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      throw new Exception('Could not find API Key associated with user.');
+    }
+
+    $uncrypt = new API_Crypt();
+    $apikey = $uncrypt->unpad($row['enc_api'], $row['iv'], $row['tag']);
+    if(empty($apikey)) {
+      throw new Exception('Could not unencrypt API Key.');
+    }
+
+    return $apikey;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getAllAvailableRawAPIKeys() {
+    $sql = "SELECT siteID FROM site_users_preferences WHERE share_api = 1";
+    $stmt = $this->pdo->query($sql);
+    $rows = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($rows)) {
+      return NULL;
+    }
+
+    $apikeys = [];
+
+    foreach ($rows as $row) {
+      $sql = "SELECT enc_api, iv, tag FROM site_users WHERE siteID=?";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$row['siteID']]);
+      $row = $stmt->fetch();
+      if(empty($row)) {
+        throw new Exception('Could not find API Key associated with user.');
+      }
+
+      $uncrypt = new API_Crypt();
+      $apikey = $uncrypt->unpad($row['enc_api'], $row['iv'], $row['tag']);
+      if(empty($apikey)) {
+        throw new Exception('Could not unencrypt API Key.');
+      }
+
+      array_push($apikeys, $apikey);
+    }
+
+    return $apikeys;
+  }
+
+  /////////////////////////////////////////////////
+  ////////         LOGIN FUNCTIONS         ////////
+  /////////////////////////////////////////////////
+
+  public function getTornUserByTornID($userid) {
+    $sql = "SELECT * FROM torn_users WHERE tornID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid]);
+    $torn = $stmt->fetch();
+    if(empty($torn)) {
+      $error = new Error_Message("No user found. You are not registered.","../index.php");
+    }
+
+    return $torn;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getSiteUserBySiteID($siteID) {
+    $sql = "SELECT * FROM site_users WHERE siteID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$siteID]);
+    $site = $stmt->fetch();
+    if(empty($site)) {
+      $error = new Error_Message("No user found. You are not registered.","../index.php");
+    }
+
+    return $site;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function updateAPIKey($siteID, $enc_api, $iv, $tag) {
+    $sql = "UPDATE site_users SET enc_api=?, iv=?, tag=? WHERE siteID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$enc_api, $crypt->iv, $crypt->tag, $siteID]);
+  }
+
+  /////////////////////////////////////////////////
+  ////////           END OF CLASS          ////////
+  /////////////////////////////////////////////////
+
+}
+?>
