@@ -23,8 +23,8 @@ if($db_request_members->row_count > 0 && $db_request_api->row_count > 0){
       }
 
       $api_request = new api_request($apikeys[$i]);
-      $memberdata = getPlayerPersonalStats($member['tornID']);
-      
+      $memberdata = $api_request->getPlayerPersonalStats($member['tornID']);
+
 
       if (is_array($memberdata) || is_object($memberdata)) {
 
