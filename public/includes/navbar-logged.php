@@ -9,7 +9,10 @@ include_once(__DIR__ . "/../../includes/autoloader.inc.php");
 
 $db_request = new db_request();
 $torn = $db_request->getTornUserByTornID($_SESSION['userid']);
+if (empty($torn)) { $error = new Error_Message("You are no longer logged in.","../index.php"); }
 $site = $db_request->getSiteUserBySiteID($torn['siteID']);
+if (empty($site)) { $error = new Error_Message("You are no longer logged in.","../index.php"); }
+
 
 if (empty($site['siteRole'])) {
 	$_SESSION = array();

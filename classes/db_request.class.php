@@ -315,7 +315,7 @@ class db_request extends db_connect {
     $stmt->execute([$userid]);
     $torn = $stmt->fetch();
     if(empty($torn)) {
-      $error = new Error_Message("No user found. You are not registered.","../index.php");
+      return NULL;
     }
 
     return $torn;
@@ -329,11 +329,28 @@ class db_request extends db_connect {
     $stmt->execute([$siteID]);
     $site = $stmt->fetch();
     if(empty($site)) {
-      $error = new Error_Message("No user found. You are not registered.","../index.php");
+      return NULL;
     }
 
     return $site;
   }
+
+
+  public function registerUser($siteRole, $enc_api, $crypt, $tornID, $tornName, $tornFaction, $factionRole) {
+    $sql = "INSERT INTO site_users (siteRole, enc_api, iv, tag) VALUES(?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $result = $stmt->execute([$siteRole, $enc_api, $crypt->iv, $crypt->tag]);
+    if (!$result) {return FALSE;};
+
+    $last_id = $this->pdo->lastInsertId();
+
+    $sql = "INSERT INTO torn_users (tornID, siteID, tornName, tornFaction, factionRole) VALUES(?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $result = $stmt->execute([$tornID, $last_id, $tornName, $tornFaction, $factionRole]);
+
+    return $result;
+  }
+
 
   /////////////////////////////////////////////////
 

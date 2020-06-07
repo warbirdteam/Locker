@@ -66,7 +66,7 @@ if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = lead
 											<tr>
 												<th scope="col" class="text-truncate sorter-false">#</th>
 												<th scope="col" class="text-truncate">Name</th>
-												<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="left" title="Days in Faction">DiF</th>
+												<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="top" title="Days in Faction">DiF</th>
 												<th scope="col" class="text-truncate">Last Action</th>
 												<th scope="col" class="text-truncate">Status</th>
 											</tr>

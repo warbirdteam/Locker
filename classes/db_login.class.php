@@ -82,7 +82,9 @@ class db_login {
   public function login() {
     $db_request = new db_request();
     $torn = $db_request->getTornUserByTornID($this->userid);
+    if (empty($torn)) { $error = new Error_Message("No user found. You are not registered.","../index.php"); }
     $site = $db_request->getSiteUserBySiteID($torn['siteID']);
+    if (empty($site)) { $error = new Error_Message("No user found. You are not registered.","../index.php"); }
 
     $this->refreshJSON();
     $this->compareAndUpdateAPIKey($torn['siteID'], $site['enc_api'], $site['iv'], $site['tag']);
@@ -94,9 +96,31 @@ class db_login {
 
   /////////////////////////////////////////////////
 
+  public function register() {
+    $db_request = new db_request();
+    $torn = $db_request->getTornUserByTornID($this->userid);
+    if (!empty($torn)) { $error = new Error_Message("User already registered. Please login.","../index.php"); }
+    $site = $db_request->getSiteUserBySiteID($torn['siteID']);
+    if (!empty($site)) { $error = new Error_Message("User already registered. Please login.","../index.php"); }
+
+
+    $crypt = new API_Crypt();
+    $enc_api = $crypt->pad($this->apikey);
+
+    $result = $db_request->registerUser('member', $enc_api, $crypt, $this->userid, $this->username, $this->factionid, 'member');
+
+    if($result){
+      $success = new Success_Message("You have successfully registered! You may now login.","../index.php");
+    } else {
+      $error = new Error_Message("There was an error registering. Please try again later.","../register.php");
+    }
+  }
+
+  /////////////////////////////////////////////////
+
   private function refreshJSON() {
 
-    $url = 'https://api.torn.com/user/?selections=networth,bazaar,display,inventory,hof,travel,events,messages,education,medals,honors,notifications,personalstats,workstats,crimes,icons,money,perks,battlestats,profile,basic,attacksfull,revivesfull,stocks,properties,jobpoints,merits,refills,weaponexp,ammo,gym,timestamp&key=' . $this->apikey; // url to api json
+    $url = 'https://api.torn.com/user/?selections=networth,medals,honors,personalstats,workstats,crimes,perks,battlestats,profile,basic,stocks,jobpoints,merits,refills,weaponexp,timestamp&key=' . $this->apikey; // url to api json
     $data = file_get_contents($url);
     $file = __DIR__.'/../TornAPIs/' . $this->factionid . '/'.$this->userid.'.json';
 
