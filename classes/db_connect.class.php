@@ -1,14 +1,18 @@
 <?php
 
-class DB_connect {
+class db_connect {
 
   private $host;
   private $username;
   private $password;
   private $database;
+  protected $pdo;
 
+  public function __construct() {
+    $this->connect();
+  }
 
-  public function connect() {
+  private function connect() {
     $config = json_decode(file_get_contents(__DIR__ . '/../config/locker.json'), true);
 
     $this->host = $config['mysql']['server'];
@@ -32,8 +36,8 @@ class DB_connect {
          throw new \PDOException($e->getMessage(), (int)$e->getCode());
     }
 
-    return $pdo;
 
+    $this->pdo = $pdo;
   }
 
 

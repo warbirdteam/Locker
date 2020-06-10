@@ -19,7 +19,7 @@ use Locker\Utility\ReadOnlyArray;
  * a configuration item that is missing will throw an exception,
  * which is useful for catching a mis-configured installation.
  *
- * @package Locker 
+ * @package Locker
  */
 Class Config extends ReadOnlyArray {
 	/**
@@ -40,7 +40,7 @@ Class Config extends ReadOnlyArray {
 		}
 
 		foreach ($files as $file) {
-			if (strpos($file, 0, 1) !== '/') {
+			if (strpos($file, "0", 1) !== '/') {
 				$file = CONFIG_DIR . '/' . $file;
 			}
 

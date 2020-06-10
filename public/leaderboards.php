@@ -1,113 +1,256 @@
 <?php
+//##### MEMBER & LEADERSHIP & ADMIN ONLY PAGE
 session_start();
 $_SESSION['title'] = 'Leaderboard';
 include('includes/header.php');
 ?>
 
-<script src="js/jquery.tablesorter.js"></script>
-<script src="js/jquery.tablesorter.widgets.js"></script>
-<script src="js/tablesort.js"></script>
-<script>
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-</script>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
 <?php
-	switch ($_SESSION['role']) {
-	    case 'admin':
-	        include('includes/navbar-admin.php');
-	        break;
-	    case 'leadership':
-	        include('includes/navbar-leadership.php');
-	        break;
-	    case 'guest':
-	        header("Location: /welcome.php");
-	        break;
-	    case 'member':
-	        include('includes/navbar-member.php');
-	        break;
-	    default:
-					$_SESSION = array();
-	        $_SESSION['error'] = "You are not logged in.";
-	        header("Location: /index.php");
-	        break;
-	}
-include_once(__DIR__ . "/../includes/autoloader.inc.php");
+include('includes/navbar-logged.php');
 ?>
 
-<div class="container-fluid">
+<?php
+if (!isset($_SESSION['roleValue'])) {
+  $_SESSION = array();
+  $_SESSION['error'] = "You are no longer logged in.";
+  header("Location: /index.php");
+}
 
-	<div class="row">
-		<div class="col pt-3 mx-auto">
-			<div class="card border border-dark shadow rounded mt-4">
-				<h5 class="card-header">Leaderboards</h5>
-				<div class="card-body">
+if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+  $_SESSION['error'] = "You do not have access to that area.";
+  header("Location: /welcome.php");
+}
+?>
+
+<div class="container-fluid pt-2 no-gutters">
+
+  <div class="row">
+    <div class="col pt-3 mx-auto">
+      <div class="card border border-dark shadow rounded mt-4">
+        <h5 class="card-header">Warbirds Leaderboards</h5>
+        <div class="card-body">
+
+          <div class="row">
 
 
-
-
-
-          <div class="accordion" id="accordionExample">
-            <div class="card">
-              <div class="card-header" id="headingOne">
-                <h2 class="mb-0">
-                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Under Construction
-                  </button>
-                </h2>
-              </div>
-
-              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="pt-3 col-sm-12 col-lg-6 col-xl-4">
+              <div class="card">
                 <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  <h5 class="card-header text-center border-bottom-0" style="background-color: #f5f376;">Networth</h5>
+                  <hr>
+                  <div class="table-responsive">
+                    <table id="networth_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Faction</th>
+                          <th scope="col">Networth</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+                        <?php
+                        $db_request = new db_request();
+                        $rows = $db_request->getAllMemberInfoOrderBy('networth');
+                        $i = 1;
+                        foreach ($rows as $row) {
+
+                          $member = $db_request->getMemberByTornID($row['tornID']);
+
+                          ?>
+                          <tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+                            <td><?php echo $i;?></td>
+                            <td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+                            <td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+                            switch ($member['factionID']) {
+                              case '13784':
+                              echo "Warbirds";
+                              break;
+                              case '30085':
+                              echo "WBNG";
+                              break;
+                              case '35507':
+                              echo "The Nest";
+                              break;
+                              case '37132':
+                              echo "Fowl Med";
+                              break;
+                              default:
+                              echo "N/A";
+                              break;
+                            }?></a></td>
+                            <td>$<?php echo number_format($row['networth']);?></td>
+                          </tr>
+                          <?php
+                          $i++;
+                        }
+
+                        ?>
+
+
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="card">
-              <div class="card-header" id="headingTwo">
-                <h2 class="mb-0">
-                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Under Construction
-                  </button>
-                </h2>
-              </div>
-              <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+
+
+            <div class="pt-3 col-sm-12 col-lg-6 col-xl-4">
+              <div class="card">
                 <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  <h5 class="card-header text-center border-bottom-0" style="background-color: #f5f376;">Awards</h5>
+                  <hr>
+                  <div class="table-responsive">
+                    <table id="awards_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Faction</th>
+                          <th scope="col">Awards</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+                        <?php
+                        $db_request = new db_request();
+                        $rows = $db_request->getAllMemberInfoOrderBy('awards');
+                        $i = 1;
+                        foreach ($rows as $row) {
+
+                          $member = $db_request->getMemberByTornID($row['tornID']);
+
+                          ?>
+                          <tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+                            <td><?php echo $i;?></td>
+                            <td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+                            <td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+                            switch ($member['factionID']) {
+                              case '13784':
+                              echo "Warbirds";
+                              break;
+                              case '30085':
+                              echo "WBNG";
+                              break;
+                              case '35507':
+                              echo "The Nest";
+                              break;
+                              case '37132':
+                              echo "Fowl Med";
+                              break;
+                              default:
+                              echo "N/A";
+                              break;
+                            }?></a></td>
+                            <td><?php echo number_format($row['awards']);?></td>
+                          </tr>
+                          <?php
+                          $i++;
+                        }
+
+                        ?>
+
+
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="card">
-              <div class="card-header" id="headingThree">
-                <h2 class="mb-0">
-                  <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Under Construction
-                  </button>
-                </h2>
-              </div>
-              <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+
+
+            <div class="pt-3 col-sm-12 col-lg-6 col-xl-4">
+              <div class="card">
                 <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  <h5 class="card-header text-center border-bottom-0" style="background-color: #f5f376;">Level</h5>
+                  <hr>
+                  <div class="table-responsive">
+                    <table id="Level_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%">
+                      <thead class="thead-dark">
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Faction</th>
+                          <th scope="col">Level</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+
+
+                        <?php
+                        $db_request = new db_request();
+                        $rows = $db_request->getAllMemberInfoOrderBy('level');
+                        $i = 1;
+                        if (!empty($rows)) {
+                          foreach ($rows as $row) {
+
+                            $member = $db_request->getMemberByTornID($row['tornID']);
+
+                            ?>
+                                                      <tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+                              <td><?php echo $i;?></td>
+                              <td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+                              <td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+                              switch ($member['factionID']) {
+                                case '13784':
+                                echo "Warbirds";
+                                break;
+                                case '30085':
+                                echo "WBNG";
+                                break;
+                                case '35507':
+                                echo "The Nest";
+                                break;
+                                case '37132':
+                                echo "Fowl Med";
+                                break;
+                                default:
+                                echo "N/A";
+                                break;
+                              }?></a></td>
+                              <td><?php echo $row['level'];?></td>
+                            </tr>
+                            <?php
+                            $i++;
+                          }
+                        }
+                        ?>
+
+
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
 
-
-
-
-
-
-</div> <!-- card-body -->
-</div> <!-- card -->
-</div> <!-- col -->
-</div> <!-- row -->
+          </div> <!-- row -->
+        </div> <!-- card-body -->
+      </div> <!-- card -->
+    </div> <!-- col -->
+  </div> <!-- row -->
 
 
 </div> <!-- container -->
-
+<script>
+$(document).ready(function() {
+  $('.leaderboard_table').DataTable( {
+    "paging":   true,
+    "ordering": true,
+    "info":     false,
+    "pagingType": "numbers",
+    "lengthChange": false,
+  } );
+} );
+</script>
 <?php
 include('includes/footer.php');
 ?>

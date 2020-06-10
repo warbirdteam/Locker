@@ -8,32 +8,34 @@ include('includes/header.php');
 
 
 <?php
-	switch ($_SESSION['role']) {
-	    case 'admin':
-	        include('includes/navbar-admin.php');
-	        break;
-	    case 'leadership':
-	        include('includes/navbar-leadership.php');
-	        break;
-	    case 'member':
-					$_SESSION['error'] = "You do not have access to that area.";
-	        header("Location: /welcome.php");
-	        break;
-	    case 'guest':
-					$_SESSION['error'] = "You do not have access to that area.";
-	        header("Location: /welcome.php");
-	        break;
-    default:
-        $_SESSION = array();
-        $_SESSION['error'] = "You are no longer logged in.";
-        header("Location: /index.php");
-        break;
-	}
-
-// Load classes
-include_once(__DIR__ . "/../includes/autoloader.inc.php");
+include('includes/navbar-logged.php');
 ?>
 
+<?php
+if (!isset($_SESSION['roleValue'])) {
+	$_SESSION = array();
+	$_SESSION['error'] = "You are no longer logged in.";
+	header("Location: /index.php");
+}
+
+if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+	$_SESSION['error'] = "You do not have access to that area.";
+	header("Location: /welcome.php");
+}
+?>
+
+<?php
+if (isset($_SESSION['error'])) {
+	echo '<div class="alert alert-danger my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'</div>';
+	unset($_SESSION['error']);
+}
+?>
+<?php
+if (isset($_SESSION['success'])) {
+	echo '<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['success'].'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+	unset($_SESSION['success']);
+}
+?>
 <div class="container-fluid">
 
 	<div class="row">
@@ -48,7 +50,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
                             <div class="accordion" id="factionLookupAccordion">
                               <?php
-                              $db_faction_lookups = new DB_request();
+                              $db_faction_lookups = new db_request();
                         			$rows = $db_faction_lookups->getAllFactionLookups();
                         			$count = $db_faction_lookups->row_count;
 
@@ -125,7 +127,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
                                           <?php
 
-                                          $db_user_in_lookup = new DB_request();
+                                          $db_user_in_lookup = new db_request();
                                     			$rows = $db_user_in_lookup->getUsersInLookup($lookup_id);
                                     			$count = $db_user_in_lookup->row_count;
 

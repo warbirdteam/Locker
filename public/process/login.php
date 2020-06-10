@@ -1,16 +1,14 @@
 <?php
-//require_once('bootstrap.php');
+//require_once('../bootstrap.php');
 //use Cascade\Cascade;
 session_start();
-include_once(__DIR__ . "/../../includes/autoloader.inc.php");
+include_once("../../includes/autoloader.inc.php");
 
 
 
 if (isset($_POST['apikey']) && !empty($_POST['apikey'])) {
 	$api = $_POST['apikey'];
-
-	$login = new DB_login($api);
-
+	$login = new db_login($api);
 	$row = $login->login();
 
 	if(!empty($row)) {
@@ -19,7 +17,6 @@ if (isset($_POST['apikey']) && !empty($_POST['apikey'])) {
 		$_SESSION['username'] = $row['username'];
 		$_SESSION['factionid'] = $row['factionid'];
 		//Cascade::getLogger('audit')->info('Successful login.', ['user' => $user_email]);
-		$login->refreshJSON();
 		header("Location: ../welcome.php");
 		exit();
 	} else {
@@ -27,5 +24,5 @@ if (isset($_POST['apikey']) && !empty($_POST['apikey'])) {
 		$error = new Error_Message("No user found. You are not registered.","../index.php");
 	}
 }
-$error = new Error_Message("You did not enter anything into the API Textbox.","../index.php");
+$error = new Error_Message("You did not enter anything into the API textbox.","../index.php");
 ?>

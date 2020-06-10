@@ -1,36 +1,27 @@
 <?php
 //##### MEMBER & LEADERSHIP & ADMIN ONLY PAGE
 session_start();
-$_SESSION['title'] = 'Member Information';
+$_SESSION['title'] = 'Member Stats';
 include('includes/header.php');
 ?>
 
 
 
 <?php
-	switch ($_SESSION['role']) {
-	    case 'admin':
-	        include('includes/navbar-admin.php');
-	        break;
-	    case 'leadership':
-	        include('includes/navbar-leadership.php');
-	        break;
-	    case 'member':
-	        include('includes/navbar-member.php');
-	        break;
-	    case 'guest':
-					$_SESSION['error'] = "You do not have access to that area.";
-	        header("Location: /welcome.php");
-	        break;
-    default:
-        $_SESSION = array();
-        $_SESSION['error'] = "You are no longer logged in.";
-        header("Location: /index.php");
-        break;
-	}
+include('includes/navbar-logged.php');
+?>
 
-// Load classes
-include_once(__DIR__ . "/../includes/autoloader.inc.php");
+<?php
+if (!isset($_SESSION['roleValue'])) {
+	$_SESSION = array();
+	$_SESSION['error'] = "You are no longer logged in.";
+	header("Location: /index.php");
+}
+
+if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+	$_SESSION['error'] = "You do not have access to that area.";
+	header("Location: /welcome.php");
+}
 ?>
 
 <div class="container-fluid">
@@ -38,7 +29,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 	<div class="row">
 		<div class="col pt-3 mx-auto">
 			<div class="card border border-dark shadow rounded mt-4">
-				<h5 class="card-header">Member Information</h5>
+				<h5 class="card-header">Member Stats</h5>
 				<div class="card-body">
 
 					<ul class="nav nav-pills nav-justified flex-column flex-md-row my-2" id="memberTabs" role="tablist">
@@ -129,7 +120,7 @@ include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 
 </div> <!-- container -->
-<script type="text/javascript" src="js/memberinfo.js"></script>
+<script type="text/javascript" src="js/memberstats.js"></script>
 <?php
 include('includes/footer.php');
 ?>
