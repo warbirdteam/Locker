@@ -59,13 +59,15 @@ if($db_request_members->row_count > 0 && $db_request_api->row_count > 0){
             $age = isset($memberdata['age']) ? $memberdata['age'] : 0;
             $level = isset($memberdata['level']) ? $memberdata['level'] : 1;
 
+            $discordID = isset($memberdata['discord']['discordID']) ? $memberdata['discord']['discordID'] : null;
+
             $db_request_members->insertMemberPersonalStats($member['tornID'],$xantaken,$overdosed,$refills,$nerverefills,$consumablesused,$boostersused,$energydrinkused,$statenhancers,$traveltimes,$dumpsearches);
 
             $memexists = $db_request_members->getMemberInfoByTornID($member['tornID']);
             if (!empty($memexists)) {
-              $db_request_members->updateMemberInfo($member['tornID'],$donator,$property,$networth,$awards,$age,$level);
+              $db_request_members->updateMemberInfo($member['tornID'],$discordID,$donator,$property,$networth,$awards,$age,$level);
             } else {
-              $db_request_members->insertMemberInfo($member['tornID'],$donator,$property,$networth,$awards,$age,$level);
+              $db_request_members->insertMemberInfo($member['tornID'],$discordID,$donator,$property,$networth,$awards,$age,$level);
             }
             $complete = true;
             $i++;

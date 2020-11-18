@@ -33,6 +33,32 @@ class db_request extends db_connect {
 
   /////////////////////////////////////////////////
 
+  public function getAllMembersIDs() {
+    $sql = "SELECT tornID FROM torn_members";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getAllMembersIDsFromInfo() {
+    $sql = "SELECT tornID FROM torn_members_info";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
   public function getMemberByTornID($tornID) {
     $sql = "SELECT * FROM torn_members WHERE tornID = ?";
     $stmt = $this->pdo->prepare($sql);
@@ -96,18 +122,18 @@ class db_request extends db_connect {
 
   /////////////////////////////////////////////////
 
-  public function updateMemberInfo($tornID, $donator, $property, $networth, $awards, $age, $level) {
-    $sql = "UPDATE torn_members_info SET donator = ?, property = ?, networth = ?, awards = ?, age = ?, level = ? WHERE tornID = ?";
+  public function updateMemberInfo($tornID, $discordID, $donator, $property, $networth, $awards, $age, $level) {
+    $sql = "UPDATE torn_members_info SET discordID = ?, donator = ?, property = ?, networth = ?, awards = ?, age = ?, level = ? WHERE tornID = ?";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$donator, $property, $networth, $awards, $age, $level, $tornID]);
+    $stmt->execute([$discordID, $donator, $property, $networth, $awards, $age, $level, $tornID]);
   }
 
   /////////////////////////////////////////////////
 
-  public function insertMemberInfo($tornID, $donator, $property, $networth, $awards, $age, $level) {
-    $sql = "INSERT INTO torn_members_info (tornID, donator, property, networth, awards, age, level) values (?,?,?,?,?,?,?)";
+  public function insertMemberInfo($tornID, $discordID, $donator, $property, $networth, $awards, $age, $level) {
+    $sql = "INSERT INTO torn_members_info (tornID, discordID, donator, property, networth, awards, age, level) values (?,?,?,?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$tornID, $donator, $property, $networth, $awards, $age, $level]);
+    $stmt->execute([$tornID, $discordID, $donator, $property, $networth, $awards, $age, $level]);
   }
 
   /////////////////////////////////////////////////
@@ -129,13 +155,17 @@ class db_request extends db_connect {
   /////////////////////////////////////////////////
 
   public function removeMemberByTornID($tornID) {
-    $sql = "DELETE FROM torn_members WHERE tornID = ?";
-    $stmtdelete = $this->pdo->prepare($sql);
-    $stmtdelete->execute([$tornID]);
+    $delete_sql_member = "DELETE FROM torn_members WHERE tornID = ?";
+    $stmt_delete_member = $this->pdo->prepare($delete_sql_member);
+    $stmt_delete_member->execute([$tornID]);
+  }
 
-    $sql = "DELETE FROM torn_members_info WHERE tornID = ?";
-    $stmtdelete = $this->pdo->prepare($sql);
-    $stmtdelete->execute([$tornID]);
+  /////////////////////////////////////////////////
+
+  public function removeMemberInfoByTornID($tornID) {
+    $delete_sql_info = "DELETE FROM torn_members_info WHERE tornID = ?";
+    $stmt_delete_info = $this->pdo->prepare($delete_sql_info);
+    $stmt_delete_info->execute([$tornID]);
   }
 
   /////////////////////////////////////////////////
@@ -359,6 +389,7 @@ class db_request extends db_connect {
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$enc_api, $crypt->iv, $crypt->tag, $siteID]);
   }
+
 
   /////////////////////////////////////////////////
   ////////           END OF CLASS          ////////
