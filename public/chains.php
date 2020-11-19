@@ -44,6 +44,12 @@ if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = lead
 			<li class="nav-item">
 			<a class="nav-link" id="wbng-chains-tab" data-toggle="tab" href="#wbng-chains" role="tab">WBNG Chains</a>
 			</li>
+			<li class="nav-item">
+			<a class="nav-link" id="fowl-chains-tab" data-toggle="tab" href="#fowl-chains" role="tab">FowlMed Chains</a>
+			</li>
+			<li class="nav-item">
+			<a class="nav-link" id="other-chains-tab" data-toggle="tab" href="#other-chains" role="tab">Other Chains</a>
+			</li>
 		</ul>
 		<div class="tab-content" id="chainTabContent">
 
@@ -65,7 +71,7 @@ if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = lead
 						 <?php
 						 // Get member rows
 						 $nest_chains = new DB_request();
-						 $rows = $nest_chains->getChainReports('35507','50');
+						 $rows = $nest_chains->getChainsByFactionID('35507');
 						 $count = $nest_chains->row_count;
 
 						 if($count > 0){
@@ -107,7 +113,7 @@ if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = lead
 						 <?php
 						 // Get member rows
 						 $wb_chains = new DB_request();
-						 $rows = $wb_chains->getChainReports('13784','100');
+						 $rows = $wb_chains->getChainsByFactionID('13784');
 						 $count = $wb_chains->row_count;
 
 						 if($count > 0){
@@ -149,7 +155,7 @@ if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = lead
 						 <?php
 						 // Get member rows
 						 $wbng_chains = new DB_request();
-						 $rows = $wbng_chains->getChainReports('30085','100');
+						 $rows = $wbng_chains->getChainsByFactionID('30085');
 						 $count = $wbng_chains->row_count;
 
 						 if($count > 0){
@@ -163,6 +169,86 @@ if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = lead
 								<td><?php echo $row["hits"]; ?></td>
 								<td><?php echo $row["respect"]; ?></td>
 								<td><?php echo $row["duration"]; ?></td>
+							</tr>
+
+						 <?php } }else{ ?>
+							 <tr><td colspan="5">No information found...</td></tr>
+						 <?php } ?>
+					 </tbody>
+				</table>
+			</div>
+			</div>
+
+
+			<div class="tab-pane fade" id="fowl-chains" role="tabpanel">
+				<div class="table-responsive">
+				<table class="table table-hover table-striped table-dark py-4 mt-4">
+					 <thead class="thead-dark">
+						 <tr>
+							 <th scope="col">Chain</th>
+							 <th scope="col">Date</th>
+							 <th scope="col">Hits</th>
+							 <th scope="col">Respect</th>
+							 <th scope="col">Duration</th>
+						 </tr>
+					 </thead>
+					 <tbody>
+
+
+						 <?php
+						 // Get member rows
+						 $fowl_chains = new DB_request();
+						 $rows = $fowl_chains->getChainsByFactionID('37132');
+						 $count = $fowl_chains->row_count;
+
+						 if($count > 0){
+
+						 foreach ($rows as $row){
+						 ?>
+
+							<tr>
+								<td><?php echo '<a class="text-reset" href="https://www.torn.com/war.php?step=chainreport&chainID=' . $row["ndx"] . '" target="_blank">' . $row["ndx"] . '</a>';?></td>
+								<td><?php echo $row["date"]; ?></td>
+								<td><?php echo $row["hits"]; ?></td>
+								<td><?php echo $row["respect"]; ?></td>
+								<td><?php echo $row["duration"]; ?></td>
+							</tr>
+
+						 <?php } }else{ ?>
+							 <tr><td colspan="5">No information found...</td></tr>
+						 <?php } ?>
+					 </tbody>
+				</table>
+			</div>
+			</div>
+
+
+			<div class="tab-pane fade" id="other-chains" role="tabpanel">
+				<div class="table-responsive">
+				<table class="table table-hover table-striped table-dark py-4 mt-4">
+					 <thead class="thead-dark">
+						 <tr>
+							 <th scope="col">Faction</th>
+							 <th scope="col">Chain</th>
+						 </tr>
+					 </thead>
+					 <tbody>
+
+
+						 <?php
+						 // Get member rows
+						 $other_chains = new DB_request();
+						 $rows = $other_chains->getAllChainIDs();
+						 $count = $other_chains->row_count;
+
+						 if($count > 0){
+
+						 foreach ($rows as $row){
+						 ?>
+
+							<tr>
+								<td><?php echo '<a class="text-reset" href="https://www.torn.com/factions.php?step=profile&ID=' . $row["factionID"] . '" target="_blank">' . $row["factionID"] . '</a>';?></td>
+								<td><?php echo '<a class="text-reset" href="https://www.torn.com/war.php?step=chainreport&chainID=' . $row["chainID"] . '" target="_blank">' . $row["chainID"] . '</a>';?></td>
 							</tr>
 
 						 <?php } }else{ ?>

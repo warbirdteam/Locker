@@ -266,7 +266,35 @@ class db_request extends db_connect {
     }
 
     return $row;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getChainsByFactionID($factionID) {
+    $sql = "SELECT * FROM faction_chains WHERE factionID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionID]);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
     }
+
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
+  public function getAllChainIDs() {
+    $sql = "SELECT * FROM faction_chains";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
 
   /////////////////////////////////////////////////
 
