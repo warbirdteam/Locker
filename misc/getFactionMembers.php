@@ -1,12 +1,25 @@
 <?php
 include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
-
 refreshFactionMembers('1468764', '13784'); //Warbirds
 refreshFactionMembers('1468764', '35507'); //The Nest
 refreshFactionMembers('1468764', '30085'); //Warbirds Next Gen
 refreshFactionMembers('1468764', '37132'); //Fowl Med
+removeOldMembers();
 
+
+
+function removeOldMembers() {
+  $db_request_members = new db_request();
+  $allMemberIDs = $db_request_members->getAllMembersIDs();
+  $allMemberIDsByInfo = $db_request_members->getAllMembersIDsFromInfo();
+  $diffs = array_diff($allMemberIDsByInfo,$allMemberIDs);
+  foreach ($diffs as $diff){
+
+    $db_request_members->removeMemberByTornID($diff);
+    $db_request_members->removeMemberInfoByTornID($diff);
+  }
+}
 
 
 function refreshFactionMembers($tornid, $factionid) {
@@ -51,6 +64,7 @@ function refreshFactionMembers($tornid, $factionid) {
       $memberData = $db_request->getMemberByTornID($cutuser);
       if ($memberData) {
         $db_request->removeMemberByTornID($cutuser);
+        $db_request->removeMemberInfoByTornID($cutuser);
       }
       next($diff);
     } //while

@@ -6,3 +6,4 @@ api/
 misc/test.php
 TornAPIs/*
 !TornAPIs/README.md
+.eslintrc.json

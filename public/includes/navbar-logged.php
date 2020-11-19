@@ -67,6 +67,8 @@ $_SESSION['role'] = $site['siteRole'];
 					<li class="nav-item active">
 						<a class="nav-item nav-link" href="welcome.php">Home</a>
 					</li>
+
+
 					<?php
 					if ($_SESSION['roleValue'] >= 4) {
 						?>
@@ -80,12 +82,22 @@ $_SESSION['role'] = $site['siteRole'];
 						</li>
 						<?php
 					}
-					if ($_SESSION['roleValue'] >= 3) { ?>
+					?>
+
+
 						<li class="nav-item active dropdown">
 							<a class="nav-link dropdown-toggle" href="#navTools" id="navToolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								Tools
 							</a>
 							<div class="dropdown-menu" aria-labelledby="navToolsDropdown">
+
+								<?php
+								if ($_SESSION['roleValue'] >= 2) { ?>
+								<a class="dropdown-item" href="#"><i class="far fa-building"></i></i> <s>Company Monitor</s></a>
+
+								<?php
+								}
+								if ($_SESSION['roleValue'] >= 3) { ?>
 								<a class="dropdown-item" href="faction-lookup.php"><i class="fas fa-search"></i> Faction Lookup</a>
 								<a class="dropdown-item" href="#"><i class="fas fa-file-code"></i> <s>Energy Reports</s></a>
 								<a class="dropdown-item" href="https://www.heasleys.org/fs/"><i class="fas fa-calculator"></i> Respect Simulator</a>
@@ -93,6 +105,8 @@ $_SESSION['role'] = $site['siteRole'];
 						</li>
 						<?php
 					}
+
+
 					if ($_SESSION['roleValue'] >= 2) {
 						?>
 						<li class="nav-item active dropdown">
@@ -103,7 +117,7 @@ $_SESSION['role'] = $site['siteRole'];
 								<a class="dropdown-item" href="faction.php"><i class="fas fa-users"></i> Faction</a>
 								<a class="dropdown-item" href="leaderboards.php"><i class="fas fa-crown"></i> Leaderboards</a>
 								<a class="dropdown-item" href="memberstats.php"><i class="fas fa-archive"></i> Member Stats</a>
-								<a class="dropdown-item" href="#"><i class="fas fa-link"></i><s> Chain History</s></a>
+								<a class="dropdown-item" href="chains.php"><i class="fas fa-link"></i> Chain History</a>
 								<?php
 								if ($_SESSION['roleValue'] >= 3) {
 									?>
@@ -116,6 +130,8 @@ $_SESSION['role'] = $site['siteRole'];
 						<?php
 					}
 					?>
+
+
 					<li class="nav-item active dropdown">
 						<a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<?php echo $_SESSION['username']; ?>
