@@ -6,6 +6,8 @@ include('includes/header.php'); //required to include basic bootstrap and javasc
 ?>
 
 <script src="js/highcharts.js"></script>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
 <?php
 include('includes/navbar-logged.php');
@@ -62,7 +64,7 @@ $json = json_decode($data, true); // decode the JSON feed
 
     <div class="row">
       <!-- Battle Stats Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-xl-4">
+      <div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
         <div class="card border border-dark shadow rounded h-100">
           <h5 class="card-header">Battle Stats</h5>
           <div class="card-body">
@@ -95,7 +97,7 @@ $json = json_decode($data, true); // decode the JSON feed
 
 
 			<!-- Report Card Card -->
-			<div class="pt-3 col-sm-12 col-md-6 col-xl-4">
+			<div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
 				<div class="card border border-dark shadow rounded h-100">
 					<h5 class="card-header">Report Card</h5>
 					<div class="card-body">
@@ -108,16 +110,221 @@ $json = json_decode($data, true); // decode the JSON feed
 
 
       <!-- Networth Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-xl-4">
+      <div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
         <div class="card border border-dark shadow rounded h-100">
           <h5 class="card-header">Networth: $<?php echo number_format($json["personalstats"]["networth"]); ?></h5>
-          <div class="card-body">
+          <div class="card-body p-0">
 
             <div id="networth"></div>
 
           </div>
         </div>
       </div> <!-- col -->
+
+			<div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+				<div class="card border border-dark shadow rounded h-100">
+					<h5 class="card-header">Warbirds Family Leaderboards</h5>
+					<div class="card-body p-2">
+
+
+						<ul class="nav nav-tabs mb-1" role="tablist">
+							<li class="nav-item" role="presentation">
+							<a class="nav-link active" id="networth-tab" data-toggle="tab" href="#networth" role="tab" aria-controls="networth" aria-selected="true">Networth</a>
+							</li>
+							<li class="nav-item" role="presentation">
+							<a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Awards</a>
+							</li>
+							<li class="nav-item" role="presentation">
+							<a class="nav-link" id="level-tab" data-toggle="tab" href="#level" role="tab" aria-controls="level" aria-selected="false">Level</a>
+							</li>
+						</ul>
+
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade show active h-100" id="networth" role="tabpanel" aria-labelledby="networth-tab">
+
+								<div class="table-responsive">
+									<table id="networth_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%;">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Faction</th>
+												<th scope="col">Networth</th>
+											</tr>
+										</thead>
+										<tbody>
+
+
+											<?php
+											$db_request = new db_request();
+											$rows = $db_request->getAllMemberInfoOrderBy('networth');
+											$i = 1;
+											foreach ($rows as $row) {
+
+												$member = $db_request->getMemberByTornID($row['tornID']);
+
+												?>
+												<tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+													<td><?php echo $i;?></td>
+													<td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+													<td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+													switch ($member['factionID']) {
+														case '13784':
+														echo "Warbirds";
+														break;
+														case '30085':
+														echo "WBNG";
+														break;
+														case '35507':
+														echo "The Nest";
+														break;
+														case '37132':
+														echo "Fowl Med";
+														break;
+														default:
+														echo "N/A";
+														break;
+													}?></a></td>
+													<td>$<?php echo number_format($row['networth']);?></td>
+												</tr>
+												<?php
+												$i++;
+											}
+
+											?>
+
+
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+							<div class="tab-pane fade" id="awards" role="tabpanel" aria-labelledby="awards-tab">
+
+								<div class="table-responsive">
+									<table id="awards_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Faction</th>
+												<th scope="col">Awards</th>
+											</tr>
+										</thead>
+										<tbody>
+
+
+											<?php
+											$db_request = new db_request();
+											$rows = $db_request->getAllMemberInfoOrderBy('awards');
+											$i = 1;
+											foreach ($rows as $row) {
+
+												$member = $db_request->getMemberByTornID($row['tornID']);
+
+												?>
+												<tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+													<td><?php echo $i;?></td>
+													<td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+													<td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+													switch ($member['factionID']) {
+														case '13784':
+														echo "Warbirds";
+														break;
+														case '30085':
+														echo "WBNG";
+														break;
+														case '35507':
+														echo "The Nest";
+														break;
+														case '37132':
+														echo "Fowl Med";
+														break;
+														default:
+														echo "N/A";
+														break;
+													}?></a></td>
+													<td><?php echo number_format($row['awards']);?></td>
+												</tr>
+												<?php
+												$i++;
+											}
+
+											?>
+
+
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+							<div class="tab-pane fade" id="level" role="tabpanel" aria-labelledby="level-tab">
+
+								<div class="table-responsive">
+									<table id="Level_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Faction</th>
+												<th scope="col">Level</th>
+											</tr>
+										</thead>
+										<tbody>
+
+
+											<?php
+											$db_request = new db_request();
+											$rows = $db_request->getAllMemberInfoOrderBy('level');
+											$i = 1;
+											if (!empty($rows)) {
+												foreach ($rows as $row) {
+
+													$member = $db_request->getMemberByTornID($row['tornID']);
+
+													?>
+																										<tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+														<td><?php echo $i;?></td>
+														<td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+														<td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+														switch ($member['factionID']) {
+															case '13784':
+															echo "Warbirds";
+															break;
+															case '30085':
+															echo "WBNG";
+															break;
+															case '35507':
+															echo "The Nest";
+															break;
+															case '37132':
+															echo "Fowl Med";
+															break;
+															default:
+															echo "N/A";
+															break;
+														}?></a></td>
+														<td><?php echo $row['level'];?></td>
+													</tr>
+													<?php
+													$i++;
+												}
+											}
+											?>
+
+
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
 
     </div>
 
@@ -352,6 +559,17 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <script type="text/javascript" src="js/memberstats.js"></script>
+<script>
+$(document).ready(function() {
+  $('.leaderboard_table').DataTable( {
+    "paging":   true,
+    "ordering": true,
+    "info":     false,
+    "pagingType": "numbers",
+    "lengthChange": false,
+  } );
+} );
+</script>
 <?php
 include('includes/footer.php');
 ?>
