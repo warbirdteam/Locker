@@ -17,7 +17,7 @@ $(function () {
       })
 
       .done(function( data ) {
-        if (data.includes('Error: Something went wrong')) {
+        if (data.includes('Error')) {
           //window.location = "welcome.php";
         } else {
           $('#' + time + '-' + faction + ' > div.table-responsive').html(data);

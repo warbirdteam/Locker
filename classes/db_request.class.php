@@ -138,10 +138,10 @@ class db_request extends db_connect {
 
   /////////////////////////////////////////////////
 
-  public function insertMemberPersonalStats($tornID, $xantaken, $overdosed, $refills, $nerverefills, $consumablesused, $boostersused, $energydrinkused, $statenhancers, $traveltimes, $dumpsearches) {
-    $sql = "INSERT INTO torn_members_personalstats (tornID, xanax, overdosed, refill_energy, refill_nerve, consumablesused, boostersused, energydrinkused, statenhancersused, travel, dumpsearches) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+  public function insertMemberPersonalStats($tornID, $xantaken, $overdosed, $refills, $nerverefills, $consumablesused, $boostersused, $energydrinkused, $statenhancers, $traveltimes, $dumpsearches, $revives) {
+    $sql = "INSERT INTO torn_members_personalstats (tornID, xanax, overdosed, refill_energy, refill_nerve, consumablesused, boostersused, energydrinkused, statenhancersused, travel, dumpsearches) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$tornID, $xantaken, $overdosed, $refills, $nerverefills, $consumablesused, $boostersused, $energydrinkused, $statenhancers, $traveltimes, $dumpsearches]);
+    $stmt->execute([$tornID, $xantaken, $overdosed, $refills, $nerverefills, $consumablesused, $boostersused, $energydrinkused, $statenhancers, $traveltimes, $dumpsearches, $revives]);
   }
 
   /////////////////////////////////////////////////
@@ -298,11 +298,44 @@ class db_request extends db_connect {
 
   /////////////////////////////////////////////////
 
-  public function getMemberStatsByIDWeek($userid) {
-    $sql = "SELECT * FROM (SELECT tornID FROM torn_members_personalstats WHERE tornID=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/7) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek from (SELECT * FROM torn_members_personalstats WHERE tornID=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) order by timestamp desc) as tmpweek) as tmpmath";
+  public function setMemberStatsByIDWeek($userid) {
+    $sql = "SELECT * FROM (SELECT tornID FROM torn_members_personalstats WHERE tornID=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/7) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek, max(revives)-min(revives) as revivesweek from (SELECT * FROM torn_members_personalstats WHERE tornID=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) order by timestamp desc) as tmpweek) as tmpmath";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$userid,$userid]);
-    $row = $stmt->fetchAll();
+    $row = $stmt->fetch();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    } else {
+
+      $sql = "SELECT tornID FROM torn_members_personalstats_week WHERE tornID=?";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$userid]);
+      $member_week_userid = $stmt->fetchColumn();
+
+      if (empty($member_week_userid)) {
+
+        $sql = "INSERT INTO torn_members_personalstats_week (tornID, xanax, xanScore, overdosed, refill_energy, refill_nerve, consumablesused, boostersused, energydrinkused, statenhancersused, travel, dumpsearches, revives) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $stmtinsert = $this->pdo->prepare($sql);
+        $stmtinsert->execute([$userid, $row['xanaxweek'], $row['xanscore'], $row['overdosedweek'], $row['refill_energyweek'], $row['refill_nerveweek'], $row['consumablesusedweek'], $row['boostersusedweek'], $row['energydrinkusedweek'], $row['statenhancersusedweek'], $row['travelweek'], $row['dumpsearchesweek'], $row['revivesweek']]);
+
+      } else {
+
+        $sql = "UPDATE torn_members_personalstats_week SET xanax = ?, xanScore = ?, overdosed = ?, refill_energy = ?, refill_nerve = ?, consumablesused = ?, boostersused = ?, energydrinkused = ?, statenhancersused = ?, travel = ?, dumpsearches = ?, revives = ? WHERE tornID = ?";
+        $stmtupdate = $this->pdo->prepare($sql);
+        $stmtupdate->execute([$row['xanaxweek'], $row['xanscore'], $row['overdosedweek'], $row['refill_energyweek'], $row['refill_nerveweek'], $row['consumablesusedweek'], $row['boostersusedweek'], $row['energydrinkusedweek'], $row['statenhancersusedweek'], $row['travelweek'], $row['dumpsearchesweek'], $row['revivesweek'], $userid]);
+
+      }
+
+    }
+  }
+
+
+  public function getMemberStatsByIDWeek($userid) {
+    $sql = "SELECT * FROM torn_members_personalstats_week WHERE tornID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid]);
+    $row = $stmt->fetch();
     $this->row_count = $stmt->rowCount();
     if(empty($row)) {
       return NULL;
@@ -312,11 +345,43 @@ class db_request extends db_connect {
 
   /////////////////////////////////////////////////
 
-  public function getMemberStatsByIDMonth($userid) {
-    $sql = "SELECT * FROM (SELECT tornID FROM torn_members_personalstats WHERE tornID=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/30) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek from (SELECT * FROM torn_members_personalstats WHERE tornID=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -30 DAY) order by timestamp desc) as tmpmonth) as tmpmath";
+  public function setMemberStatsByIDMonth($userid) {
+    $sql = "SELECT * FROM (SELECT tornID FROM torn_members_personalstats WHERE tornID=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxmonth, max(overdosed)-min(overdosed) as overdosedmonth, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/7) as xanscore, max(refill_energy)-min(refill_energy) as refill_energymonth, max(refill_nerve)-min(refill_nerve) as refill_nervemonth, max(consumablesused)-min(consumablesused) as consumablesusedmonth, max(boostersused)-min(boostersused) as boostersusedmonth, max(energydrinkused)-min(energydrinkused) as energydrinkusedmonth, max(statenhancersused)-min(statenhancersused) as statenhancersusedmonth, max(travel)-min(travel) as travelmonth, max(dumpsearches)-min(dumpsearches) as dumpsearchesmonth, max(revives)-min(revives) as revivesmonth from (SELECT * FROM torn_members_personalstats WHERE tornID=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) order by timestamp desc) as tmpmonth) as tmpmath";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$userid,$userid]);
-    $row = $stmt->fetchAll();
+    $row = $stmt->fetch();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    } else {
+
+      $sql = "SELECT tornID FROM torn_members_personalstats_month WHERE tornID=?";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$userid]);
+      $member_month_userid = $stmt->fetchColumn();
+
+      if (empty($member_month_userid)) {
+
+        $sql = "INSERT INTO torn_members_personalstats_month (tornID, xanax, xanScore, overdosed, refill_energy, refill_nerve, consumablesused, boostersused, energydrinkused, statenhancersused, travel, dumpsearches, revives) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        $stmtinsert = $this->pdo->prepare($sql);
+        $stmtinsert->execute([$userid, $row['xanaxmonth'], $row['xanscore'], $row['overdosedmonth'], $row['refill_energymonth'], $row['refill_nervemonth'], $row['consumablesusedmonth'], $row['boostersusedmonth'], $row['energydrinkusedmonth'], $row['statenhancersusedmonth'], $row['travelmonth'], $row['dumpsearchesmonth'], $row['revivesmonth']]);
+
+      } else {
+
+        $sql = "UPDATE torn_members_personalstats_month SET xanax = ?, xanScore = ?, overdosed = ?, refill_energy = ?, refill_nerve = ?, consumablesused = ?, boostersused = ?, energydrinkused = ?, statenhancersused = ?, travel = ?, dumpsearches = ?, revives = ? WHERE tornID = ?";
+        $stmtupdate = $this->pdo->prepare($sql);
+        $stmtupdate->execute([$row['xanaxmonth'], $row['xanscore'], $row['overdosedmonth'], $row['refill_energymonth'], $row['refill_nervemonth'], $row['consumablesusedmonth'], $row['boostersusedmonth'], $row['energydrinkusedmonth'], $row['statenhancersusedmonth'], $row['travelmonth'], $row['dumpsearchesmonth'], $row['revivesmonth'], $userid]);
+
+      }
+
+    }
+  }
+
+  public function getMemberStatsByIDMonth($userid) {
+    $sql = "SELECT * FROM torn_members_personalstats_month WHERE tornID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid]);
+    $row = $stmt->fetch();
     $this->row_count = $stmt->rowCount();
     if(empty($row)) {
       return NULL;
@@ -387,13 +452,26 @@ class db_request extends db_connect {
   }
 
   /////////////////////////////////////////////////
-  ////////         LOGIN FUNCTIONS         ////////
+  ////////                                 ////////
   /////////////////////////////////////////////////
 
   public function getTornUserByTornID($userid) {
     $sql = "SELECT * FROM torn_users WHERE tornID = ? LIMIT 1";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$userid]);
+    $torn = $stmt->fetch();
+    if(empty($torn)) {
+      return NULL;
+    }
+
+    return $torn;
+  }
+
+
+  public function getTornUserBySiteID($siteID) {
+    $sql = "SELECT * FROM torn_users WHERE siteID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$siteID]);
     $torn = $stmt->fetch();
     if(empty($torn)) {
       return NULL;
@@ -417,17 +495,58 @@ class db_request extends db_connect {
   }
 
 
+  public function getAllSiteUsers() {
+    $sql = "SELECT siteID, siteRole FROM site_users ORDER BY siteRole, siteID ASC";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    return $row;
+  }
+
+  public function getSiteUserPreferencesBySiteID($siteID) {
+    $sql = "SELECT * FROM site_users_preferences WHERE siteID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$siteID]);
+    $site = $stmt->fetch();
+    if(empty($site)) {
+      return NULL;
+    }
+
+    return $site;
+  }
+
+  public function updateSiteUserPreferencesBySiteID($siteID, $share_api) {
+    $sql = "UPDATE site_users_preferences SET share_api = ? WHERE siteID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$share_api, $siteID]);
+  }
+
+  public function updateSiteUserRoleBySiteID($siteID, $role) {
+    $sql = "UPDATE site_users SET siteRole = ? WHERE siteID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$role, $siteID]);
+  }
+
+
   public function registerUser($siteRole, $enc_api, $crypt, $tornID, $tornName, $tornFaction, $factionRole) {
     $sql = "INSERT INTO site_users (siteRole, enc_api, iv, tag) VALUES(?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
     $result = $stmt->execute([$siteRole, $enc_api, $crypt->iv, $crypt->tag]);
-    if (!$result) {return FALSE;};
+    if (!$result) {return NULL;};
 
     $last_id = $this->pdo->lastInsertId();
 
     $sql = "INSERT INTO torn_users (tornID, siteID, tornName, tornFaction, factionRole) VALUES(?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
-    $result = $stmt->execute([$tornID, $last_id, $tornName, $tornFaction, $factionRole]);
+    $stmt->execute([$tornID, $last_id, $tornName, $tornFaction, $factionRole]);
+
+    $sql = "INSERT INTO site_users_preferences (siteID) VALUES(?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$last_id]);
 
     return $result;
   }
@@ -440,6 +559,33 @@ class db_request extends db_connect {
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$enc_api, $crypt->iv, $crypt->tag, $siteID]);
   }
+
+
+  public function updateTornName($siteID, $username) {
+    $sql = "UPDATE torn_users SET tornName=? WHERE siteID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$username, $siteID]);
+  }
+
+
+
+
+
+  /////////////////////////////////////////////////
+  ////////          LOG FUNCTIONS          ////////
+  /////////////////////////////////////////////////
+
+
+  public function log_action($tornName, $tornID, $siteID, $siteRole, $actionType, $action) {
+
+  }
+
+  public function log_api_error($username, $userid, $siteid, $action) {
+
+  }
+
+
+
 
 
   /////////////////////////////////////////////////

@@ -70,21 +70,21 @@ $json = json_decode($data, true); // decode the JSON feed
               <div class="col">
                 <ul class="list-group list-group-flush border-bottom">
                   <li class="list-group-item list-group-item-dark border border-dark"><b>Stats</b>:</li>
-                  <li class="list-group-item border-right"><b>Strength</b>: <?php echo number_format($json['strength']); ?></li>
-                  <li class="list-group-item border-right"><b>Defense</b>: <?php echo number_format($json['defense']); ?></li>
-                  <li class="list-group-item border-right"><b>Speed</b>: <?php echo number_format($json['speed']); ?></li>
-                  <li class="list-group-item border-right"><b>Dexterity</b>: <?php echo number_format($json['dexterity']); ?></li>
-                  <li class="list-group-item border-right"><b>Total</b>: <?php echo number_format($json['total']); ?></li>
+                  <li class="list-group-item border-right"><b>Strength</b>:<br> <?php echo number_format($json['strength']); ?></li>
+                  <li class="list-group-item border-right"><b>Defense</b>:<br> <?php echo number_format($json['defense']); ?></li>
+                  <li class="list-group-item border-right"><b>Speed</b>:<br> <?php echo number_format($json['speed']); ?></li>
+                  <li class="list-group-item border-right"><b>Dexterity</b>:<br> <?php echo number_format($json['dexterity']); ?></li>
+                  <li class="list-group-item border-right"><b>Total</b>:<br> <?php echo number_format($json['total']); ?></li>
                 </ul>
               </div>
               <div class="col">
                 <ul class="list-group list-group-flush border-bottom">
                   <li class="list-group-item list-group-item-dark border border-dark border-left-0"><b>Effective</b>:</li>
-                  <li class="list-group-item"><b>Strength</b>: <?php echo number_format( ($json['strength'] * (1 + ($json['strength_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Defense</b>: <?php echo number_format( ($json['defense'] * (1 + ($json['defense_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Speed</b>: <?php echo number_format( ($json['speed'] * (1 + ($json['speed_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Dexterity</b>: <?php echo number_format( ($json['dexterity'] * (1 + ($json['dexterity_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Total</b>: <?php echo number_format( (($json['strength'] * (1 + ($json['strength_modifier'] / 100))) + ($json['defense'] * (1 + ($json['defense_modifier'] / 100))) + ($json['speed'] * (1 + ($json['speed_modifier'] / 100))) + ($json['dexterity'] * (1 + ($json['dexterity_modifier'] / 100)))) ); ?></li>
+                  <li class="list-group-item"><b>Strength</b>:<br> <?php echo number_format( ($json['strength'] * (1 + ($json['strength_modifier'] / 100))) ); ?></li>
+                  <li class="list-group-item"><b>Defense</b>:<br> <?php echo number_format( ($json['defense'] * (1 + ($json['defense_modifier'] / 100))) ); ?></li>
+                  <li class="list-group-item"><b>Speed</b>:<br> <?php echo number_format( ($json['speed'] * (1 + ($json['speed_modifier'] / 100))) ); ?></li>
+                  <li class="list-group-item"><b>Dexterity</b>:<br> <?php echo number_format( ($json['dexterity'] * (1 + ($json['dexterity_modifier'] / 100))) ); ?></li>
+                  <li class="list-group-item"><b>Total</b>:<br> <?php echo number_format( (($json['strength'] * (1 + ($json['strength_modifier'] / 100))) + ($json['defense'] * (1 + ($json['defense_modifier'] / 100))) + ($json['speed'] * (1 + ($json['speed_modifier'] / 100))) + ($json['dexterity'] * (1 + ($json['dexterity_modifier'] / 100)))) ); ?></li>
                 </ul>
               </div>
             </div>
@@ -92,6 +92,19 @@ $json = json_decode($data, true); // decode the JSON feed
           </div>
         </div>
       </div> <!-- col -->
+
+
+			<!-- Report Card Card -->
+			<div class="pt-3 col-sm-12 col-md-6 col-xl-4">
+				<div class="card border border-dark shadow rounded h-100">
+					<h5 class="card-header">Report Card</h5>
+					<div class="card-body">
+
+						<span>Coming soon...</span>
+
+					</div>
+				</div>
+			</div> <!-- col -->
 
 
       <!-- Networth Card -->
@@ -106,37 +119,96 @@ $json = json_decode($data, true); // decode the JSON feed
         </div>
       </div> <!-- col -->
 
-      <!-- Report Card Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-xl-4">
-        <div class="card border border-dark shadow rounded h-100">
-          <h5 class="card-header">Report Card</h5>
-          <div class="card-body">
-
-            <span>Coming soon...</span>
-
-          </div>
-        </div>
-      </div> <!-- col -->
-
     </div>
 
+		<div class="row">
+			<div class="container-fluid">
 
-    <!-- div class="col pt-3">
-    <div class="card border border-dark shadow rounded">
-    <h5 class="card-header">Test</h5>
-    <div class="card-body">
+				<div class="row">
+					<div class="col pt-3 mx-auto">
+						<div class="card border border-dark shadow rounded mt-4">
+							<h5 class="card-header">Member Stats</h5>
+							<div class="card-body">
 
-    <div id="sizer">
-    <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none" data-size="xs">xs</div>
-    <div class="d-none d-sm-block d-md-none d-lg-none d-xl-none" data-size="sm">sm</div>
-    <div class="d-none d-sm-none d-md-block d-lg-none d-xl-none" data-size="md">md</div>
-    <div class="d-none d-sm-none d-md-none d-lg-block d-xl-none" data-size="lg">lg</div>
-    <div class="d-none d-sm-none d-md-none d-lg-none d-xl-block" data-size="xl">xl</div>
-  </div>
+								<?php
+								$db_request_faction = new db_request();
+								$faction = $db_request_faction->getFactionByFactionID($_SESSION['factionid']);
 
-</div>
-</div>
-</div --> <!-- col -->
+								if ($faction) {
+									$factionName = $faction['factionName'];
+								}
+
+								?>
+
+								<ul class="nav nav-pills nav-justified flex-column flex-md-row my-2" id="memberTabs" role="tablist">
+									<li class="nav-item mx-2 mb-2">
+										<a class="flex-md-fill nav-link border border-dark" id="week-tab" data-fid="<?php echo $_SESSION['factionid']; ?>" data-timeline="week" data-toggle="tab" href="#week-<?php echo $_SESSION['factionid']; ?>" role="tab"><?php echo $factionName; ?>: 7 Days</a>
+									</li>
+									<li class="nav-item  mx-2 mb-2">
+										<a class="flex-md-fill nav-link border border-dark" id="month-tab" data-fid="<?php echo $_SESSION['factionid']; ?>" data-timeline="month" data-toggle="tab" href="#month-<?php echo $_SESSION['factionid']; ?>" role="tab"><?php echo $factionName; ?>: 30 Days</a>
+									</li>
+								</ul>
+								<div class="tab-content" id="memberTabsContent">
+									<?php
+									$faction = $_SESSION['factionid'];
+									?>
+
+
+										<div class="tab-pane fade" id="week-<?php echo $faction;?>" role="tabpanel">
+											<div class="table-responsive">
+
+												<div class="d-flex justify-content-center mt-2">
+													<div class="spinner-grow spinner-grow-sm" role="status">
+														<span class="sr-only">Loading...</span>
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+												</div>
+
+											</div>
+
+										</div>
+
+
+										<div class="tab-pane fade" id="month-<?php echo $faction;?>" role="tabpanel">
+											<div class="table-responsive">
+
+												<div class="d-flex justify-content-center mt-2">
+													<div class="spinner-grow spinner-grow-sm" role="status">
+														<span class="sr-only">Loading...</span>
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+												</div>
+
+											</div>
+
+										</div>
+
+
+
+								</div>
+
+							</div> <!-- card-body -->
+						</div> <!-- card -->
+					</div> <!-- col -->
+				</div> <!-- row -->
+
+
+			</div> <!-- container -->
+		</div>
 
 </div> <!-- container-fluid -->
 </div> <!-- content -->
@@ -279,6 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
   myChart.redraw({ duration: 100 });
 });
 </script>
+<script type="text/javascript" src="js/memberstats.js"></script>
 <?php
 include('includes/footer.php');
 ?>

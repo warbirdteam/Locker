@@ -18,7 +18,7 @@ if (!isset($_SESSION['roleValue'])) {
 	header("Location: /index.php");
 }
 
-if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
 	$_SESSION['error'] = "You do not have access to that area.";
 	header("Location: /welcome.php");
 }

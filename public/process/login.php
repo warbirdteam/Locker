@@ -14,6 +14,7 @@ if (isset($_POST['apikey']) && !empty($_POST['apikey'])) {
 	if(!empty($row)) {
 		$_SESSION['userid'] = $row['tornid'];
 		$_SESSION['role'] = $row['userrole'];
+		$_SESSION['siteID'] = $row['siteID'];
 		$_SESSION['username'] = $row['username'];
 		$_SESSION['factionid'] = $row['factionid'];
 		//Cascade::getLogger('audit')->info('Successful login.', ['user' => $user_email]);

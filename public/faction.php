@@ -18,7 +18,7 @@ if (!isset($_SESSION['roleValue'])) {
 	header("Location: /index.php");
 }
 
-if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
 	$_SESSION['error'] = "You do not have access to that area.";
 	header("Location: /welcome.php");
 }
@@ -79,6 +79,7 @@ if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = lead
 													$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
 													$title = round((time() - $row['last_action'])/60/60);
 													$title .= ' hours ago';
+													if (strpos($row['status_desc'], 'In federal jail') !== false) {$class = 'class="bg-danger"';}
 													if (strpos($row['status_details'], 'Resting in Peace') !== false) {$class = 'class="bg-info"';}
 													echo '<tr ' . $class . '><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $tornID . '" target="_blank">' . $row['tornName'] . ' [' . $tornID . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>' . $row['status_desc'] . ' ' . $row['status_details'] . '</td></tr>';
 												}

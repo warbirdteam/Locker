@@ -30,7 +30,7 @@ if ($_SESSION['roleValue'] <= 1) { // 1 = guest / register, 2 = member, 3 = lead
   <div class="row">
     <div class="col pt-3 mx-auto">
       <div class="card border border-dark shadow rounded mt-4">
-        <h5 class="card-header">Warbirds Leaderboards</h5>
+        <h5 class="card-header">Warbirds Family Leaderboards</h5>
         <div class="card-body">
 
           <div class="row">
