@@ -62,42 +62,23 @@ $json = json_decode($data, true); // decode the JSON feed
   ?>
   <div class="container-fluid pt-2 no-gutters">
 
-    <div class="row">
-      <!-- Battle Stats Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+    <div class="row justify-content-lg-center justify-content-md-center m">
+
+
+      <!-- Networth Card -->
+      <div class="pt-3 col-sm-12 col-md-6 col-lg-6 col-xl-4 pl-xl-1">
         <div class="card border border-dark shadow rounded h-100">
-          <h5 class="card-header">Battle Stats</h5>
-          <div class="card-body">
-            <div class="row no-gutters">
-              <div class="col">
-                <ul class="list-group list-group-flush border-bottom">
-                  <li class="list-group-item list-group-item-dark border border-dark"><b>Stats</b>:</li>
-                  <li class="list-group-item border-right"><b>Strength</b>:<br> <?php echo number_format($json['strength']); ?></li>
-                  <li class="list-group-item border-right"><b>Defense</b>:<br> <?php echo number_format($json['defense']); ?></li>
-                  <li class="list-group-item border-right"><b>Speed</b>:<br> <?php echo number_format($json['speed']); ?></li>
-                  <li class="list-group-item border-right"><b>Dexterity</b>:<br> <?php echo number_format($json['dexterity']); ?></li>
-                  <li class="list-group-item border-right"><b>Total</b>:<br> <?php echo number_format($json['total']); ?></li>
-                </ul>
-              </div>
-              <div class="col">
-                <ul class="list-group list-group-flush border-bottom">
-                  <li class="list-group-item list-group-item-dark border border-dark border-left-0"><b>Effective</b>:</li>
-                  <li class="list-group-item"><b>Strength</b>:<br> <?php echo number_format( ($json['strength'] * (1 + ($json['strength_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Defense</b>:<br> <?php echo number_format( ($json['defense'] * (1 + ($json['defense_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Speed</b>:<br> <?php echo number_format( ($json['speed'] * (1 + ($json['speed_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Dexterity</b>:<br> <?php echo number_format( ($json['dexterity'] * (1 + ($json['dexterity_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Total</b>:<br> <?php echo number_format( (($json['strength'] * (1 + ($json['strength_modifier'] / 100))) + ($json['defense'] * (1 + ($json['defense_modifier'] / 100))) + ($json['speed'] * (1 + ($json['speed_modifier'] / 100))) + ($json['dexterity'] * (1 + ($json['dexterity_modifier'] / 100)))) ); ?></li>
-                </ul>
-              </div>
-            </div>
+          <h5 class="card-header">Networth: $<?php echo number_format($json["personalstats"]["networth"]); ?></h5>
+          <div class="card-body p-0">
+
+            <div id="networth"></div>
 
           </div>
         </div>
       </div> <!-- col -->
 
-
 			<!-- Report Card Card -->
-			<div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+			<div class="pt-3 col-sm-12 col-md-6 col-lg-6 col-xl-4 pl-xl-0 pl-lg-0 pl-md-0">
 				<div class="card border border-dark shadow rounded h-100">
 					<h5 class="card-header">Report Card (beta)</h5>
 					<div class="card-body">
@@ -159,20 +140,14 @@ $json = json_decode($data, true); // decode the JSON feed
 							<?php
 						}
 
-						if ($memberStatsMonth) {
-
-
-
-
-
 							?>
 
-
-
-							<?php
-						}
-
-						?>
+							<hr><p class="text-center"><b>Battle Stats:</b></p>
+							<span><b>Strength:</b> <?php echo number_format($json['strength']); ?></span><br>
+							<span><b>Defense:</b> <?php echo number_format($json['defense']); ?></span><br>
+							<span><b>Speed:</b> <?php echo number_format($json['speed']); ?></span><br>
+							<span><b>Dexterity:</b> <?php echo number_format($json['dexterity']); ?></span><br>
+							<span><b>Total:</b> <?php echo number_format($json['total']); ?></span>
 
 
 					</div>
@@ -180,19 +155,7 @@ $json = json_decode($data, true); // decode the JSON feed
 			</div> <!-- col -->
 
 
-      <!-- Networth Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
-        <div class="card border border-dark shadow rounded h-100">
-          <h5 class="card-header">Networth: $<?php echo number_format($json["personalstats"]["networth"]); ?></h5>
-          <div class="card-body p-0">
-
-            <div id="networth"></div>
-
-          </div>
-        </div>
-      </div> <!-- col -->
-
-			<div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
+			<div class="pt-3 col-sm-12 col-md-8 col-lg-8 col-xl-4 pl-xl-0 pr-xl-1">
 				<div class="card border border-dark shadow rounded h-100">
 					<h5 class="card-header">Warbirds Family Leaderboards</h5>
 					<div class="card-body p-2">
