@@ -24,7 +24,7 @@ $(function () {
           $('[data-toggle="tooltip"]').tooltip();
 
 
-          $("table").tablesorter({
+          $("table.member_info_table").tablesorter({
             theme: 'bootstrap',
             sortInitialOrder: "asc",
             widthFixed: false,
