@@ -99,10 +99,81 @@ $json = json_decode($data, true); // decode the JSON feed
 			<!-- Report Card Card -->
 			<div class="pt-3 col-sm-12 col-md-6 col-lg-4 col-xl-3">
 				<div class="card border border-dark shadow rounded h-100">
-					<h5 class="card-header">Report Card</h5>
+					<h5 class="card-header">Report Card (beta)</h5>
 					<div class="card-body">
+						<p class='text-center'><b><?php echo $_SESSION['username'] . ' [' . $_SESSION['userid'] . ']'; ?></b></p><hr>
+						<?php
+						$rp_request = new db_request();
 
-						<span>Coming soon...</span>
+						$memberInfo = $rp_request->getMemberInfoByTornID($_SESSION['userid']);
+
+						$memberStatsWeek = $rp_request->getMemberStatsByIDWeek($_SESSION['userid']);
+						$memberStatsMonth = $rp_request->getMemberStatsByIDMonth($_SESSION['userid']);
+
+						if ($memberInfo) {
+
+							if ($memberInfo['property'] == 'Private Island') {
+								$property = 'Private Island<span class="text-success"> <i class="fas fa-check"></i></span>';
+							} else {
+								$property = $memberInfo["property"].'<span class="text-danger"> <i class="fas fa-times"></i></span>';
+							}
+
+							if ($memberInfo['donator'] == 1) {
+								$donator = 'Yes<span class="text-success"> <i class="fas fa-check"></i></span>';
+							} else {
+								$donator = 'No<span class="text-danger"> <i class="fas fa-times"></i></span>';
+							}
+
+							?>
+							<span><b>Property:</b> <?php echo $property;?></span><br>
+							<span><b>Donator Status:</b> <?php echo $donator;?></span><br><br>
+							<?php
+						}
+
+						if ($memberStatsWeek && $memberStatsMonth) {
+
+							if ($memberStatsWeek['xanScore'] >= 2) {
+								$xanscoreWeek = '<span class="text-success">' . $memberStatsWeek['xanScore'] . '</span>';
+								$xanaxWeek = '<span class="text-success">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+							} else {
+								$xanscoreWeek = '<span class="text-danger">' . $memberStatsWeek['xanScore'] . '</span>';
+								$xanaxWeek = '<span class="text-danger">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+							}
+
+							if ($memberStatsMonth['xanScore'] >= 2) {
+								$xanscoreMonth = '<span class="text-success">' . $memberStatsMonth['xanScore'] . '</span>';
+								$xanaxMonth = '<span class="text-success">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
+							} else {
+								$xanscoreMonth = '<span class="text-danger">' . $memberStatsMonth['xanScore'] . '</span>';
+								$xanaxMonth = '<span class="text-danger">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
+							}
+
+
+							?>
+
+							<span><b>Weekly XanScore:</b> <?php echo $xanscoreWeek;?></span><br>
+							<span><b>Monthly XanScore:</b> <?php echo $xanscoreMonth;?></span><br><br>
+							<span><b>Weekly Xanax:</b> <?php echo $xanaxWeek;?></span><br>
+							<span><b>Monthly Xanax:</b> <?php echo $xanaxMonth;?></span><br>
+
+							<?php
+						}
+
+						if ($memberStatsMonth) {
+
+
+
+
+
+							?>
+
+
+
+							<?php
+						}
+
+						?>
+
 
 					</div>
 				</div>
@@ -129,7 +200,7 @@ $json = json_decode($data, true); // decode the JSON feed
 
 						<ul class="nav nav-tabs mb-1" role="tablist">
 							<li class="nav-item" role="presentation">
-							<a class="nav-link active" id="networth-tab" data-toggle="tab" href="#networth" role="tab" aria-controls="networth" aria-selected="true">Networth</a>
+							<a class="nav-link active" id="networth-tab" data-toggle="tab" href="#networth-leaderboard" role="tab" aria-controls="networth" aria-selected="true">Networth</a>
 							</li>
 							<li class="nav-item" role="presentation">
 							<a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Awards</a>
@@ -140,7 +211,7 @@ $json = json_decode($data, true); // decode the JSON feed
 						</ul>
 
 						<div class="tab-content" id="myTabContent">
-							<div class="tab-pane fade show active h-100" id="networth" role="tabpanel" aria-labelledby="networth-tab">
+							<div class="tab-pane fade show active h-100" id="networth-leaderboard" role="tabpanel" aria-labelledby="networth-tab">
 
 								<div class="table-responsive">
 									<table id="networth_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%;">
@@ -563,11 +634,14 @@ document.addEventListener('DOMContentLoaded', function () {
 $(document).ready(function() {
   $('.leaderboard_table').DataTable( {
     "paging":   true,
-    "ordering": true,
+    "ordering": false,
     "info":     false,
     "pagingType": "numbers",
     "lengthChange": false,
+		"pageLength": 10
   } );
+
+	$('#week-tab').click();
 } );
 </script>
 <?php
