@@ -66,7 +66,7 @@ $json = json_decode($data, true); // decode the JSON feed
 
 
       <!-- Networth Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-lg-6 col-xl-4 pl-xl-1">
+      <div class="pt-3 col-sm-12 col-md-6 order-md-1 col-lg-6 col-xl-4 pl-xl-1">
         <div class="card border border-dark shadow rounded h-100">
           <h5 class="card-header">Networth: $<?php echo number_format($json["personalstats"]["networth"]); ?></h5>
           <div class="card-body p-0">
@@ -78,7 +78,7 @@ $json = json_decode($data, true); // decode the JSON feed
       </div> <!-- col -->
 
 			<!-- Report Card Card -->
-			<div class="pt-3 col-sm-12 col-md-6 col-lg-6 col-xl-4 pl-xl-0 pl-lg-0 pl-md-0">
+			<div class="pt-3 col-sm-12 order-first col-md-6 order-md-2 col-lg-6 col-xl-4 pl-xl-0 pl-lg-0 pl-md-0">
 				<div class="card border border-dark shadow rounded h-100">
 					<h5 class="card-header">Report Card (beta)</h5>
 					<div class="card-body">
@@ -155,7 +155,7 @@ $json = json_decode($data, true); // decode the JSON feed
 			</div> <!-- col -->
 
 
-			<div class="pt-3 col-sm-12 col-md-8 col-lg-8 col-xl-4 pl-xl-0 pr-xl-1">
+			<div class="pt-3 col-sm-12 col-md-8 order-md-3 col-lg-8 col-xl-4 pl-xl-0 pr-xl-1">
 				<div class="card border border-dark shadow rounded h-100">
 					<h5 class="card-header">Warbirds Family Leaderboards</h5>
 					<div class="card-body p-2">
