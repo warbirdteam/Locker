@@ -78,7 +78,7 @@ $json = json_decode($data, true); // decode the JSON feed
       </div> <!-- col -->
 
 			<!-- Report Card Card -->
-			<div class="pt-3 col-sm-12 order-first col-md-6 order-md-2 col-lg-6 col-xl-4 pl-xl-0 pl-lg-0 pl-md-0">
+			<div class="pt-3 col-sm-12 order-first col-md-6 order-md-2 col-lg-6 col-xl-3 pl-md-0">
 				<div class="card border border-dark shadow rounded h-100">
 					<h5 class="card-header">Report Card (beta)</h5>
 					<div class="card-body">
@@ -139,15 +139,20 @@ $json = json_decode($data, true); // decode the JSON feed
 
 							<?php
 						}
+							$strength_effective = ($json['strength'] * ( 1 + ($json['strength_modifier'] / 100)));
+							$defense_effective = ($json['defense'] * ( 1 + ($json['defense_modifier'] / 100)));
+							$speed_effective = ($json['speed'] * ( 1 + ($json['speed_modifier'] / 100)));
+							$dexterity_effective = ($json['dexterity'] * ( 1 + ($json['dexterity_modifier'] / 100)));
+							$total_effective = ($strength_effective + $defense_effective + $speed_effective + $dexterity_effective);
 
 							?>
 
 							<hr><p class="text-center"><b>Battle Stats:</b></p>
-							<span><b>Strength:</b> <?php echo number_format($json['strength']); ?></span><br>
-							<span><b>Defense:</b> <?php echo number_format($json['defense']); ?></span><br>
-							<span><b>Speed:</b> <?php echo number_format($json['speed']); ?></span><br>
-							<span><b>Dexterity:</b> <?php echo number_format($json['dexterity']); ?></span><br>
-							<span><b>Total:</b> <?php echo number_format($json['total']); ?></span>
+							<span><b>Strength:</b> <?php echo number_format($json['strength']); if ($json['strength_modifier'] < 0) {echo '<span class="text-danger">-' .  $json['strength_modifier'] . '%</span> -> <b>' . number_format($strength_effective) . '</b>';} else {echo '<span class="text-success"> +' .  $json['strength_modifier'] . '%</span> -> <b>' . number_format($strength_effective) . '</b>';}?></span><br>
+							<span><b>Defense:</b> <?php echo number_format($json['defense']); if ($json['defense_modifier'] < 0) {echo '<span class="text-danger">-' .  $json['defense_modifier'] . '%</span> -> <b>' . number_format($defense_effective) . '</b>';} else {echo '<span class="text-success"> +' .  $json['defense_modifier'] . '%</span> -> <b>' . number_format($defense_effective) . '</b>';}?></span><br>
+							<span><b>Speed:</b> <?php echo number_format($json['speed']); if ($json['speed_modifier'] < 0) {echo '<span class="text-danger">-' .  $json['speed_modifier'] . '%</span> -> <b>' . number_format($speed_effective) . '</b>';} else {echo '<span class="text-success"> +' .  $json['speed_modifier'] . '%</span> -> <b>' . number_format($speed_effective) . '</b>';}?></span><br>
+							<span><b>Dexterity:</b> <?php echo number_format($json['dexterity']); if ($json['dexterity_modifier'] < 0) {echo '<span class="text-danger">-' .  $json['dexterity_modifier'] . '%</span> -> <b>' . number_format($dexterity_effective) . '</b>';} else {echo '<span class="text-success"> +' .  $json['dexterity_modifier'] . '%</span> -> <b>' . number_format($dexterity_effective) . '</b>';}?></span><br>
+							<span><b>Total:</b> <?php echo number_format($json['total']) . '-> <b>' . number_format($total_effective) . '</b>'; ?></span><br>
 
 
 					</div>
