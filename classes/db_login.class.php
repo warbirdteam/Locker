@@ -6,6 +6,8 @@ class db_login {
   private $userid;
   private $username;
   private $factionid;
+  private $site_user;
+  private $torn_user;
 
   /////////////////////////////////////////////////
 
@@ -22,10 +24,6 @@ class db_login {
     }
 
     $this->verifyAPI();
-
-    if ( !$this->verifyFaction($this->factionid) ) {
-      $error = new Error_Message("You are not in the Warbirds Family.","../index.php");
-    }
 
   }
 
@@ -80,39 +78,63 @@ class db_login {
   /////////////////////////////////////////////////
 
   public function login() {
-    $db_request = new db_request();
-    $torn = $db_request->getTornUserByTornID($this->userid);
-    if (empty($torn)) { $error = new Error_Message("No user found. You are not registered.","../index.php"); }
-    $site = $db_request->getSiteUserBySiteID($torn['siteID']);
-    if (empty($site)) { $error = new Error_Message("No user found. You are not registered.","../index.php"); }
+    $account_exists = "false";
+    while ($account_exists == "false") {
 
-    $this->refreshJSON();
-    $this->compareAndUpdateAPIKey($torn['siteID'], $site['enc_api'], $site['iv'], $site['tag']);
+      $db_request = new db_request();
+      $torn = $db_request->getTornUserByTornID($this->userid);
+      if (empty($torn)) {
+        $this->register();
+        $this->verifyAPI();
+        continue;
+      } else {
+        $this->torn_user = $torn;
+      }
 
-    $data = ["tornid" => $torn['tornID'], "factionid" => $torn['tornFaction'], "username" => $torn['tornName'], "userrole" => $site['siteRole']];
 
-    return $data;
+      $site = $db_request->getSiteUserBySiteID($this->torn_user['siteID']);
+      if (empty($site)) {
+        $this->register();
+        $this->verifyAPI();
+        continue;
+      } else {
+        $this->site_user = $site;
+      }
+
+      $account_exists = "true";
+    } //while
+
+
+      if ($this->torn_user['tornName'] != $this->username) {
+        $db_request->updateTornName($this->torn_user['siteID'], $this->username);
+        $this->torn_user['tornName'] = $this->username;
+      }
+
+      if ($this->site_user['siteRole'] == "member") {
+        if ( !$this->verifyFaction($this->factionid) ) {
+          $error = new Error_Message("You are not in the Warbirds Family.","../index.php");
+        }
+      }
+
+
+      $this->refreshJSON();
+      $this->compareAndUpdateAPIKey($this->torn_user['siteID'], $this->site_user['enc_api'], $this->site_user['iv'], $this->site_user['tag']);
+      $data = ["tornid" => $this->torn_user['tornID'], "factionid" => $this->torn_user['tornFaction'], "username" => $this->torn_user['tornName'], "userrole" => $this->site_user['siteRole'], "siteID" => $this->torn_user['siteID']];
+
+      return $data;
   }
 
   /////////////////////////////////////////////////
 
   public function register() {
-    $db_request = new db_request();
-    $torn = $db_request->getTornUserByTornID($this->userid);
-    if (!empty($torn)) { $error = new Error_Message("User already registered. Please login.","../index.php"); }
-    $site = $db_request->getSiteUserBySiteID($torn['siteID']);
-    if (!empty($site)) { $error = new Error_Message("User already registered. Please login.","../index.php"); }
-
-
     $crypt = new API_Crypt();
     $enc_api = $crypt->pad($this->apikey);
 
+    $db_request = new db_request();
     $result = $db_request->registerUser('member', $enc_api, $crypt, $this->userid, $this->username, $this->factionid, 'member');
 
-    if($result){
-      $success = new Success_Message("You have successfully registered! You may now login.","../index.php");
-    } else {
-      $error = new Error_Message("There was an error registering. Please try again later.","../register.php");
+    if(empty($result)){
+      $error = new Error_Message("There was an error registering. Please try again later.","../index.php");
     }
   }
 
@@ -120,7 +142,7 @@ class db_login {
 
   private function refreshJSON() {
 
-    $url = 'https://api.torn.com/user/?selections=networth,medals,honors,personalstats,workstats,crimes,perks,battlestats,profile,basic,stocks,jobpoints,merits,refills,weaponexp,timestamp&key=' . $this->apikey; // url to api json
+    $url = 'https://api.torn.com/user/?selections=networth,personalstats,battlestats,profile,basic,timestamp&key=' . $this->apikey; // url to api json
     $data = file_get_contents($url);
     $file = __DIR__.'/../TornAPIs/' . $this->factionid . '/'.$this->userid.'.json';
 

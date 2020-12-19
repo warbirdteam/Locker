@@ -2,7 +2,7 @@
 This is a basic header. In the webpage.php file, add this first, then add any extra css/js files needed. Then add appropriate navbars
 */?>
 <!DOCTYPE html>
-<html>
+<html lang="en" xml:lang="en">
   <head>
     <title><?php echo $_SESSION['title']; ?></title>
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">

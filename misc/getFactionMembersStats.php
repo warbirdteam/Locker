@@ -50,6 +50,7 @@ if($db_request_members->row_count > 0 && $db_request_api->row_count > 0){
             $dumpsearches = isset($memberdata['personalstats']['dumpsearches']) ? $memberdata['personalstats']['dumpsearches'] : 0;
             $overdosed = isset($memberdata['personalstats']['overdosed']) ? $memberdata['personalstats']['overdosed'] : 0;
             $statenhancers = isset($memberdata['personalstats']['statenhancersused']) ? $memberdata['personalstats']['statenhancersused'] : 0;
+            $revives = isset($memberdata['personalstats']['revives']) ? $memberdata['personalstats']['revives'] : 0;
 
 
             $donator = isset($memberdata['donator']) ? $memberdata['donator'] : 0;
@@ -61,7 +62,10 @@ if($db_request_members->row_count > 0 && $db_request_api->row_count > 0){
 
             $discordID = isset($memberdata['discord']['discordID']) ? $memberdata['discord']['discordID'] : null;
 
-            $db_request_members->insertMemberPersonalStats($member['tornID'],$xantaken,$overdosed,$refills,$nerverefills,$consumablesused,$boostersused,$energydrinkused,$statenhancers,$traveltimes,$dumpsearches);
+            $db_request_members->insertMemberPersonalStats($member['tornID'],$xantaken,$overdosed,$refills,$nerverefills,$consumablesused,$boostersused,$energydrinkused,$statenhancers,$traveltimes,$dumpsearches,$revives);
+
+            $db_request_members->setMemberStatsByIDWeek($member['tornID']);
+            $db_request_members->setMemberStatsByIDMonth($member['tornID']);
 
             $memexists = $db_request_members->getMemberInfoByTornID($member['tornID']);
             if (!empty($memexists)) {

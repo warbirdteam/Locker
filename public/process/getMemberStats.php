@@ -9,8 +9,9 @@ if (!isset($_SESSION['roleValue'])) {
 	header("Location: /index.php");
 }
 
-if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+if ($_SESSION['roleValue'] < 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
 	$_SESSION['error'] = "You do not have access to that area.";
+	exit("Error: You do not have access to that area.");
 	header("Location: /welcome.php");
 }
 
@@ -24,6 +25,12 @@ if (isset($_POST["fid"])) {
     $timeline = $_POST["timeline"];
   } else { $_SESSION['error'] = 'Something went wrong with member information lookup.'; exit("Error: Something went wrong with member information lookup.");}
 } else { $_SESSION['error'] = 'Something went wrong with member information lookup.'; exit("Error: Something went wrong with member information lookup.");}
+
+if ($_SESSION['roleValue'] <= 2) {
+	if ($_POST['fid'] != $_SESSION['factionid']) {
+		$_SESSION['error'] = 'Something went wrong with member information lookup.'; exit("Error: Something went wrong with member information lookup.");
+	}
+}
 
 switch ($fid) {
 
@@ -61,6 +68,7 @@ function memberInfo($faction, $timeline) {
   <th scope="col" class="text-truncate">SEs</th>
   <th scope="col" class="text-truncate">Travels</th>
   <th scope="col" class="text-truncate">Dump</th>
+	<th scope="col" class="text-truncate">Revives</th>
   </tr>
   </thead><tbody>';
 
@@ -112,29 +120,31 @@ function memberInfo($faction, $timeline) {
         $title = round((time() - $lastaction)/60/60);
         $title .= ' hours ago';
 
+				if ($_SESSION['userid'] == $tornID) {
+					$rowclass = ' style="background-color: rgba(101, 201, 0, 0.41);"';
+				} else {
+					$rowclass = '';
+				}
 
-        if ($memberName == 'Geometroid') {
-          $fallenclass = ' class="bg-info"';
-          $lastactionclass = 'class="bg-info"';
-          $propertyclass = 'class="bg-info"';
-          $donatorclass = 'class="bg-info"';
-        } else {
-          $fallenclass = '';
+				$lastactionclass = ($lastaction <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+				$propertyclass = strpos($property,'Private Island') !== false ? '' : 'class="bg-danger"';
+				$donatorclass = $donator == 0 ? 'class="bg-danger"' : '';
 
-          $lastactionclass = ($lastaction <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
-          $propertyclass = strpos($property,'Private Island') !== false ? '' : 'class="bg-danger"';
-          $donatorclass = $donator == 0 ? 'class="bg-danger"' : '';
+				if ($row['status_details'] == 'Resting in Peace') {
+					$rowclass = ' class="bg-info"';
+					$lastactionclass = 'class="bg-info"';
+					$propertyclass = 'class="bg-info"';
+					$donatorclass = 'class="bg-info"';
+				}
 
-        }
-
-        $tabledata .= '<tr'.$fallenclass.'><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $tornID . '" target="_blank">' . $memberName . ' [' . $tornID . ']</a></td><td ' . $donatorclass . '>'  . $donator . '</td><td ' . $propertyclass . '>'. $property . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$lastaction) . '</td><td>'.number_format((float)$data[0]["xanscore"], 2, '.', '').'</dt><td>'.$data[0]["xanaxweek"].'</td><td>'.$data[0]["overdosedweek"].'</td><td>'.$data[0]["refill_energyweek"].'</td><td>'.$data[0]["refill_nerveweek"].'</td><td>'.$data[0]["boostersusedweek"].'</td><td>'.$data[0]["energydrinkusedweek"].'</td><td>'.$data[0]["statenhancersusedweek"].'</td><td>'.$data[0]["travelweek"].'</td><td>'.$data[0]["dumpsearchesweek"].'</td></tr>';
+        $tabledata .= '<tr'.$rowclass.'><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $tornID . '" target="_blank">' . $memberName . ' [' . $tornID . ']</a></td><td ' . $donatorclass . '>'  . $donator . '</td><td ' . $propertyclass . '>'. $property . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$lastaction) . '</td><td>'.number_format((float)$data["xanScore"], 2, '.', '').'</dt><td>'.$data["xanax"].'</td><td>'.$data["overdosed"].'</td><td>'.$data["refill_energy"].'</td><td>'.$data["refill_nerve"].'</td><td>'.$data["boostersused"].'</td><td>'.$data["energydrinkused"].'</td><td>'.$data["statenhancersused"].'</td><td>'.$data["travel"].'</td><td>'.$data["dumpsearches"].'</td><td>'.$data["revives"].'</td></tr>';
       }
     }
 
     echo $tabledata;
-    echo '</tbody><tfoot><tr><td colspan=15 align=center>Total: ' . $counter . '/' . $count . '</td></tr></tfoot></table>';
+    echo '</tbody><tfoot><tr><td colspan=16 align=center>Total: ' . $counter . '/' . $count . '</td></tr></tfoot></table>';
   } else {
-    echo '<tr><td colspan=15 align=center>No members found...</td></tr></table>';
+    echo '<tr><td colspan=16 align=center>No members found...</td></tr></table>';
   }
 
 }

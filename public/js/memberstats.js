@@ -17,14 +17,14 @@ $(function () {
       })
 
       .done(function( data ) {
-        if (data.includes('Error: Something went wrong')) {
+        if (data.includes('Error')) {
           //window.location = "welcome.php";
         } else {
           $('#' + time + '-' + faction + ' > div.table-responsive').html(data);
           $('[data-toggle="tooltip"]').tooltip();
 
 
-          $("table").tablesorter({
+          $("table.member_info_table").tablesorter({
             theme: 'bootstrap',
             sortInitialOrder: "asc",
             widthFixed: false,

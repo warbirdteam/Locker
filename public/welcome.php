@@ -6,6 +6,8 @@ include('includes/header.php'); //required to include basic bootstrap and javasc
 ?>
 
 <script src="js/highcharts.js"></script>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
 <?php
 include('includes/navbar-logged.php');
@@ -60,45 +62,14 @@ $json = json_decode($data, true); // decode the JSON feed
   ?>
   <div class="container-fluid pt-2 no-gutters">
 
-    <div class="row">
-      <!-- Battle Stats Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-xl-4">
-        <div class="card border border-dark shadow rounded h-100">
-          <h5 class="card-header">Battle Stats</h5>
-          <div class="card-body">
-            <div class="row no-gutters">
-              <div class="col">
-                <ul class="list-group list-group-flush border-bottom">
-                  <li class="list-group-item list-group-item-dark border border-dark"><b>Stats</b>:</li>
-                  <li class="list-group-item border-right"><b>Strength</b>: <?php echo number_format($json['strength']); ?></li>
-                  <li class="list-group-item border-right"><b>Defense</b>: <?php echo number_format($json['defense']); ?></li>
-                  <li class="list-group-item border-right"><b>Speed</b>: <?php echo number_format($json['speed']); ?></li>
-                  <li class="list-group-item border-right"><b>Dexterity</b>: <?php echo number_format($json['dexterity']); ?></li>
-                  <li class="list-group-item border-right"><b>Total</b>: <?php echo number_format($json['total']); ?></li>
-                </ul>
-              </div>
-              <div class="col">
-                <ul class="list-group list-group-flush border-bottom">
-                  <li class="list-group-item list-group-item-dark border border-dark border-left-0"><b>Effective</b>:</li>
-                  <li class="list-group-item"><b>Strength</b>: <?php echo number_format( ($json['strength'] * (1 + ($json['strength_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Defense</b>: <?php echo number_format( ($json['defense'] * (1 + ($json['defense_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Speed</b>: <?php echo number_format( ($json['speed'] * (1 + ($json['speed_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Dexterity</b>: <?php echo number_format( ($json['dexterity'] * (1 + ($json['dexterity_modifier'] / 100))) ); ?></li>
-                  <li class="list-group-item"><b>Total</b>: <?php echo number_format( (($json['strength'] * (1 + ($json['strength_modifier'] / 100))) + ($json['defense'] * (1 + ($json['defense_modifier'] / 100))) + ($json['speed'] * (1 + ($json['speed_modifier'] / 100))) + ($json['dexterity'] * (1 + ($json['dexterity_modifier'] / 100)))) ); ?></li>
-                </ul>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div> <!-- col -->
+    <div class="row justify-content-lg-center justify-content-md-center m">
 
 
       <!-- Networth Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-xl-4">
+      <div class="pt-3 col-sm-12 col-md-6 order-md-1 col-lg-6 col-xl-4 pl-xl-1">
         <div class="card border border-dark shadow rounded h-100">
           <h5 class="card-header">Networth: $<?php echo number_format($json["personalstats"]["networth"]); ?></h5>
-          <div class="card-body">
+          <div class="card-body p-0">
 
             <div id="networth"></div>
 
@@ -106,37 +77,384 @@ $json = json_decode($data, true); // decode the JSON feed
         </div>
       </div> <!-- col -->
 
-      <!-- Report Card Card -->
-      <div class="pt-3 col-sm-12 col-md-6 col-xl-4">
-        <div class="card border border-dark shadow rounded h-100">
-          <h5 class="card-header">Report Card</h5>
-          <div class="card-body">
+			<!-- Report Card Card -->
+			<div class="pt-3 col-sm-12 order-first col-md-6 order-md-2 col-lg-6 col-xl-3 pl-md-0">
+				<div class="card border border-dark shadow rounded h-100">
+					<h5 class="card-header">Report Card (beta)</h5>
+					<div class="card-body">
+						<p class='text-center'><b><?php echo $_SESSION['username'] . ' [' . $_SESSION['userid'] . ']'; ?></b></p><hr>
+						<?php
+						$rp_request = new db_request();
 
-            <span>Coming soon...</span>
+						$memberInfo = $rp_request->getMemberInfoByTornID($_SESSION['userid']);
 
-          </div>
-        </div>
-      </div> <!-- col -->
+						$memberStatsWeek = $rp_request->getMemberStatsByIDWeek($_SESSION['userid']);
+						$memberStatsMonth = $rp_request->getMemberStatsByIDMonth($_SESSION['userid']);
+
+						if ($memberInfo) {
+
+							if ($memberInfo['property'] == 'Private Island') {
+								$property = 'Private Island<span class="text-success"> <i class="fas fa-check"></i></span>';
+							} else {
+								$property = $memberInfo["property"].'<span class="text-danger"> <i class="fas fa-times"></i></span>';
+							}
+
+							if ($memberInfo['donator'] == 1) {
+								$donator = 'Yes<span class="text-success"> <i class="fas fa-check"></i></span>';
+							} else {
+								$donator = 'No<span class="text-danger"> <i class="fas fa-times"></i></span>';
+							}
+
+							?>
+							<span><b>Property:</b> <?php echo $property;?></span><br>
+							<span><b>Donator Status:</b> <?php echo $donator;?></span><br><br>
+							<?php
+						}
+
+						if ($memberStatsWeek && $memberStatsMonth) {
+
+							if ($memberStatsWeek['xanScore'] >= 2) {
+								$xanscoreWeek = '<span class="text-success">' . $memberStatsWeek['xanScore'] . '</span>';
+								$xanaxWeek = '<span class="text-success">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+							} else {
+								$xanscoreWeek = '<span class="text-danger">' . $memberStatsWeek['xanScore'] . '</span>';
+								$xanaxWeek = '<span class="text-danger">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+							}
+
+							if ($memberStatsMonth['xanScore'] >= 2) {
+								$xanscoreMonth = '<span class="text-success">' . $memberStatsMonth['xanScore'] . '</span>';
+								$xanaxMonth = '<span class="text-success">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
+							} else {
+								$xanscoreMonth = '<span class="text-danger">' . $memberStatsMonth['xanScore'] . '</span>';
+								$xanaxMonth = '<span class="text-danger">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
+							}
+
+
+							?>
+
+							<span><b>Weekly XanScore:</b> <?php echo $xanscoreWeek;?></span><br>
+							<span><b>Monthly XanScore:</b> <?php echo $xanscoreMonth;?></span><br><br>
+							<span><b>Weekly Xanax:</b> <?php echo $xanaxWeek;?></span><br>
+							<span><b>Monthly Xanax:</b> <?php echo $xanaxMonth;?></span><br>
+
+							<?php
+						}
+							$strength_effective = ($json['strength'] * ( 1 + ($json['strength_modifier'] / 100)));
+							$defense_effective = ($json['defense'] * ( 1 + ($json['defense_modifier'] / 100)));
+							$speed_effective = ($json['speed'] * ( 1 + ($json['speed_modifier'] / 100)));
+							$dexterity_effective = ($json['dexterity'] * ( 1 + ($json['dexterity_modifier'] / 100)));
+							$total_effective = ($strength_effective + $defense_effective + $speed_effective + $dexterity_effective);
+
+							?>
+
+							<hr><p class="text-center"><b>Battle Stats:</b></p>
+							<span><b>Strength:</b> <?php echo number_format($json['strength']); if ($json['strength_modifier'] < 0) {echo '<span class="text-danger">-' .  $json['strength_modifier'] . '%</span> -> <b>' . number_format($strength_effective) . '</b>';} else {echo '<span class="text-success"> +' .  $json['strength_modifier'] . '%</span> -> <b>' . number_format($strength_effective) . '</b>';}?></span><br>
+							<span><b>Defense:</b> <?php echo number_format($json['defense']); if ($json['defense_modifier'] < 0) {echo '<span class="text-danger">-' .  $json['defense_modifier'] . '%</span> -> <b>' . number_format($defense_effective) . '</b>';} else {echo '<span class="text-success"> +' .  $json['defense_modifier'] . '%</span> -> <b>' . number_format($defense_effective) . '</b>';}?></span><br>
+							<span><b>Speed:</b> <?php echo number_format($json['speed']); if ($json['speed_modifier'] < 0) {echo '<span class="text-danger">-' .  $json['speed_modifier'] . '%</span> -> <b>' . number_format($speed_effective) . '</b>';} else {echo '<span class="text-success"> +' .  $json['speed_modifier'] . '%</span> -> <b>' . number_format($speed_effective) . '</b>';}?></span><br>
+							<span><b>Dexterity:</b> <?php echo number_format($json['dexterity']); if ($json['dexterity_modifier'] < 0) {echo '<span class="text-danger">-' .  $json['dexterity_modifier'] . '%</span> -> <b>' . number_format($dexterity_effective) . '</b>';} else {echo '<span class="text-success"> +' .  $json['dexterity_modifier'] . '%</span> -> <b>' . number_format($dexterity_effective) . '</b>';}?></span><br>
+							<span><b>Total:</b> <?php echo number_format($json['total']) . '-> <b>' . number_format($total_effective) . '</b>'; ?></span><br>
+
+
+					</div>
+				</div>
+			</div> <!-- col -->
+
+
+			<div class="pt-3 col-sm-12 col-md-8 order-md-3 col-lg-8 col-xl-4 pl-xl-0 pr-xl-1">
+				<div class="card border border-dark shadow rounded h-100">
+					<h5 class="card-header">Warbirds Family Leaderboards</h5>
+					<div class="card-body p-2">
+
+
+						<ul class="nav nav-tabs mb-1" role="tablist">
+							<li class="nav-item" role="presentation">
+							<a class="nav-link active" id="networth-tab" data-toggle="tab" href="#networth-leaderboard" role="tab" aria-controls="networth" aria-selected="true">Networth</a>
+							</li>
+							<li class="nav-item" role="presentation">
+							<a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Awards</a>
+							</li>
+							<li class="nav-item" role="presentation">
+							<a class="nav-link" id="level-tab" data-toggle="tab" href="#level" role="tab" aria-controls="level" aria-selected="false">Level</a>
+							</li>
+						</ul>
+
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade show active h-100" id="networth-leaderboard" role="tabpanel" aria-labelledby="networth-tab">
+
+								<div class="table-responsive">
+									<table id="networth_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%;">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Faction</th>
+												<th scope="col">Networth</th>
+											</tr>
+										</thead>
+										<tbody>
+
+
+											<?php
+											$db_request = new db_request();
+											$rows = $db_request->getAllMemberInfoOrderBy('networth');
+											$i = 1;
+											foreach ($rows as $row) {
+
+												$member = $db_request->getMemberByTornID($row['tornID']);
+
+												?>
+												<tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+													<td><?php echo $i;?></td>
+													<td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+													<td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+													switch ($member['factionID']) {
+														case '13784':
+														echo "Warbirds";
+														break;
+														case '30085':
+														echo "WBNG";
+														break;
+														case '35507':
+														echo "The Nest";
+														break;
+														case '37132':
+														echo "Fowl Med";
+														break;
+														default:
+														echo "N/A";
+														break;
+													}?></a></td>
+													<td>$<?php echo number_format($row['networth']);?></td>
+												</tr>
+												<?php
+												$i++;
+											}
+
+											?>
+
+
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+							<div class="tab-pane fade" id="awards" role="tabpanel" aria-labelledby="awards-tab">
+
+								<div class="table-responsive">
+									<table id="awards_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Faction</th>
+												<th scope="col">Awards</th>
+											</tr>
+										</thead>
+										<tbody>
+
+
+											<?php
+											$db_request = new db_request();
+											$rows = $db_request->getAllMemberInfoOrderBy('awards');
+											$i = 1;
+											foreach ($rows as $row) {
+
+												$member = $db_request->getMemberByTornID($row['tornID']);
+
+												?>
+												<tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+													<td><?php echo $i;?></td>
+													<td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+													<td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+													switch ($member['factionID']) {
+														case '13784':
+														echo "Warbirds";
+														break;
+														case '30085':
+														echo "WBNG";
+														break;
+														case '35507':
+														echo "The Nest";
+														break;
+														case '37132':
+														echo "Fowl Med";
+														break;
+														default:
+														echo "N/A";
+														break;
+													}?></a></td>
+													<td><?php echo number_format($row['awards']);?></td>
+												</tr>
+												<?php
+												$i++;
+											}
+
+											?>
+
+
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+							<div class="tab-pane fade" id="level" role="tabpanel" aria-labelledby="level-tab">
+
+								<div class="table-responsive">
+									<table id="Level_table" class="table table-sm compact leaderboard_table border border-dark" style="width:100%">
+										<thead class="thead-dark">
+											<tr>
+												<th scope="col">#</th>
+												<th scope="col">Name</th>
+												<th scope="col">Faction</th>
+												<th scope="col">Level</th>
+											</tr>
+										</thead>
+										<tbody>
+
+
+											<?php
+											$db_request = new db_request();
+											$rows = $db_request->getAllMemberInfoOrderBy('level');
+											$i = 1;
+											if (!empty($rows)) {
+												foreach ($rows as $row) {
+
+													$member = $db_request->getMemberByTornID($row['tornID']);
+
+													?>
+																										<tr<?php if ($_SESSION['userid'] == $row['tornID']) {echo " style='background-color: #c3ebc9;' ";} ?>>
+														<td><?php echo $i;?></td>
+														<td><a href="https://www.torn.com/profiles.php?XID=<?php echo $row['tornID'];?>" target="_blank"><?php echo $member['tornName'];?></a></td>
+														<td><a href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $member['factionID'];?>"target="_blank"><?php
+														switch ($member['factionID']) {
+															case '13784':
+															echo "Warbirds";
+															break;
+															case '30085':
+															echo "WBNG";
+															break;
+															case '35507':
+															echo "The Nest";
+															break;
+															case '37132':
+															echo "Fowl Med";
+															break;
+															default:
+															echo "N/A";
+															break;
+														}?></a></td>
+														<td><?php echo $row['level'];?></td>
+													</tr>
+													<?php
+													$i++;
+												}
+											}
+											?>
+
+
+										</tbody>
+									</table>
+								</div>
+
+							</div>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
 
     </div>
 
+		<div class="row">
+			<div class="container-fluid">
 
-    <!-- div class="col pt-3">
-    <div class="card border border-dark shadow rounded">
-    <h5 class="card-header">Test</h5>
-    <div class="card-body">
+				<div class="row">
+					<div class="col pt-3 mx-auto">
+						<div class="card border border-dark shadow rounded mt-4">
+							<h5 class="card-header">Member Stats</h5>
+							<div class="card-body">
 
-    <div id="sizer">
-    <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none" data-size="xs">xs</div>
-    <div class="d-none d-sm-block d-md-none d-lg-none d-xl-none" data-size="sm">sm</div>
-    <div class="d-none d-sm-none d-md-block d-lg-none d-xl-none" data-size="md">md</div>
-    <div class="d-none d-sm-none d-md-none d-lg-block d-xl-none" data-size="lg">lg</div>
-    <div class="d-none d-sm-none d-md-none d-lg-none d-xl-block" data-size="xl">xl</div>
-  </div>
+								<?php
+								$db_request_faction = new db_request();
+								$faction = $db_request_faction->getFactionByFactionID($_SESSION['factionid']);
 
-</div>
-</div>
-</div --> <!-- col -->
+								if ($faction) {
+									$factionName = $faction['factionName'];
+								}
+
+								?>
+
+								<ul class="nav nav-pills nav-justified flex-column flex-md-row my-2" id="memberTabs" role="tablist">
+									<li class="nav-item mx-2 mb-2">
+										<a class="flex-md-fill nav-link border border-dark" id="week-tab" data-fid="<?php echo $_SESSION['factionid']; ?>" data-timeline="week" data-toggle="tab" href="#week-<?php echo $_SESSION['factionid']; ?>" role="tab"><?php echo $factionName; ?>: 7 Days</a>
+									</li>
+									<li class="nav-item  mx-2 mb-2">
+										<a class="flex-md-fill nav-link border border-dark" id="month-tab" data-fid="<?php echo $_SESSION['factionid']; ?>" data-timeline="month" data-toggle="tab" href="#month-<?php echo $_SESSION['factionid']; ?>" role="tab"><?php echo $factionName; ?>: 30 Days</a>
+									</li>
+								</ul>
+								<div class="tab-content" id="memberTabsContent">
+									<?php
+									$faction = $_SESSION['factionid'];
+									?>
+
+
+										<div class="tab-pane fade" id="week-<?php echo $faction;?>" role="tabpanel">
+											<div class="table-responsive">
+
+												<div class="d-flex justify-content-center mt-2">
+													<div class="spinner-grow spinner-grow-sm" role="status">
+														<span class="sr-only">Loading...</span>
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+												</div>
+
+											</div>
+
+										</div>
+
+
+										<div class="tab-pane fade" id="month-<?php echo $faction;?>" role="tabpanel">
+											<div class="table-responsive">
+
+												<div class="d-flex justify-content-center mt-2">
+													<div class="spinner-grow spinner-grow-sm" role="status">
+														<span class="sr-only">Loading...</span>
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+													<div class="spinner-grow spinner-grow-sm" role="status">
+													</div>
+												</div>
+
+											</div>
+
+										</div>
+
+
+
+								</div>
+
+							</div> <!-- card-body -->
+						</div> <!-- card -->
+					</div> <!-- col -->
+				</div> <!-- row -->
+
+
+			</div> <!-- container -->
+		</div>
 
 </div> <!-- container-fluid -->
 </div> <!-- content -->
@@ -278,6 +596,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
   myChart.redraw({ duration: 100 });
 });
+</script>
+<script type="text/javascript" src="js/memberstats.js"></script>
+<script>
+$(document).ready(function() {
+  $('.leaderboard_table').DataTable( {
+    "paging":   true,
+    "ordering": false,
+    "info":     false,
+    "pagingType": "numbers",
+    "lengthChange": false,
+		"pageLength": 10
+  } );
+
+	$('#week-tab').click();
+} );
 </script>
 <?php
 include('includes/footer.php');
