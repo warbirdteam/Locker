@@ -84,6 +84,63 @@ class api_request {
     }
   }
 
+
+  /////////////////////////////////////////////////
+
+
+  public function getFactionStats($factionid) {
+    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,basic,stats&key=' . $this->apikey;
+
+    $data = file_get_contents($url);
+    $json = json_decode($data, true); // decode the JSON feed
+
+    if (is_array($json) || is_object($json)) {
+
+      if (isset($json['error'])) {
+        $this->APIERROR(); //TORN API ERROR
+      } else {
+        if ( isset($json['timestamp']) ) {
+          return $json;
+        } else {
+          throw new Exception('Could not find API data.');
+        }
+      }
+
+    } else {
+      throw new Exception('Error while fetching API data.');
+    }
+  }
+
+
+
+
+  /////////////////////////////////////////////////
+
+
+  public function getFactionCrimes($factionid) {
+    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,basic,crimes&key=' . $this->apikey;
+
+    $data = file_get_contents($url);
+    $json = json_decode($data, true); // decode the JSON feed
+
+    if (is_array($json) || is_object($json)) {
+
+      if (isset($json['error'])) {
+        $this->APIERROR(); //TORN API ERROR
+      } else {
+        if ( isset($json['timestamp']) ) {
+          return $json;
+        } else {
+          throw new Exception('Could not find API data.');
+        }
+      }
+
+    } else {
+      throw new Exception('Error while fetching API data.');
+    }
+  }
+
+
   /////////////////////////////////////////////////
 
   private function APIError($error) {

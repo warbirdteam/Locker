@@ -296,6 +296,99 @@ class db_request extends db_connect {
     return $row;
   }
 
+
+
+  /////////////////////////////////////////////////
+
+
+  public function getOrganizedCrimeByCrimeID($crimeID) {
+    $sql = "SELECT * FROM organized_crimes WHERE crimeID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$crimeID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+
+  public function insertFactionCrime($crimeID, $fid, $crime_type_id, $crime_name, $time_started, $time_completed, $initiated_by, $planned_by, $success, $money_gain, $respect_gain) {
+    $sql = "INSERT INTO organized_crimes (crimeID, factionID, crime_type_id, crime_name, time_started, time_completed, initiated_by, planned_by, success, money_gain, respect_gain) values (?,?,?,?,?,?,?,?,?,?,?)";
+    $stmtinsert = $this->pdo->prepare($sql);
+    $stmtinsert->execute([$crimeID, $fid, $crime_type_id, $crime_name, $time_started, $time_completed, $initiated_by, $planned_by, $success, $money_gain, $respect_gain]);
+  }
+
+
+  public function insertFactionCrimeParticipant($crimeID, $participantID) {
+    $sql = "INSERT INTO organized_crimes_participants (crimeID, userID) values (?,?)";
+    $stmtinsert = $this->pdo->prepare($sql);
+    $stmtinsert->execute([$crimeID, $participantID]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function insertFactionStats($factionid, $factionData) {
+
+    $respect = isset($factionData['respect']) ? $factionData['respect'] : 0;
+
+    $stats = isset($factionData['stats']) ? $factionData['stats'] : NULL;
+
+$testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
+
+    if ($stats) {
+      $criminaloffences = isset($stats['criminaloffences']) ? $stats['criminaloffences'] : 0;
+
+      $gymtrains = isset($stats['gymtrains']) ? $stats['gymtrains'] : 0;
+      $gymstrength = isset($stats['gymstrength']) ? $stats['gymstrength'] : 0;
+
+      $attacksdamagehits = isset($stats['attacksdamagehits']) ? $stats['attacksdamagehits'] : 0;
+      $attacksdamage = isset($stats['attacksdamage']) ? $stats['attacksdamage'] : 0;
+      $hosps = isset($stats['hosps']) ? $stats['hosps'] : 0;
+      $attackslost = isset($stats['attackslost']) ? $stats['attackslost'] : 0;
+      $gymdefense = isset($stats['gymdefense']) ? $stats['gymdefense'] : 0;
+      $hosptimereceived = isset($stats['hosptimereceived']) ? $stats['hosptimereceived'] : 0;
+      $rehabs = isset($stats['rehabs']) ? $stats['rehabs'] : 0;
+      $traveltime = isset($stats['traveltime']) ? $stats['traveltime'] : 0;
+      $hosptimegiven = isset($stats['hosptimegiven']) ? $stats['hosptimegiven'] : 0;
+      $attacksmug = isset($stats['attacksmug']) ? $stats['attacksmug'] : 0;
+      $attackswon = isset($stats['attackswon']) ? $stats['attackswon'] : 0;
+      $alcoholused = isset($stats['alcoholused']) ? $stats['alcoholused'] : 0;
+      $drugsused = isset($stats['drugsused']) ? $stats['drugsused'] : 0;
+      $attacksrunaway = isset($stats['attacksrunaway']) ? $stats['attacksrunaway'] : 0;
+      $gymspeed = isset($stats['gymspeed']) ? $stats['gymspeed'] : 0;
+      $traveltimes = isset($stats['traveltimes']) ? $stats['traveltimes'] : 0;
+      $medicalitemsused = isset($stats['medicalitemsused']) ? $stats['medicalitemsused'] : 0;
+      $medicalcooldownused = isset($stats['medicalcooldownused']) ? $stats['medicalcooldownused'] : 0;
+      $gymdexterity = isset($stats['gymdexterity']) ? $stats['gymdexterity'] : 0;
+      $jails = isset($stats['jails']) ? $stats['jails'] : 0;
+      $attacksdamaging = isset($stats['attacksdamaging']) ? $stats['attacksdamaging'] : 0;
+      $attacksleave = isset($stats['attacksleave']) ? $stats['attacksleave'] : 0;
+      $medicalitemrecovery = isset($stats['medicalitemrecovery']) ? $stats['medicalitemrecovery'] : 0;
+      $energydrinkused = isset($stats['energydrinkused']) ? $stats['energydrinkused'] : 0;
+      $busts = isset($stats['busts']) ? $stats['busts'] : 0;
+      $drugoverdoses = isset($stats['drugoverdoses']) ? $stats['drugoverdoses'] : 0;
+      $attackshosp = isset($stats['attackshosp']) ? $stats['attackshosp'] : 0;
+      $candyused = isset($stats['candyused']) ? $stats['candyused'] : 0;
+      $hunting = isset($stats['hunting']) ? $stats['hunting'] : 0;
+      $organisedcrimerespect = isset($stats['organisedcrimerespect']) ? $stats['organisedcrimerespect'] : 0;
+      $organisedcrimemoney = isset($stats['organisedcrimemoney']) ? $stats['organisedcrimemoney'] : 0;
+      $organisedcrimesuccess = isset($stats['organisedcrimesuccess']) ? $stats['organisedcrimesuccess'] : 0;
+      $organisedcrimefail = isset($stats['organisedcrimefail']) ? $stats['organisedcrimefail'] : 0;
+      $revives = isset($stats['revives']) ? $stats['revives'] : 0;
+      $territoryrespect = isset($stats['territoryrespect']) ? $stats['territoryrespect'] : 0;
+      $caymaninterest = isset($stats['caymaninterest']) ? $stats['caymaninterest'] : 0;
+      $highestterritories = isset($stats['highestterritories']) ? $stats['highestterritories'] : 0;
+      $bestchain = isset($stats['bestchain']) ? $stats['bestchain'] : 0;
+
+
+      $sql = "INSERT INTO `factions_stats` (`factionID`, `respect`, `criminaloffences`, `gymtrains`, `gymstrength`, `gymdefense`, `gymspeed`, `gymdexterity`, `attacksdamagehits`, `attacksdamage`, `hosps`, `attackslost`, `hosptimereceived`, `rehabs`, `traveltime`, `hosptimegiven`, `attacksmug`, `attackswon`, `alcoholused`, `drugsused`, `attacksrunaway`, `traveltimes`, `medicalitemsused`, `medicalcooldownused`, `jails`, `attacksdamaging`, `attacksleave`, `medicalitemrecovery`, `energydrinkused`, `busts`, `drugoverdoses`, `attackshosp`, `candyused`, `hunting`, `organisedcrimerespect`, `organisedcrimemoney`, `organisedcrimesuccess`, `organisedcrimefail`, `revives`, `territoryrespect`, `caymaninterest`, `highestterritories`, `bestchain`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+      $stmtinsert = $this->pdo->prepare($sql);
+      $stmtinsert->execute([$factionid, $respect, $criminaloffences, $gymtrains, $gymstrength, $gymdefense, $gymspeed, $gymdexterity, $attacksdamagehits, $attacksdamage, $hosps, $attackslost, $hosptimereceived, $rehabs, $traveltime, $hosptimegiven, $attacksmug, $attackswon, $alcoholused, $drugsused, $attacksrunaway, $traveltimes, $medicalitemsused, $medicalcooldownused, $jails, $attacksdamaging, $attacksleave, $medicalitemrecovery, $energydrinkused, $busts, $drugoverdoses, $attackshosp, $candyused, $hunting, $organisedcrimerespect, $organisedcrimemoney, $organisedcrimesuccess, $organisedcrimefail, $revives, $territoryrespect, $caymaninterest, $highestterritories, $bestchain]);
+
+    }//if stats
+  }
+
   /////////////////////////////////////////////////
 
   public function setMemberStatsByIDWeek($userid) {
