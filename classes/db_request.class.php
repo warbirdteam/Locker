@@ -297,6 +297,35 @@ class db_request extends db_connect {
   }
 
 
+
+  /////////////////////////////////////////////////
+
+
+  public function getOrganizedCrimeByCrimeID($crimeID) {
+    $sql = "SELECT * FROM organized_crimes WHERE crimeID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$crimeID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+
+  public function insertFactionCrime($crimeID, $fid, $crime_type_id, $crime_name, $time_started, $time_completed, $initiated_by, $planned_by, $success, $money_gain, $respect_gain) {
+    $sql = "INSERT INTO organized_crimes (crimeID, factionID, crime_type_id, crime_name, time_started, time_completed, initiated_by, planned_by, success, money_gain, respect_gain) values (?,?,?,?,?,?,?,?,?,?,?)";
+    $stmtinsert = $this->pdo->prepare($sql);
+    $stmtinsert->execute([$crimeID, $fid, $crime_type_id, $crime_name, $time_started, $time_completed, $initiated_by, $planned_by, $success, $money_gain, $respect_gain]);
+  }
+
+
+  public function insertFactionCrimeParticipant($crimeID, $participantID) {
+    $sql = "INSERT INTO organized_crimes_participants (crimeID, userID) values (?,?)";
+    $stmtinsert = $this->pdo->prepare($sql);
+    $stmtinsert->execute([$crimeID, $participantID]);
+  }
+
   /////////////////////////////////////////////////
 
   public function insertFactionStats($factionid, $factionData) {
