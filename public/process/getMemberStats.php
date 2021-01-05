@@ -142,7 +142,9 @@ function memberInfo($faction, $timeline) {
     }
 
     echo $tabledata;
-    echo '</tbody><tfoot><tr><td colspan=16 align=center>Total: ' . $counter . '/' . $count . '</td></tr></tfoot></table>';
+		$updatedTimestamp = $db_member_list->getMemberStatsUpdateTime();
+		$formatted = date("F j, Y - H:i",strtotime($updatedTimestamp));
+    echo '</tbody><tfoot><tr><td colspan=16 align=center>Total: ' . $counter . '/' . $count . '</td></tr><tr><td colspan=16 align=center>Last Updated: ' . $formatted . ' TCT</td></tr></tfoot></table>';
   } else {
     echo '<tr><td colspan=16 align=center>No members found...</td></tr></table>';
   }

@@ -391,6 +391,19 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
 
   /////////////////////////////////////////////////
 
+  public function getMemberStatsUpdateTime() {
+    $sql = "SELECT timestamp FROM torn_members_personalstats ORDER BY timestamp DESC LIMIT 1";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchColumn();
+
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
   public function setMemberStatsByIDWeek($userid) {
     $sql = "SELECT * FROM (SELECT tornID FROM torn_members_personalstats WHERE tornID=? ORDER BY timestamp DESC LIMIT 1) as tmpinfo JOIN (SELECT max(xanax)-min(xanax) as xanaxweek, max(overdosed)-min(overdosed) as overdosedweek, (((max(xanax)-min(xanax))+(3*(max(overdosed)-min(overdosed))))/7) as xanscore, max(refill_energy)-min(refill_energy) as refill_energyweek, max(refill_nerve)-min(refill_nerve) as refill_nerveweek, max(consumablesused)-min(consumablesused) as consumablesusedweek, max(boostersused)-min(boostersused) as boostersusedweek, max(energydrinkused)-min(energydrinkused) as energydrinkusedweek, max(statenhancersused)-min(statenhancersused) as statenhancersusedweek, max(travel)-min(travel) as travelweek, max(dumpsearches)-min(dumpsearches) as dumpsearchesweek, max(revives)-min(revives) as revivesweek from (SELECT * FROM torn_members_personalstats WHERE tornID=? AND timestamp >= DATE_ADD(CURRENT_TIMESTAMP, INTERVAL -7 DAY) order by timestamp desc) as tmpweek) as tmpmath";
     $stmt = $this->pdo->prepare($sql);
