@@ -14,3 +14,7 @@ body {
   /* bring your own prefixes */
   transform: translate(-50%);
 }
+
+.navbar-collapse {
+		flex-grow: 0;
+}
