@@ -112,23 +112,42 @@ $json = json_decode($data, true); // decode the JSON feed
 						}
 
 						if ($memberStatsWeek && $memberStatsMonth) {
+							if ($_SESSION['factionid'] == "13784" || $_SESSION['factionid'] == "30085") {
+								if ($memberStatsWeek['xanScore'] >= 2) {
+									$xanscoreWeek = '<span class="text-success">' . number_format((float)$memberStatsWeek["xanScore"], 2) . '</span>';
+									$xanaxWeek = '<span class="text-success">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+								} else {
+									$xanscoreWeek = '<span class="text-danger">' . number_format((float)$memberStatsWeek["xanScore"], 2) . '</span>';
+									$xanaxWeek = '<span class="text-danger">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+								}
 
-							if ($memberStatsWeek['xanScore'] >= 2) {
-								$xanscoreWeek = '<span class="text-success">' . $memberStatsWeek['xanScore'] . '</span>';
-								$xanaxWeek = '<span class="text-success">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
-							} else {
-								$xanscoreWeek = '<span class="text-danger">' . $memberStatsWeek['xanScore'] . '</span>';
-								$xanaxWeek = '<span class="text-danger">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+								if ($memberStatsMonth['xanScore'] >= 2) {
+									$xanscoreMonth = '<span class="text-success">' . number_format((float)$memberStatsMonth["xanScore"], 2) . '</span>';
+									$xanaxMonth = '<span class="text-success">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
+								} else {
+									$xanscoreMonth = '<span class="text-danger">' . number_format((float)$memberStatsMonth["xanScore"], 2) . '</span>';
+									$xanaxMonth = '<span class="text-danger">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
+								}
+
 							}
+							if ($_SESSION['factionid'] == "35507" || $_SESSION['factionid'] == "37132") {
 
-							if ($memberStatsMonth['xanScore'] >= 2) {
-								$xanscoreMonth = '<span class="text-success">' . $memberStatsMonth['xanScore'] . '</span>';
-								$xanaxMonth = '<span class="text-success">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
-							} else {
-								$xanscoreMonth = '<span class="text-danger">' . $memberStatsMonth['xanScore'] . '</span>';
-								$xanaxMonth = '<span class="text-danger">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
-							}
+									if ($memberStatsWeek['xanScore'] >= 1) {
+										$xanscoreWeek = '<span class="text-success">' . number_format((float)$memberStatsWeek["xanScore"], 2) . '</span>';
+										$xanaxWeek = '<span class="text-success">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+									} else {
+										$xanscoreWeek = '<span class="text-danger">' . number_format((float)$memberStatsWeek["xanScore"], 2) . '</span>';
+										$xanaxWeek = '<span class="text-danger">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
+									}
 
+									if ($memberStatsMonth['xanScore'] >= 1) {
+										$xanscoreMonth = '<span class="text-success">' . number_format((float)$memberStatsMonth["xanScore"], 2) . '</span>';
+										$xanaxMonth = '<span class="text-success">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
+									} else {
+										$xanscoreMonth = '<span class="text-danger">' . number_format((float)$memberStatsMonth["xanScore"], 2) . '</span>';
+										$xanaxMonth = '<span class="text-danger">' . $memberStatsMonth['xanax'] . "/93" . '</span>';
+									}
+								}
 
 							?>
 

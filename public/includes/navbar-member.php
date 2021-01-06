@@ -1,3 +1,6 @@
+<li class="nav-item active">
+  <a class="nav-item nav-link" href="welcome.php">Home</a>
+</li>
 <li class="nav-item active dropdown">
   <a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-toggle="dropdown">
     <?php echo $_SESSION['username']; ?>

@@ -50,11 +50,17 @@ if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = lead
 						<li class="nav-item  mx-2 mb-2">
 							<a class="flex-md-fill nav-link border border-dark" id="wbng-members-month-tab" data-fid="30085" data-timeline="month" data-toggle="tab" href="#month-30085" role="tab">WBNG: 30 Days</a>
 						</li>
+						<li class="nav-item  mx-2 mb-2">
+							<a class="flex-md-fill nav-link border border-dark" id="fowl-members-week-tab" data-fid="37132" data-timeline="week" data-toggle="tab" href="#week-37132" role="tab">Fowl Med: 7 Days</a>
+						</li>
+						<li class="nav-item  mx-2 mb-2">
+							<a class="flex-md-fill nav-link border border-dark" id="fowl-members-month-tab" data-fid="37132" data-timeline="month" data-toggle="tab" href="#month-37132" role="tab">Fowl Med: 30 Days</a>
+						</li>
 					</ul>
 					<div class="tab-content" id="memberTabsContent">
 						<?php
 
-						$factions = array( "35507", "13784", "30085" );
+						$factions = array( "35507", "13784", "30085", "37132" );
 
 						foreach ($factions as $faction) { ?>
 
