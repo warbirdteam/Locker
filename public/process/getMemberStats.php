@@ -43,6 +43,9 @@ switch ($fid) {
   case '30085':
   memberInfo('30085', $timeline);
   break;
+	case '37132':
+	memberInfo('37132', $timeline);
+	break;
 
   default:
     $_SESSION['error'] = 'Something went wrong with member information lookup.'; exit("Error: Something went wrong with member information lookup.");
