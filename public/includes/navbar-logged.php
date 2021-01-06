@@ -53,13 +53,13 @@ $_SESSION['role'] = $site['siteRole'];
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex">
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark d-flex">
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navMobileDropdown" aria-controls="navMobileDropdown" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
-		<ul class="navbar-nav ml-3 ml-lg-0 mr-auto">
+		<ul class="navbar-nav ml-3 mr-auto d-none d-md-block">
 			<li class="nav-item active">
 				<a class="nav-item nav-link" href="welcome.php">Warbirds</a>
 			</li>
@@ -67,7 +67,7 @@ $_SESSION['role'] = $site['siteRole'];
 
 		<div class="collapse navbar-collapse" id="navMobileDropdown">
 
-				<ul class="navbar-nav mr-0">
+				<ul class="navbar-nav mr-3">
 					<?php
 					switch ($roleValue) {
 						case 4:
