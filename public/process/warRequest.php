@@ -4,8 +4,17 @@ $type = isset($_GET["type"]) && strlen($_GET["type"]) == 6 ? $_GET["type"] : 'NU
 $enemyID = isset($_GET["enemy"]) && is_numeric($_GET["enemy"]) && strlen($_GET["enemy"]) <= 8 ? $_GET["enemy"] : 'NULL';
 $userID = isset($_GET["user"]) && is_numeric($_GET["user"]) && strlen($_GET["user"]) <= 8 ? $_GET["user"] : 'NULL';
 
+
+
 if ($type == "NULL" OR $enemyID == "NULL" OR $userID == "NULL") {
   echo "failure to request";
+  exit;
+}
+
+if ($type == 'revive' || $type == 'attack') {
+  //continue
+} else {
+  echo 'not a request';
   exit;
 }
 
