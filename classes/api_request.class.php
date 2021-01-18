@@ -68,6 +68,8 @@ class api_request {
     } else {
       throw new Exception('Error while fetching API data.');
     }
+
+    return NULL;
   }
 
   /////////////////////////////////////////////////

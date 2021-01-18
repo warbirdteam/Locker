@@ -5,7 +5,8 @@ $factionID = isset($_GET["factionID"]) && is_numeric($_GET["factionID"]) && strl
 $chainID = isset($_GET["chainID"]) && is_numeric($_GET["chainID"]) && strlen($_GET["chainID"]) <= 10 ? $_GET["chainID"] : 'NULL';
 
 if ($factionID == "NULL" OR $chainID == "NULL" OR $userID == "NULL") {
-  return "failure to upload data";
+  echo "failure to upload data";
+  exit;
 }
 
 include_once("../../includes/autoloader.inc.php");
@@ -15,9 +16,9 @@ $row = $db_upload_chain->getChainByChainID($chainID);
 
 if ($row != 'NULL') {
   $db_upload_chain->insertChainID($factionID,$chainID,$userID);
-  return "successfully uploaded chain id";
+  echo "successfully uploaded chain id";
 } else {
-  return "chain already in database";
+  echo "chain already in database";
 }
 
  ?>

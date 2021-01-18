@@ -7,6 +7,7 @@
     Tools
   </a>
   <div class="dropdown-menu" aria-labelledby="navToolsDropdown">
+    <a class="dropdown-item" href="war.php"><i class="fas fa-skull-crossbones"></i> War</a>
     <a class="dropdown-item" href="faction-lookup.php"><i class="fas fa-search"></i> Faction Lookup</a>
     <a class="dropdown-item" href="https://www.heasleys.org/fs/"><i class="fas fa-calculator"></i> Respect Simulator</a>
   </div>
