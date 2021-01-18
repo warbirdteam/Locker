@@ -766,6 +766,156 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
 
+  public function getToggleStatusByName($name) {
+    $sql = "SELECT status FROM site_toggles WHERE name = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$name]);
+    $row = $stmt->fetchColumn();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function updateToggleStatusByName($name, $value) {
+    $sql = "UPDATE site_toggles SET status = ? WHERE name = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$value, $name]);
+  }
+
+  public function getAllSiteToggles() {
+    $sql = "SELECT * FROM site_toggles";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+
+  public function getWebhookByName($name) {
+    $sql = "SELECT webhook FROM discord_webhooks WHERE name = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$name]);
+    $row = $stmt->fetchColumn();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+
+
+
+  /////////////////////////////////////////////////
+  ////////        ENEMY FUNCTIONS          ////////
+  /////////////////////////////////////////////////
+
+
+  /////////////////////////////////////////////////
+
+  public function getEnemyFactionByFactionID($fid) {
+    $sql = "SELECT * FROM enemy_factions WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fid]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function removeEnemyFactionByFactionID($fid) {
+    $delete_sql = "DELETE FROM enemy_factions WHERE factionID = ?";
+    $stmt_delete = $this->pdo->prepare($delete_sql);
+    $stmt_delete->execute([$fid]);
+  }
+
+  public function removeAllEnemyMembersByFactionID($fid) {
+    $delete_sql = "DELETE FROM enemy_members WHERE factionID = ?";
+    $stmt_delete = $this->pdo->prepare($delete_sql);
+    $stmt_delete->execute([$fid]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function updateEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
+    $sql = "UPDATE enemy_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ? WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $fid]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
+    $sql = "INSERT INTO enemy_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect) values (?,?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect]);
+  }
+
+
+  public function updateEnemyMember($userid, $member) {
+    $sql = "UPDATE enemy_members SET tornName = ?, days_in_faction = ?, last_action = ?, status_desc = ?, status_details = ? WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$member['name'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details'], $userid]);
+  }
+
+
+  /////////////////////////////////////////////////
+
+
+  public function insertEnemyMember($userid, $fid, $member) {
+    $sql = "INSERT INTO enemy_members VALUES (?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid, $fid, $member['name'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details']]);
+  }
+
+
+  /////////////////////////////////////////////////
+
+
+  public function removeEnemyMemberByTornID($tornID) {
+    $delete_sql_member = "DELETE FROM enemy_members WHERE tornID = ?";
+    $stmt_delete_member = $this->pdo->prepare($delete_sql_member);
+    $stmt_delete_member->execute([$tornID]);
+  }
+
+
+  public function getEnemyMembersByFaction($factionid) {
+    $sql = "SELECT * FROM enemy_members where factionID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionid]);
+    $row = $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getEnemyMemberByTornID($tornID) {
+    $sql = "SELECT * FROM enemy_members WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getAllEnemyFactions() {
+    $sql = "SELECT * FROM enemy_factions";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
 
 
 
