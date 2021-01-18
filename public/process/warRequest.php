@@ -1,8 +1,8 @@
 <?php
 
-$type = isset($_POST["type"]) && strlen($_GET["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
-$enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
-$userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
+$type = isset($_GET["type"]) && strlen($_GET["type"]) == 6 ? $_GET["type"] : 'NULL'; // 'revive' or 'attack'
+$enemyID = isset($_GET["enemy"]) && is_numeric($_GET["enemy"]) && strlen($_GET["enemy"]) <= 8 ? $_GET["enemy"] : 'NULL';
+$userID = isset($_GET["user"]) && is_numeric($_GET["user"]) && strlen($_GET["user"]) <= 8 ? $_GET["user"] : 'NULL';
 
 if ($type == "NULL" OR $enemyID == "NULL" OR $userID == "NULL") {
   echo "failure to request";
