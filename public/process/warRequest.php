@@ -23,7 +23,7 @@ $db_request_check_user = new db_request();
 $user = $db_request_check_user->getMemberByTornID($userID);
 
 if (empty($user)) {
-  echo "not allowed";
+  echo "not allowed"; //user not allowed
   exit;
 } else {
 
@@ -45,7 +45,7 @@ if (empty($user)) {
     $attackWebhook = $db_request_attack_webhook->getWebhookByName('attack');
 
     if (empty($enemy)) {
-      echo "You did not specify an enemy.";
+      echo "Assist target not allowed.";
       exit;
     }
 
