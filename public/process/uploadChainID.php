@@ -14,7 +14,7 @@ include_once("../../includes/autoloader.inc.php");
 $db_upload_chain = new db_request();
 $row = $db_upload_chain->getChainByChainID($chainID);
 
-if ($row != 'NULL') {
+if (!empty($row)) {
   $db_upload_chain->insertChainID($factionID,$chainID,$userID);
   echo "successfully uploaded chain id";
 } else {
