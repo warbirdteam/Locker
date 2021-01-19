@@ -15,12 +15,13 @@ $db_upload_chain = new db_request();
 $row = $db_upload_chain->getChainByChainID($chainID);
 echo '<pre>'; print_r($row); echo '</pre>';
 print("<pre>".print_r($row,true)."</pre>");
+echo $chainID;
 
 if (!empty($row)) {
   $db_upload_chain->insertChainID($factionID,$chainID,$userID);
   echo "successfully uploaded chain " . $_GET["chainID"];
 } else {
-  echo "Chain " . $_GET["chainID"] . " already in database";
+  echo " Chain " . $_GET["chainID"] . " already in database!";
 }
 exit;
  ?>
