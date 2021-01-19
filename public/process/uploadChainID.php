@@ -16,9 +16,9 @@ $row = $db_upload_chain->getChainByChainID($chainID);
 
 if (!empty($row)) {
   $db_upload_chain->insertChainID($factionID,$chainID,$userID);
-  echo "successfully uploaded chain id";
+  echo "successfully uploaded chain " . $_GET["chainID"];
 } else {
-  echo "chain already in database";
+  echo "Chain " . $_GET["chainID"] . " already in database";
 }
-
+exit;
  ?>
