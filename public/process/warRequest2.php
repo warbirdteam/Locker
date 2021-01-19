@@ -3,6 +3,7 @@ $json = file_get_contents('php://input');
 $data = json_decode($json);
 
 echo '<pre>'; print_r($_POST); echo '</pre>';
+print("<pre>".print_r($array_data,true)."</pre>");
 $type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
 $enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
 $userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';

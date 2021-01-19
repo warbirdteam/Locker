@@ -125,5 +125,8 @@ if (empty($user)) {
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
   $response   = curl_exec($ch);
+
+  echo $type . " request sent successfully!";
+  exit;
 }
 ?>
