@@ -2,15 +2,15 @@
 $json = file_get_contents('php://input');
 $data = json_decode($json);
 
-echo '<pre>'; print_r($data); echo '</pre>';
-//$type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
-//$enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
-//$userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
+echo '<pre>'; print_r($_POST); echo '</pre>';
+$type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
+$enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
+$userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
 
 
-$type = isset($data->type) && strlen($data->type) == 6 ? $data->type : 'NULL'; // 'revive' or 'attack'
-$enemyID = isset($data->enemy) && is_numeric($data->enemy) && strlen($data->enemy) <= 8 ? $data->enemy : 'NULL';
-$userID = isset($data->user) && is_numeric($data->user) && strlen($data->user) <= 8 ? $data->user : 'NULL';
+//$type = isset($data->type) && strlen($data->type) == 6 ? $data->type : 'NULL'; // 'revive' or 'attack'
+//$enemyID = isset($data->enemy) && is_numeric($data->enemy) && strlen($data->enemy) <= 8 ? $data->enemy : 'NULL';
+//$userID = isset($data->user) && is_numeric($data->user) && strlen($data->user) <= 8 ? $data->user : 'NULL';
 
 //$type = 'revive';
 //$enemyID = 1;
