@@ -17,7 +17,7 @@ echo '<pre>'; print_r($row); echo '</pre>';
 print("<pre>".print_r($row,true)."</pre>");
 echo $chainID;
 
-if (!empty($row)) {
+if ($db_upload_chain->row_count == 0) {
   $db_upload_chain->insertChainID($factionID,$chainID,$userID);
   echo "successfully uploaded chain " . $_GET["chainID"];
 } else {
