@@ -100,7 +100,7 @@ if (empty($user)) {
 
     $url = 'https://discord.com/api/webhooks/' . $reviveWebhook;
     $POST = [
-      'content' => var_dump($data),
+      'content' => $data,
       'username' => 'Revive Bot',
     ];
 
@@ -116,5 +116,9 @@ if (empty($user)) {
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
   $response   = curl_exec($ch);
+
+  echo "request successful";
+  echo $data;
+  exit;
 }
 ?>
