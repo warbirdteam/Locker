@@ -100,8 +100,21 @@ if (empty($user)) {
 
     $url = 'https://discord.com/api/webhooks/' . $reviveWebhook;
     $POST = [
-      'content' => $data,
+      'content' => '<@&692792217424887948>',
       'username' => 'Revive Bot',
+      'embeds' => [
+        [
+         'title' => "Profile page for " . $user['tornName'] . ' [' . $userID . ']',
+         "type" => "rich",
+         "description" => $user['tornName'] . ' needs a revive!',
+         "url" => $actionurl,
+         "color" => hexdec("F0F0F0"),
+         "footer" => [
+          "icon_url" => "https://i.imgur.com/c22oa4p.png",
+          "text" => "Revive me!"
+        ],
+        ]
+      ]
     ];
 
   }
