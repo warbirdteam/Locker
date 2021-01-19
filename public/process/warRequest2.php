@@ -5,6 +5,10 @@ $data = json_decode($json);
 print("<pre>".print_r($json,true)."</pre>");
 print("<pre>".print_r($data,true)."</pre>");
 print("<pre>".print_r($_POST,true)."</pre>");
+echo $_POST["type"];
+echo $_POST["enemy"];
+echo '<p></p>';
+echo $_POST["user"];
 $type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
 $enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
 $userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
