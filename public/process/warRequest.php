@@ -31,7 +31,7 @@ if (empty($user)) {
     $db_request_check_attack_status = new db_request();
     $bool = $db_request_check_attack_status->getToggleStatusByName("assists");
     if ($bool != 1) {
-      echo "Assist bot is currently disabled";
+      echo "Assist bot currently disabled";
       exit;
     }
 
@@ -77,12 +77,17 @@ if (empty($user)) {
     $db_request_check_revive_status = new db_request();
     $bool = $db_request_check_revive_status->getToggleStatusByName("revives");
     if ($bool != 1) {
-      echo "Revive bot is currently disabled";
+      echo "Revive bot currently disabled";
       exit;
     }
 
     $db_request_attack_webhook = new db_request();
     $reviveWebhook = $db_request_attack_webhook->getWebhookByName('revive');
+
+    if (empty($reviveWebhook)) {
+      echo "Discord channel doesn't exist";
+      exit;
+    }
 
     $actionurl = 'https://www.torn.com/profiles.php?XID=' . $userID;
 
