@@ -1,4 +1,34 @@
 <?php
+session_start();
+
+$time_interval = 5;#In seconds
+$max_requests = 1;
+$fast_request_check = ($_SESSION['last_session_request'] > time() - $time_interval);
+
+if (!isset($_SESSION))
+{
+    # This is fresh session, initialize session and its variables
+    session_start();
+    $_SESSION['last_session_request'] = time();
+    $_SESSION['request_cnt'] = 1;
+}
+elseif($fast_request_check && ($_SESSION['request_cnt'] < $max_requests))
+{
+   # This is fast, consecutive request, but meets max requests limit
+   $_SESSION['request_cnt']++;
+}
+elseif($fast_request_check)
+{
+    # This is fast, consecutive request, and exceeds max requests limit - kill it
+    die("Too many requests");
+}
+else
+{
+    # This request is not fast, so reset session variables
+    $_SESSION['last_session_request'] = time();
+    $_SESSION['request_cnt'] = 1;
+}
+
 
 $type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
 $enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
