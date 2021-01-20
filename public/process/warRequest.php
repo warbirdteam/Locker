@@ -31,7 +31,7 @@ if (empty($user)) {
     $db_request_check_attack_status = new db_request();
     $bool = $db_request_check_attack_status->getToggleStatusByName("assists");
     if ($bool != 1) {
-      echo "Assist bot is currently disabled.";
+      echo "Assist bot is currently disabled";
       exit;
     }
 
@@ -45,7 +45,7 @@ if (empty($user)) {
     $attackWebhook = $db_request_attack_webhook->getWebhookByName('attack');
 
     if (empty($enemy)) {
-      echo "Assist target not allowed.";
+      echo "Assist target not allowed";
       exit;
     }
 
@@ -77,7 +77,7 @@ if (empty($user)) {
     $db_request_check_revive_status = new db_request();
     $bool = $db_request_check_revive_status->getToggleStatusByName("revives");
     if ($bool != 1) {
-      echo "Revive bot is currently disabled.";
+      echo "Revive bot is currently disabled";
       exit;
     }
 
@@ -118,7 +118,7 @@ if (empty($user)) {
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
   $response   = curl_exec($ch);
 
-  echo $type . " request sent successfully.";
+  echo $type . " request sent successfully";
   exit;
 }
 ?>
