@@ -103,7 +103,7 @@ if (isset($_SESSION['success'])) {
               </div>
               <input type="text" class="form-control col-md-3 col-xl-2" id="fidEnemyInput" name="fidEnemy" required>
               <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="submit" id="fidEnemy_button"><i class="fas fa-skull-crossbones"></i> Add Enemy Faction</button>
+                <button class="btn btn-outline-secondary" type="submit" id="fidEnemy_button"><i class="fas fa-skull-crossbones"></i> Add Faction</button>
               </div>
             </div>
           </form>
