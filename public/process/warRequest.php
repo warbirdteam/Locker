@@ -53,7 +53,7 @@ $db_request_check_user = new db_request();
 $user = $db_request_check_user->getMemberByTornID($userID);
 
 if (empty($user)) {
-  echo "not allowed"; //user not allowed
+  echo "user not allowed"; //user not allowed
   exit;
 } else {
 
