@@ -44,17 +44,77 @@ function getFactionCrimes($tornid, $factionid) {
 
           $participants = $crimeData['participants'];
           if ($participants) {
-
+            $participantsURL = '';
+            $participantsMessage = '';
             foreach($participants as $participantData) {
 
               foreach($participantData as $participantID => $data) {
+                $participantsURL .= $participantID . ',';
                 $db_request_crimes_participant = new db_request();
                 $db_request_crimes_participant->insertFactionCrimeParticipant($crimeID, $participantID);
+
+                $db_request_name = new db_request();
+                $participantData = $db_request_name->getMemberByTornID($participantID);
+
+                if ($participantData && $participantData['tornName']) {
+                  $participantsMessage .= " " . $participantData['tornName'] . ' [' . $participantData['tornID'] . '],';
+                } else {
+                  $participantsMessage .= " " . $participantID . ',';
+                }
               }
 
             }
 
+            if ($crime_type_id == 8) {
+              if ($success == 1) {
+                $pay = ($money_gain / 5);
+                $participantsURL = rtrim($participantsURL, ',');
+                $participantsMessage = rtrim($participantsMessage, ',');
+                $participantsMessage = substr_replace($participantsMessage, ' and', strrpos($participantsMessage, ','), 1);
+
+                $paydayURL = 'https://www.torn.com/factions.php?step=your#/tab=controls&option=pay-day&select=' . $participantsURL . '&pay=' . $pay;
+
+                $db_request_payday_webhook = new db_request();
+                $attackWebhook = $db_request_payday_webhook->getWebhookByName('payday');
+
+                $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
+                $POST = [
+                  'content' => '<@&749043668299677829>',
+                  'username' => 'Payday Bot',
+                  'embeds' => [
+                    [
+                     'title' => "Payday link for " . $crime_name . " team",
+                     "type" => "rich",
+                     "description" => "The " . $crime_name . " attempt was a success!\nhttps://www.torn.com/factions.php?step=your#/tab=crimes&crimeID=" . $crimeID,
+                     "url" => $paydayURL,
+                     "color" => hexdec("6cad2b"),
+                     "fields" => [
+                        [
+                          "name" => "Money earned: $". number_format($money_gain),
+                          "value" => $participantsMessage . " are each owed $" . number_format($pay) . "."
+                        ],
+                      ]
+                    ]
+                  ]
+                ];
+
+                $headers = [ 'Content-Type: application/json; charset=utf-8' ];
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
+                $response   = curl_exec($ch);
+
+              }
+            }
+
           } //if participants
+
+
 
         }//if $crimeExists
 

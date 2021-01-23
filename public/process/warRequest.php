@@ -1,9 +1,38 @@
 <?php
+session_start();
 
-$type = isset($_GET["type"]) && strlen($_GET["type"]) == 6 ? $_GET["type"] : 'NULL'; // 'revive' or 'attack'
-$enemyID = isset($_GET["enemy"]) && is_numeric($_GET["enemy"]) && strlen($_GET["enemy"]) <= 8 ? $_GET["enemy"] : 'NULL';
-$userID = isset($_GET["user"]) && is_numeric($_GET["user"]) && strlen($_GET["user"]) <= 8 ? $_GET["user"] : 'NULL';
+$time_interval = 5;#In seconds
+$max_requests = 1;
+$fast_request_check = ($_SESSION['last_session_request'] > time() - $time_interval);
 
+if (!isset($_SESSION))
+{
+    # This is fresh session, initialize session and its variables
+    session_start();
+    $_SESSION['last_session_request'] = time();
+    $_SESSION['request_cnt'] = 1;
+}
+elseif($fast_request_check && ($_SESSION['request_cnt'] < $max_requests))
+{
+   # This is fast, consecutive request, but meets max requests limit
+   $_SESSION['request_cnt']++;
+}
+elseif($fast_request_check)
+{
+    # This is fast, consecutive request, and exceeds max requests limit - kill it
+    die("Too many requests");
+}
+else
+{
+    # This request is not fast, so reset session variables
+    $_SESSION['last_session_request'] = time();
+    $_SESSION['request_cnt'] = 1;
+}
+
+
+$type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
+$enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
+$userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
 
 
 if ($type == "NULL" OR $enemyID == "NULL" OR $userID == "NULL") {
@@ -24,7 +53,7 @@ $db_request_check_user = new db_request();
 $user = $db_request_check_user->getMemberByTornID($userID);
 
 if (empty($user)) {
-  echo "not allowed";
+  echo "user not allowed"; //user not allowed
   exit;
 } else {
 
@@ -32,7 +61,7 @@ if (empty($user)) {
     $db_request_check_attack_status = new db_request();
     $bool = $db_request_check_attack_status->getToggleStatusByName("assists");
     if ($bool != 1) {
-      echo "assists disabled";
+      echo "Assist bot currently disabled";
       exit;
     }
 
@@ -46,12 +75,12 @@ if (empty($user)) {
     $attackWebhook = $db_request_attack_webhook->getWebhookByName('attack');
 
     if (empty($enemy)) {
-      echo "not allowed";
+      echo "Assist target not allowed";
       exit;
     }
 
     if (empty($attackWebhook)) {
-      echo "discord channel doesn't exist";
+      echo "Discord channel doesn't exist";
       exit;
     }
 
@@ -78,12 +107,17 @@ if (empty($user)) {
     $db_request_check_revive_status = new db_request();
     $bool = $db_request_check_revive_status->getToggleStatusByName("revives");
     if ($bool != 1) {
-      echo "revives disabled";
+      echo "Revive bot currently disabled";
       exit;
     }
 
     $db_request_attack_webhook = new db_request();
     $reviveWebhook = $db_request_attack_webhook->getWebhookByName('revive');
+
+    if (empty($reviveWebhook)) {
+      echo "Discord channel doesn't exist";
+      exit;
+    }
 
     $actionurl = 'https://www.torn.com/profiles.php?XID=' . $userID;
 
@@ -118,5 +152,8 @@ if (empty($user)) {
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
   $response   = curl_exec($ch);
+
+  echo $type . " request sent successfully";
+  exit;
 }
 ?>
