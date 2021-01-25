@@ -160,15 +160,13 @@ if (empty($faction)) {
 <?php
 		$db_request_faction_data = new db_request();
 		$graph_data = $db_request_faction_data->getFactionStatsByFactionIDAndType($_SESSION['factionid'], 'respect');
-		print("<pre>".print_r($graph_data,true)."</pre>");
+
 		$highchartData = "[";
 		foreach ($graph_data as $row) {
 			$highchartData .= '[new Date("'. $row["timestamp"] . '").getTime(), '. $row["data"] . '],';
 		}
 
 		$highchartData .= "]";
-
-		echo $highchartData;
 
 ?>
 <script type="text/javascript">

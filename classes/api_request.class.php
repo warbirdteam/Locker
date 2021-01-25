@@ -145,6 +145,42 @@ class api_request {
 
   /////////////////////////////////////////////////
 
+
+  public function getFactionContributions($factionid,$stat) {
+    $stats  = ["gymstrength","gymdefense","gymspeed","gymdexterity"]; // the white list of allowed field names
+    $key     = array_search($stat, $stats); // see if we have such a name
+    $field = $stats[$key];
+
+    if ($field == NULL) {
+      return NULL;
+      exit;
+    }
+
+    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,contributors&stat=' . $field . '&key=' . $this->apikey;
+
+    $data = file_get_contents($url);
+    $json = json_decode($data, true); // decode the JSON feed
+
+    if (is_array($json) || is_object($json)) {
+
+      if (isset($json['error'])) {
+        $this->APIERROR(); //TORN API ERROR
+      } else {
+        if ( isset($json['timestamp']) ) {
+          return $json;
+        } else {
+          throw new Exception('Could not find API data.');
+        }
+      }
+
+    } else {
+      throw new Exception('Error while fetching API data.');
+    }
+  }
+
+
+  /////////////////////////////////////////////////
+
   private function APIError($error) {
     //Check Error Code and describe reason, such as bad key, etc
     throw new Exception('API Key Error Code: ' . $json['error']['code'] . ' - ' . $json['error']['error']);
