@@ -757,7 +757,7 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   ////////         SITE FUNCTIONS          ////////
   /////////////////////////////////////////////////
 
-  public function updateAPIKey($siteID, $enc_api, $iv, $tag) {
+  public function updateAPIKey($siteID, $enc_api, $crypt) {
     $sql = "UPDATE site_users SET enc_api=?, iv=?, tag=? WHERE siteID=?";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$enc_api, $crypt->iv, $crypt->tag, $siteID]);

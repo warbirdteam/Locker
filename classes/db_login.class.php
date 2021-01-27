@@ -168,17 +168,17 @@ class db_login {
 
   /////////////////////////////////////////////////
 
-  private function compareAndUpdateAPIKey($siteID, $enc_api, $iv, $tag) {
+  private function compareAndUpdateAPIKey($siteID, $oldenc_api, $oldiv, $oldtag) {
 
     $uncrypt = new API_Crypt();
-    $unenc_api = $uncrypt->unpad($enc_api, $iv, $tag);
+    $unenc_api = $uncrypt->unpad($oldenc_api, $oldiv, $oldtag);
 
     if ($this->apikey != $unenc_api) {
       $crypt = new API_Crypt();
       $enc_api = $crypt->pad($this->apikey);
 
       $db_request = new db_request();
-      $db_request->updateAPIKey();
+      $db_request->updateAPIKey($siteID, $enc_api, $crypt);
     }
   }
 
