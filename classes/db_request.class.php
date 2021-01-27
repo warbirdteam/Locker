@@ -734,8 +734,30 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
 
 
   /////////////////////////////////////////////////
+  ////////       ENERGY FUNCTIONS          ////////
+  /////////////////////////////////////////////////
 
-  public function updateAPIKey($siteID, $enc_api, $iv, $tag) {
+  public function insertMemberEnergyUsed($userID, $factionid, $contributionData) {
+
+    $gymstrength = isset($contributionData["gymstrength"]) && is_numeric($contributionData["gymstrength"]) ? $contributionData["gymstrength"] : 0;
+    $gymdefense = isset($contributionData["gymdefense"]) && is_numeric($contributionData["gymdefense"]) ? $contributionData["gymdefense"] : 0;
+    $gymspeed = isset($contributionData["gymspeed"]) && is_numeric($contributionData["gymspeed"]) ? $contributionData["gymspeed"] : 0;
+    $gymdexterity = isset($contributionData["gymdexterity"]) && is_numeric($contributionData["gymdexterity"]) ? $contributionData["gymdexterity"] : 0;
+
+    $sql = "INSERT INTO torn_members_energy_used (tornID, factionID, gymstrength, gymdefense, gymspeed, gymdexterity) values (?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userID, $factionid, $gymstrength, $gymdefense, $gymspeed, $gymdexterity]);
+
+  }
+
+
+
+
+  /////////////////////////////////////////////////
+  ////////         SITE FUNCTIONS          ////////
+  /////////////////////////////////////////////////
+
+  public function updateAPIKey($siteID, $enc_api, $crypt) {
     $sql = "UPDATE site_users SET enc_api=?, iv=?, tag=? WHERE siteID=?";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$enc_api, $crypt->iv, $crypt->tag, $siteID]);
@@ -747,15 +769,6 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$username, $siteID]);
   }
-
-
-
-
-
-  /////////////////////////////////////////////////
-  ////////          LOG FUNCTIONS          ////////
-  /////////////////////////////////////////////////
-
 
   public function log_action($tornName, $tornID, $siteID, $siteRole, $actionType, $action) {
 
