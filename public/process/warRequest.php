@@ -119,6 +119,12 @@ if ($akbool == 1) {
 
     $actionurl = 'https://www.torn.com/loader.php?sid=attack&user2ID=' . $enemyID;
 
+    if ($isBirdBool == true) {
+      $desc = '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '**' . '\n```css [A BIRD NEEDS YOUR HELP!] ```';
+    } else {
+      $desc = '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '**' . '\n```fix an AK member needs your help ```';
+    }
+
     $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
     $POST = [
       'content' => '<@&642592525755875357>',
@@ -127,7 +133,7 @@ if ($akbool == 1) {
         [
          'title' => "Attack page for " . $enemy['tornName'] . ' ['. $enemyID . ']',
          "type" => "rich",
-         "description" => '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '**',
+         "description" => ,
          "url" => $actionurl,
          "color" => hexdec("8b0000")
         ]
@@ -176,7 +182,7 @@ if ($akbool == 1) {
       exit;
     }
     $actionurl = 'https://www.torn.com/profiles.php?XID=' . $userID;
-    
+
     if ($isBirdBool == true) {
         $db_request_attack_webhook = new db_request();
         $reviveWebhook = $db_request_attack_webhook->getWebhookByName('revive');
