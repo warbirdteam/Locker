@@ -63,14 +63,25 @@ if ($akbool == 1) {
   $db_request_check_user = new db_request();
   $user = $db_request_check_user->getFriendlyByTornID($userID);
 
+  $db_request_check_bird = new db_request();
+  $bird = $db_request_check_bird->getMemberByTornID($userID);
+
   if (empty($user)) {
     echo "user not allowed"; //user not allowed
     exit;
   }
+
+  if (empty($bird)) {
+    $isBirdBool = false;
+  } else {
+    $isBirdBool = true;
+  }
+  
 } else {
   //check for bird
   $db_request_check_user = new db_request();
   $user = $db_request_check_user->getMemberByTornID($userID);
+  $isBirdBool = true;
 
   if (empty($user)) {
     echo "user not allowed"; //user not allowed
@@ -165,37 +176,38 @@ if ($akbool == 1) {
       exit;
     }
 
-    $db_request_attack_webhook = new db_request();
-    $reviveWebhook = $db_request_attack_webhook->getWebhookByName('revive');
+    if ($isBirdBool == true) {
+        $db_request_attack_webhook = new db_request();
+        $reviveWebhook = $db_request_attack_webhook->getWebhookByName('revive');
 
-    if (empty($reviveWebhook)) {
-      echo "Discord channel doesn't exist";
-      exit;
-    }
+        if (empty($reviveWebhook)) {
+          echo "Discord channel doesn't exist";
+          exit;
+        }
 
-    $actionurl = 'https://www.torn.com/profiles.php?XID=' . $userID;
+        $actionurl = 'https://www.torn.com/profiles.php?XID=' . $userID;
 
-    $url = 'https://discord.com/api/webhooks/' . $reviveWebhook;
-    $POST = [
-      'content' => '<@&692792217424887948>',
-      'username' => 'Revive Bot',
-      'embeds' => [
-        [
-         'title' => "Profile page for " . $user['tornName'] . ' [' . $userID . ']',
-         "type" => "rich",
-         "description" => $user['tornName'] . ' needs a revive!',
-         "url" => $actionurl,
-         "color" => hexdec("F0F0F0"),
-         "footer" => [
-          "icon_url" => "https://i.imgur.com/c22oa4p.png",
-          "text" => "Revive me!"
-        ],
-        ]
-      ]
-    ];
+        $url = 'https://discord.com/api/webhooks/' . $reviveWebhook;
+        $POST = [
+          'content' => '<@&692792217424887948>',
+          'username' => 'Revive Bot',
+          'embeds' => [
+            [
+             'title' => "Profile page for " . $user['tornName'] . ' [' . $userID . ']',
+             "type" => "rich",
+             "description" => $user['tornName'] . ' needs a revive!',
+             "url" => $actionurl,
+             "color" => hexdec("F0F0F0"),
+             "footer" => [
+              "icon_url" => "https://i.imgur.com/c22oa4p.png",
+              "text" => "Revive me!"
+            ],
+            ]
+          ]
+        ];
 
-    SendToDiscord($url, $POST);
-
+        SendToDiscord($url, $POST); //send to Nest Discord
+    } //if bird
 
     //if ak war, send additional discord request to AK discord
     if ($akbool == 1) {
@@ -225,7 +237,7 @@ if ($akbool == 1) {
         ]
       ];
 
-      SendToDiscord($url, $POST);
+      SendToDiscord($url, $POST); //send to AK discord
     }
   }
 
