@@ -74,7 +74,7 @@ if (isset($_SESSION['success'])) {
 
 							<div class="custom-control custom-switch">
 								<input type="checkbox" class="custom-control-input toggles" id="akwarsToggle" name="akwars" <?php if ($akwarsToggle && $akwarsToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
-								<label class="custom-control-label" for="revivesToggle">AK War</label> <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="right" title="Enable this to set war status to AK war. Allows Allies to use war scripts."></i>
+								<label class="custom-control-label" for="akwarsToggle">AK War</label> <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="right" title="Enable this to set war status to AK war. Allows Allies to use war scripts."></i>
 							</div>
 	          </form>
 					</div>
