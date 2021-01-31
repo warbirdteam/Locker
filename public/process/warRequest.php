@@ -30,10 +30,11 @@ else
 }
 
 
+
+
 $type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
 $enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
 $userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
-
 
 if ($type == "NULL" OR $enemyID == "NULL" OR $userID == "NULL") {
   echo "failure to request";
@@ -47,15 +48,36 @@ if ($type == 'revive' || $type == 'attack') {
   exit;
 }
 
-include_once("../../includes/autoloader.inc.php");
 
-$db_request_check_user = new db_request();
-$user = $db_request_check_user->getMemberByTornID($userID);
 
-if (empty($user)) {
-  echo "user not allowed"; //user not allowed
-  exit;
+include_once("../../includes/autoloader.inc.php"); //include classes
+
+
+//check if AK War or warbirds war
+$db_request_check_war_status = new db_request();
+$akbool = $db_request_check_war_status->getToggleStatusByName("akwars");
+
+
+if ($akbool == 1) {
+  //check for ally member instead of just bird
+  $db_request_check_user = new db_request();
+  $user = $db_request_check_user->getFriendlyByTornID($userID);
+
+  if (empty($user)) {
+    echo "user not allowed"; //user not allowed
+    exit;
+  }
 } else {
+  //check for bird
+  $db_request_check_user = new db_request();
+  $user = $db_request_check_user->getMemberByTornID($userID);
+
+  if (empty($user)) {
+    echo "user not allowed"; //user not allowed
+    exit;
+  }
+}
+
 
   if ($type == 'attack') {
     $db_request_check_attack_status = new db_request();
@@ -101,7 +123,39 @@ if (empty($user)) {
       ]
     ];
 
+    SendToDiscord($url, $POST);
+
+
+    //if ak war, send additional discord request to AK discord
+    if ($akbool == 1) {
+      $db_request_akattack_webhook = new db_request();
+      $akattackWebhook = $db_request_akattack_webhook->getWebhookByName('akhelp');
+      if (empty($akattackWebhook)) {
+        echo "Discord channel doesn't exist";
+        exit;
+      }
+      $url = 'https://discord.com/api/webhooks/' . $akattackWebhook;
+
+      $POST = [
+        'content' => '<@&805503184919199764>',
+        'username' => 'Assist Bot',
+        'embeds' => [
+          [
+           'title' => "Attack page for " . $enemy['tornName'] . ' ['. $enemyID . ']',
+           "type" => "rich",
+           "description" => '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '**',
+           "url" => $actionurl,
+           "color" => hexdec("8b0000")
+          ]
+        ]
+      ];
+
+      SendToDiscord($url, $POST);
+    }
+
   }
+
+
 
   if ($type =='revive') {
     $db_request_check_revive_status = new db_request();
@@ -140,10 +194,48 @@ if (empty($user)) {
       ]
     ];
 
+    SendToDiscord($url, $POST);
+
+
+    //if ak war, send additional discord request to AK discord
+    if ($akbool == 1) {
+      $db_request_akrevive_webhook = new db_request();
+      $akreviveWebhook = $db_request_akrevive_webhook->getWebhookByName('akrevs');
+      if (empty($akreviveWebhook)) {
+        echo "Discord channel doesn't exist";
+        exit;
+      }
+      $url = 'https://discord.com/api/webhooks/' . $akreviveWebhook;
+
+      $POST = [
+        'content' => '<@&649369952905592833>',
+        'username' => 'Revive Bot',
+        'embeds' => [
+          [
+           'title' => "Profile page for " . $user['tornName'] . ' [' . $userID . ']',
+           "type" => "rich",
+           "description" => $user['tornName'] . ' needs a revive!',
+           "url" => $actionurl,
+           "color" => hexdec("F0F0F0"),
+           "footer" => [
+            "icon_url" => "https://i.imgur.com/c22oa4p.png",
+            "text" => "Revive me!"
+          ],
+          ]
+        ]
+      ];
+
+      SendToDiscord($url, $POST);
+    }
   }
 
-  $headers = [ 'Content-Type: application/json; charset=utf-8' ];
 
+  echo $type . " request sent successfully";
+  exit;
+
+
+function SendToDiscord($url, $POST) {
+  $headers = [ 'Content-Type: application/json; charset=utf-8' ];
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_POST, true);
@@ -151,9 +243,7 @@ if (empty($user)) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
-  $response   = curl_exec($ch);
-
-  echo $type . " request sent successfully";
-  exit;
+  $response = curl_exec($ch);
 }
+
 ?>

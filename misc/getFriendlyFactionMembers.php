@@ -2,15 +2,20 @@
 include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
 $db_request = new db_request();
-$factions = $db_request->getAllEnemyFactions();
+$factions = $db_request->getAllFriendlyFactions();
+
+
 
 foreach($factions as $faction) {
-  getEnemyFactionMembers('1468764', $faction['factionID']);
+  if ($db_request->row_count > 5) {
+    sleep(3);
+  }
+  getFriendlyFactionMembers('1468764', $faction['factionID']);
 }
 
 
 
-function getEnemyFactionMembers($userid, $factionID) {
+function getFriendlyFactionMembers($userid, $factionID) {
 
   $db_request = new db_request();
   $apikey = $db_request->getRawAPIKeyByUserID($userid);
@@ -28,18 +33,18 @@ function getEnemyFactionMembers($userid, $factionID) {
   $total_members = count($factionData['members']);
   $respect = $factionData['respect'];
 
-  $row = $db_request->getEnemyFactionByFactionID($fid);
+  $row = $db_request->getFriendlyFactionByFactionID($fid);
 
   if($row) {
-    $db_request->updateEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
+    $db_request->updateFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
   } else {
-    $db_request->insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
+    $db_request->insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
   }
 
 
   $members = $factionData['members']; //members array
 
-  $dbMemberData = $db_request->getEnemyMembersByFaction($fid);
+  $dbMemberData = $db_request->getFriendlyMembersByFaction($fid);
 
   if(!empty($dbMemberData) && !empty($members)) {
 
@@ -48,9 +53,9 @@ function getEnemyFactionMembers($userid, $factionID) {
     //delete member from database if exists in diff array
     while ($cut = current($diff)) {
       $cutuser = key($diff);
-      $memberData = $db_request->getEnemyMemberByTornID($cutuser);
+      $memberData = $db_request->getFriendlyMemberByTornID($cutuser);
       if ($memberData) {
-        $db_request->removeEnemyMemberByTornID($cutuser);
+        $db_request->removeFriendlyMemberByTornID($cutuser);
       }
       next($diff);
     } //while
@@ -61,19 +66,18 @@ function getEnemyFactionMembers($userid, $factionID) {
 
   while ($member = current($members)) {
     $userid = key($members);
-    $row = $db_request->getEnemyMemberByTornID($userid);
+    $row = $db_request->getFriendlyMemberByTornID($userid);
 
     if($row) {
-      $db_request->updateEnemyMember($userid, $member);
+      $db_request->updateFriendlyMember($userid, $member);
     } else {
-      $db_request->insertEnemyMember($userid, $fid, $member);
+      $db_request->insertFriendlyMember($userid, $fid, $member);
     }
 
     next($members);
   }
 
-} //getEnemyFactionMembers Function
-
+} //getFriendlyFactionMembers Function
 
 
 
