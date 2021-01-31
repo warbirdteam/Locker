@@ -1,6 +1,5 @@
 <?php
 session_start();
-$headers = [ 'Content-Type: application/json; charset=utf-8' ];
 
 $time_interval = 5;#In seconds
 $max_requests = 1;
@@ -228,6 +227,7 @@ if ($akbool == 1) {
 
 
 function SendToDiscord($url, $POST) {
+  $headers = [ 'Content-Type: application/json; charset=utf-8' ];
   $ch = curl_init();
   curl_setopt($ch, CURLOPT_URL, $url);
   curl_setopt($ch, CURLOPT_POST, true);
