@@ -133,7 +133,7 @@ if ($akbool == 1) {
         [
          'title' => "Attack page for " . $enemy['tornName'] . ' ['. $enemyID . ']',
          "type" => "rich",
-         "description" => ,
+         "description" => $desc,
          "url" => $actionurl,
          "color" => hexdec("8b0000")
         ]
