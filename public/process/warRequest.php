@@ -120,9 +120,15 @@ if ($akbool == 1) {
     $actionurl = 'https://www.torn.com/loader.php?sid=attack&user2ID=' . $enemyID;
 
     if ($isBirdBool == true) {
-      $desc = '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '** \n ' . '```css \n [A BIRD NEEDS YOUR HELP!] \n ```';
+      $foot = [
+       "icon_url" => "https://cdn.discordapp.com/attachments/553367872580223008/805562504759476294/warbird.png",
+       "text" => "Help a bird out will yeah!"
+      ];
     } else {
-      $desc = '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '** \n ' . '```fix \n an AK member needs your help \n ```';
+      $foot = [
+       "icon_url" => "https://cdn.discordapp.com/attachments/654438792748597249/655065404816752680/Asset_92x_AK_wh.png",
+       "text" => "An AK member needs your help!"
+      ];
     }
 
     $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
@@ -133,9 +139,10 @@ if ($akbool == 1) {
         [
          'title' => "Attack page for " . $enemy['tornName'] . ' ['. $enemyID . ']',
          "type" => "rich",
-         "description" => $desc,
+         "description" => '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '**',
          "url" => $actionurl,
-         "color" => hexdec("8b0000")
+         "color" => hexdec("8b0000"),
+         "footer" => $foot
         ]
       ]
     ];
