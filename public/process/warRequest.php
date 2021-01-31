@@ -120,9 +120,9 @@ if ($akbool == 1) {
     $actionurl = 'https://www.torn.com/loader.php?sid=attack&user2ID=' . $enemyID;
 
     if ($isBirdBool == true) {
-      $desc = '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '**' . '\n```css [A BIRD NEEDS YOUR HELP!] ```';
+      $desc = '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '** \n ' . '```css \n [A BIRD NEEDS YOUR HELP!] \n ```';
     } else {
-      $desc = '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '**' . '\n```fix an AK member needs your help ```';
+      $desc = '**'. $user['tornName'] . '** needs help against **' . $enemy['tornName'] . ' ['. $enemyID . ']** from **' . $faction['factionName'] . '** \n ' . '```fix \n an AK member needs your help \n ```';
     }
 
     $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
