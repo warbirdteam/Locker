@@ -76,7 +76,7 @@ if ($akbool == 1) {
   } else {
     $isBirdBool = true;
   }
-  
+
 } else {
   //check for bird
   $db_request_check_user = new db_request();
@@ -175,7 +175,8 @@ if ($akbool == 1) {
       echo "Revive bot currently disabled";
       exit;
     }
-
+    $actionurl = 'https://www.torn.com/profiles.php?XID=' . $userID;
+    
     if ($isBirdBool == true) {
         $db_request_attack_webhook = new db_request();
         $reviveWebhook = $db_request_attack_webhook->getWebhookByName('revive');
@@ -184,8 +185,6 @@ if ($akbool == 1) {
           echo "Discord channel doesn't exist";
           exit;
         }
-
-        $actionurl = 'https://www.torn.com/profiles.php?XID=' . $userID;
 
         $url = 'https://discord.com/api/webhooks/' . $reviveWebhook;
         $POST = [
