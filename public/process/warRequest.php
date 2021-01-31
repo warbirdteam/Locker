@@ -110,7 +110,7 @@ if ($akbool == 1) {
 
     $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
     $POST = [
-      'content' => '642592525755875357',
+      'content' => '<@&642592525755875357>',
       'username' => 'Assist Bot',
       'embeds' => [
         [
@@ -128,12 +128,16 @@ if ($akbool == 1) {
 
     //if ak war, send additional discord request to AK discord
     if ($akbool == 1) {
-      $db_request_attack_webhook = new db_request();
-      $attackWebhook = $db_request_attack_webhook->getWebhookByName('akhelp');
-      $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
+      $db_request_akattack_webhook = new db_request();
+      $akattackWebhook = $db_request_akattack_webhook->getWebhookByName('akhelp');
+      if (empty($akattackWebhook)) {
+        echo "Discord channel doesn't exist";
+        exit;
+      }
+      $url = 'https://discord.com/api/webhooks/' . $akattackWebhook;
 
       $POST = [
-        'content' => '805503184919199764',
+        'content' => '<@&805503184919199764>',
         'username' => 'Assist Bot',
         'embeds' => [
           [
@@ -173,7 +177,7 @@ if ($akbool == 1) {
 
     $url = 'https://discord.com/api/webhooks/' . $reviveWebhook;
     $POST = [
-      'content' => '692792217424887948',
+      'content' => '<@&692792217424887948>',
       'username' => 'Revive Bot',
       'embeds' => [
         [
@@ -195,12 +199,16 @@ if ($akbool == 1) {
 
     //if ak war, send additional discord request to AK discord
     if ($akbool == 1) {
-      $db_request_attack_webhook = new db_request();
-      $reviveWebhook = $db_request_attack_webhook->getWebhookByName('akrevs');
-      $url = 'https://discord.com/api/webhooks/' . $reviveWebhook;
+      $db_request_akrevive_webhook = new db_request();
+      $akreviveWebhook = $db_request_akrevive_webhook->getWebhookByName('akrevs');
+      if (empty($akreviveWebhook)) {
+        echo "Discord channel doesn't exist";
+        exit;
+      }
+      $url = 'https://discord.com/api/webhooks/' . $akreviveWebhook;
 
       $POST = [
-        'content' => '649369952905592833',
+        'content' => '<@&649369952905592833>',
         'username' => 'Revive Bot',
         'embeds' => [
           [
