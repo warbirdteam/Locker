@@ -49,4 +49,25 @@ $('ul > li > button.removeFaction').click(function() {
     $('span#enemyFactionSpan').html($(this).parent('li').data("name") + " [" + $(this).parent('li').data("faction") + "]")
 });
 
+
+
+$('#fidFriendly_button').click(function(e) {
+  if ( !$('#fidFriendlyInput').val() || !$.isNumeric($('#fidFriendlyInput').val())) {
+    e.preventDefault();
+  } else {
+  $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+  }
+});
+
+$('#FriendlyRefresh_button').click(function(e) {
+  $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+});
+
+
+$('ul > li > button.removeFriendlyFaction').click(function() {
+    console.log($(this).parent('li').data("faction"));
+    $('input#removeFriendlyInput').val($(this).parent('li').data("faction"));
+    $('span#friendlyFactionSpan').html($(this).parent('li').data("name") + " [" + $(this).parent('li').data("faction") + "]")
+});
+
 });

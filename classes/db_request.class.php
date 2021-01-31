@@ -820,7 +820,121 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
 
+  /////////////////////////////////////////////////
+  ////////        FRIENDLY FUNCTIONS       ////////
+  /////////////////////////////////////////////////
 
+  public function getFriendlyByTornID($tornID) {
+    $sql = "SELECT * FROM friendly_members WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getFriendlyFactionByFactionID($fid) {
+    $sql = "SELECT * FROM friendly_factions WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fid]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function removeFriendlyFactionByFactionID($fid) {
+    $delete_sql = "DELETE FROM friendly_factions WHERE factionID = ?";
+    $stmt_delete = $this->pdo->prepare($delete_sql);
+    $stmt_delete->execute([$fid]);
+  }
+
+  public function removeAllFriendlyMembersByFactionID($fid) {
+    $delete_sql = "DELETE FROM friendly_members WHERE factionID = ?";
+    $stmt_delete = $this->pdo->prepare($delete_sql);
+    $stmt_delete->execute([$fid]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function updateFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
+    $sql = "UPDATE friendly_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ? WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $fid]);
+  }
+
+  /////////////////////////////////////////////////
+
+  public function insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
+    $sql = "INSERT INTO friendly_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect) values (?,?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect]);
+  }
+
+
+  public function updateFriendlyMember($userid, $member) {
+    $sql = "UPDATE friendly_members SET tornName = ?, days_in_faction = ?, last_action = ?, status_desc = ?, status_details = ? WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$member['name'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details'], $userid]);
+  }
+
+
+  /////////////////////////////////////////////////
+
+
+  public function insertFriendlyMember($userid, $fid, $member) {
+    $sql = "INSERT INTO friendly_members VALUES (?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid, $fid, $member['name'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details']]);
+  }
+
+
+  /////////////////////////////////////////////////
+
+
+  public function removeFriendlyMemberByTornID($tornID) {
+    $delete_sql_member = "DELETE FROM friendly_members WHERE tornID = ?";
+    $stmt_delete_member = $this->pdo->prepare($delete_sql_member);
+    $stmt_delete_member->execute([$tornID]);
+  }
+
+
+  public function getFriendlyMembersByFaction($factionid) {
+    $sql = "SELECT * FROM friendly_members where factionID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionid]);
+    $row = $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getFriendlyMemberByTornID($tornID) {
+    $sql = "SELECT * FROM friendly_members WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getAllFriendlyFactions() {
+    $sql = "SELECT * FROM friendly_factions";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
 
   /////////////////////////////////////////////////
   ////////        ENEMY FUNCTIONS          ////////
