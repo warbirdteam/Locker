@@ -122,7 +122,7 @@ if ($akbool == 1) {
     if ($isBirdBool == true) {
       $foot = [
        "icon_url" => "https://cdn.discordapp.com/attachments/553367872580223008/805562504759476294/warbird.png",
-       "text" => "Help a bird out will yeah!"
+       "text" => "Help a muthafuckin' bird out will ya!"
       ];
     } else {
       $foot = [
