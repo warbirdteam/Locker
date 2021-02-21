@@ -39,14 +39,21 @@ function getFactionCrimes($tornid, $factionid) {
           $db_request_factionCrimes->insertFactionCrime($crimeID, $fid, $crime_type_id, $crime_name, $time_started, $time_completed, $initiated_by, $planned_by, $success, $money_gain, $respect_gain); //add crime data to database
 
 
-
           $participants = $crimeData['participants'];
           if ($participants) { //check if participant data exists
             $participantsURL = '';
             $participantsMessage = '';
+            $i = 0;
             foreach($participants as $participantData) { //loop through participants
 
               foreach($participantData as $participantID => $data) { //loop through participant data again cuz ched
+                if ($crime_type_id == 8) {
+                  $pay = splitPay($i, $money_gain);
+                  $i++;
+                } else {
+                  $pay = ($money_gain / 8);
+                }
+
                 $participantsURL .= $participantID . ',';
                 $db_request_crimes_participant = new db_request();
                 $db_request_crimes_participant->insertFactionCrimeParticipant($crimeID, $participantID); //add participant data to oc participants table
@@ -55,9 +62,9 @@ function getFactionCrimes($tornid, $factionid) {
                 $participantData = $db_request_name->getMemberByTornID($participantID); //get faction member data
 
                 if ($participantData && $participantData['tornName']) {
-                  $participantsMessage .= " " . $participantData['tornName'] . ' [' . $participantData['tornID'] . '],';
+                  $participantsMessage .= strval($participantData['tornName'] . ' [' . $participantData['tornID'] . '] is owed: **$' . number_format($pay) . '** ') . "\n";
                 } else {
-                  $participantsMessage .= " " . $participantID . ',';
+                  $participantsMessage .= strval(" [" . $participantID . "] is owed: **$" . number_format($pay) . "**") . "\n";
                 }
               }
 
@@ -65,12 +72,9 @@ function getFactionCrimes($tornid, $factionid) {
 
             if ($crime_type_id == 8) {
               if ($success == 1) {
-                $pay = ($money_gain / 5);
-                $participantsURL = rtrim($participantsURL, ','); //remove uneeded comma from end of string
-                $participantsMessage = rtrim($participantsMessage, ','); //remove uneeded comma from end of string
-                $participantsMessage = substr_replace($participantsMessage, ' and', strrpos($participantsMessage, ','), 1); //replace last comma with the word 'and'
+                //$pay = ($money_gain / 5);
 
-                $paydayURL = 'https://www.torn.com/factions.php?step=your#/tab=controls&option=pay-day&select=' . $participantsURL . '&pay=' . $pay; //easy payday link
+                $paydayURL = 'https://www.torn.com/factions.php?step=your#/tab=controls&option=give-to-user'; //easy payday link
 
                 $db_request_payday_webhook = new db_request();
                 $attackWebhook = $db_request_payday_webhook->getWebhookByName('payday'); //get webhook id from database
@@ -82,7 +86,7 @@ function getFactionCrimes($tornid, $factionid) {
                   'username' => 'Payday Bot',
                   'embeds' => [
                     [
-                     'title' => "Payday link for " . $crime_name . " team",
+                     'title' => "Adjust balances for " . $crime_name . " team",
                      "type" => "rich",
                      "description" => "The " . $crime_name . " attempt was a success!\nhttps://www.torn.com/factions.php?step=your#/tab=crimes&crimeID=" . $crimeID,
                      "url" => $paydayURL,
@@ -90,7 +94,7 @@ function getFactionCrimes($tornid, $factionid) {
                      "fields" => [
                         [
                           "name" => "Money earned: $". number_format($money_gain),
-                          "value" => $participantsMessage . " are each owed $" . number_format($pay) . "."
+                          "value" => $participantsMessage
                         ],
                       ]
                     ]
@@ -125,5 +129,30 @@ function getFactionCrimes($tornid, $factionid) {
   } //if faction data
 
 } //function getcrimes
+
+
+function splitPay($i, $money) {
+  $pay = 0;
+  switch ($i) {
+    case 0:
+    $pay = ($money*0.35);
+    break;
+    case 1:
+    $pay = ($money*0.25);
+    break;
+    case 2:
+    $pay = ($money*0.20);
+    break;
+    case 3:
+    $pay = ($money*0.10);
+    break;
+
+    default:
+      $pay = 0;
+    break;
+  }
+
+  return $pay;
+}
 
 ?>
