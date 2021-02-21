@@ -44,7 +44,7 @@ class db_login {
   /////////////////////////////////////////////////
 
   private function verifyFaction($factionid) {
-    $faction_list = array("13784","35507","30085","37132");
+    $faction_list = array("13784","35507","37132");
 
     if(!in_array($factionid, $faction_list)){
       return false;
