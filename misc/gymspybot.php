@@ -5,8 +5,10 @@ $db_request_check_gymspy_status = new db_request();
 $bool = $db_request_check_gymspy_status->getToggleStatusByName("gymspy");
 
 if ($bool == 1) {
+  // Need to convert this to getfactionkeyholders, but too lazy atm
   getFactionContributors('1468764', '13784'); //Warbirds
   getFactionContributors('1975338', '35507'); //Nest / deca
+  getFactionContributors('2169837', '37132'); //Fowl / Vulture
 }
 
 
