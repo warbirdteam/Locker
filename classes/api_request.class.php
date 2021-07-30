@@ -57,7 +57,7 @@ class api_request {
     if (is_array($json) || is_object($json)) {
 
       if (isset($json['error'])) {
-        $this->APIERROR(); //TORN API ERROR
+        $this->APIERROR($json['error']); //TORN API ERROR
       } else {
         if ( isset($json['timestamp']) ) {
           return $json;
@@ -100,7 +100,7 @@ class api_request {
     if (is_array($json) || is_object($json)) {
 
       if (isset($json['error'])) {
-        $this->APIERROR(); //TORN API ERROR
+        $this->APIERROR($json['error']); //TORN API ERROR
       } else {
         if ( isset($json['timestamp']) ) {
           return $json;
@@ -129,7 +129,7 @@ class api_request {
     if (is_array($json) || is_object($json)) {
 
       if (isset($json['error'])) {
-        $this->APIERROR(); //TORN API ERROR
+        $this->APIERROR($json['error']); //TORN API ERROR
       } else {
         if ( isset($json['timestamp']) ) {
           return $json;
@@ -165,7 +165,7 @@ class api_request {
     if (is_array($json) || is_object($json)) {
 
       if (isset($json['error'])) {
-        $this->APIERROR(); //TORN API ERROR
+        $this->APIERROR($json['error']); //TORN API ERROR
       } else {
         if ( isset($json['timestamp']) ) {
           return $json;
@@ -184,7 +184,7 @@ class api_request {
 
   private function APIError($error) {
     //Check Error Code and describe reason, such as bad key, etc
-    throw new Exception('API Key Error Code: ' . $json['error']['code'] . ' - ' . $json['error']['error']);
+    throw new Exception('API Key Error Code: ' . $error['code'] . ' - ' . $error['error']);
   }
 
   /////////////////////////////////////////////////
