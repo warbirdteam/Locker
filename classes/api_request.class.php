@@ -37,7 +37,8 @@ class api_request {
   /////////////////////////////////////////////////
 
   private function verifyFaction($factionid) {
-    $faction_list = array("13784","35507","30085","37132");
+
+    $faction_list = array("13784","35507","37132");
 
     if(!in_array($factionid, $faction_list)){
       return false;
@@ -49,7 +50,7 @@ class api_request {
   /////////////////////////////////////////////////
 
   public function getFactionAPI($factionid) {
-    $url = 'https://api.torn.com/faction/'. $factionid .'?selections=timestamp,basic&key=' . $this->apikey; // URL to Torn API
+    $url = 'https://api.torn.com/faction/'. $factionid .'?selections=timestamp,basic&comment=wb.rocks&key=' . $this->apikey; // URL to Torn API
     $data = file_get_contents($url);
     $json = json_decode($data, true); // decode the JSON feed
 
@@ -75,7 +76,7 @@ class api_request {
   /////////////////////////////////////////////////
 
   public function getPlayerPersonalStats($userid) {
-    $url = 'https://api.torn.com/user/' . $userid . '?selections=timestamp,basic,personalstats,profile,discord&key=' . $this->apikey;
+    $url = 'https://api.torn.com/user/' . $userid . '?selections=timestamp,basic,personalstats,profile,discord&comment=wb.rocks&key=' . $this->apikey;
     $data = file_get_contents($url);
     $json = json_decode($data, true); // decode the JSON feed
 
@@ -91,7 +92,7 @@ class api_request {
 
 
   public function getFactionStats($factionid) {
-    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,basic,stats&key=' . $this->apikey;
+    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,basic,stats&comment=wb.rocks&key=' . $this->apikey;
 
     $data = file_get_contents($url);
     $json = json_decode($data, true); // decode the JSON feed
@@ -120,7 +121,7 @@ class api_request {
 
 
   public function getFactionCrimes($factionid) {
-    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,basic,crimes&key=' . $this->apikey;
+    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,basic,crimes&comment=wb.rocks&key=' . $this->apikey;
 
     $data = file_get_contents($url);
     $json = json_decode($data, true); // decode the JSON feed
@@ -156,7 +157,7 @@ class api_request {
       exit;
     }
 
-    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,contributors&stat=' . $field . '&key=' . $this->apikey;
+    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,contributors&comment=wb.rocks&stat=' . $field . '&key=' . $this->apikey;
 
     $data = file_get_contents($url);
     $json = json_decode($data, true); // decode the JSON feed
