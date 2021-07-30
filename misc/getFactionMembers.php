@@ -1,10 +1,14 @@
 <?php
 include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
-refreshFactionMembers('1468764', '13784'); //Warbirds
-refreshFactionMembers('1468764', '35507'); //The Nest
-refreshFactionMembers('1468764', '30085'); //Warbirds Next Gen
-refreshFactionMembers('1468764', '37132'); //Fowl Med
+$heasleyID = '1468764';
+$db_request_faction_ids = new db_request();
+$allMemberIDs = $db_request_faction_ids->getAllFactionIDs();
+foreach ($allMemberIDs as $key => $factionID) {
+  refreshFactionMembers($heasleyID, $factionID);
+}
+
+
 removeOldMembers();
 
 
