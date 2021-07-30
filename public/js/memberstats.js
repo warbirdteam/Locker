@@ -21,7 +21,7 @@ $(function () {
           //window.location = "welcome.php";
         } else {
           $('#' + time + '-' + faction + ' > div.table-responsive').html(data);
-          $('[data-toggle="tooltip"]').tooltip();
+          $('[data-bs-toggle="tooltip"]').tooltip();
 
 
           $("table.member_info_table").tablesorter({

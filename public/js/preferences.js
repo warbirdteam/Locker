@@ -22,10 +22,10 @@ function savePreferences() {
   data: gets
   })
   .fail(function() {
-    $('div#maincontainer').prepend('<div class="alert alert-danger alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">Preferences failed to save.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+    $('div#maincontainer').prepend('<div class="alert alert-danger alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">Preferences failed to save.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
   })
   .done(function(response) {
-    $('div#maincontainer').prepend('<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">Preferences saved successfully.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+    $('div#maincontainer').prepend('<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">Preferences saved successfully.<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>');
   });
 }
 

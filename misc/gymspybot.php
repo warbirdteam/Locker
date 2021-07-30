@@ -5,12 +5,14 @@ $db_request_check_gymspy_status = new db_request();
 $bool = $db_request_check_gymspy_status->getToggleStatusByName("gymspy");
 
 if ($bool == 1) {
-  // Need to convert this to getfactionkeyholders, but too lazy atm
-  getFactionContributors('1468764', '13784'); //Warbirds
-  getFactionContributors('1975338', '35507'); //Nest / deca
-  getFactionContributors('2169837', '37132'); //Fowl / Vulture
-}
+  //Get faction keyholders (api key access for faction data)
+  $db_request = new db_request();
+  $factions = $db_request->getFactionKeyholders();
 
+  foreach($factions as $faction) {
+    getFactionContributors($faction['userID'], $faction['factionID']);
+  }
+}
 
 
 function getFactionContributors($tornid, $factionid) {
@@ -77,6 +79,11 @@ function getFactionContributors($tornid, $factionid) {
   $totalContributions = [];
 
   foreach ($databaseData as $userID => $contributionData) {
+
+      //Add to database
+      $db_request_energy = new db_request();
+      $db_request_energy->insertMemberEnergyUsed($userID, $factionid, $contributionData['contributions']);
+
       foreach($contributionData['contributions'] as $key => $value) {
         if (!empty($totalContributions[$userID]) && !empty($totalContributions[$userID]['total'])) {
           $totalContributions[$userID]['total'] = ($totalContributions[$userID]['total'] + $value);
@@ -87,9 +94,10 @@ function getFactionContributors($tornid, $factionid) {
 
   }
 
-    uasort($totalContributions, function($b, $a) {
-        return $a['total'] <=> $b['total'];
-    });
+  //Sort Array by total
+  uasort($totalContributions, function($b, $a) {
+      return $a['total'] <=> $b['total'];
+  });
 
   $discordMessage = "```";
 
@@ -100,6 +108,30 @@ function getFactionContributors($tornid, $factionid) {
     $factionName = $faction['factionName'];
   } else {
     $factionName = $factionid;
+  }
+
+  $db_request_gymspy_webhook = new db_request();
+
+  //custom thing to get correct webhook id
+  var_dump($totalContributions);
+
+  switch ($factionid) {
+    //WarBirds
+    case 13784:
+      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('wbgspy');
+    break;
+    //Nest
+    case 35507:
+      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('negspy');
+    break;
+    //Fowl
+    case 37132:
+      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('fwgspy');
+    break;
+
+    default:
+      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('gymspy'); //default gymspy channel if can't find others
+    break;
   }
 
 
@@ -117,9 +149,6 @@ function getFactionContributors($tornid, $factionid) {
   $discordMessage .= '```';
 
   if ($discordMessage != '``````') { //only send discord message if energy has been used
-
-    $db_request_gymspy_webhook = new db_request();
-    $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('gymspy'); //get webhook id from database
 
     $url = 'https://discord.com/api/webhooks/' . $gymspyWebhook;
     //create discord webhook message

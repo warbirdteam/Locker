@@ -1,11 +1,11 @@
 <?php
-//##### GUEST & MEMBER & LEADERSHIP & ADMIN ONLY PAGE
+//##### MEMBER & LEADERSHIP & ADMIN ONLY PAGE
 session_start();
 $_SESSION['title'] = 'Welcome'; //Add whatever title you wish here. This will be displayed in the tab of your browser
 include('includes/header.php'); //required to include basic bootstrap and javascript files
 ?>
 
-<script src="js/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
 <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
@@ -56,7 +56,7 @@ $json = json_decode($data, true); // decode the JSON feed
   ?>
   <?php
   if (isset($_SESSION['success'])) {
-		echo '<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['success'].'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+		echo '<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['success'].'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     unset($_SESSION['success']);
   }
   ?>
@@ -187,13 +187,13 @@ $json = json_decode($data, true); // decode the JSON feed
 
 						<ul class="nav nav-tabs mb-1" role="tablist">
 							<li class="nav-item" role="presentation">
-							<a class="nav-link active" id="networth-tab" data-toggle="tab" href="#networth-leaderboard" role="tab" aria-controls="networth" aria-selected="true">Networth</a>
+							<a class="nav-link active" id="networth-tab" data-bs-toggle="tab" href="#networth-leaderboard" role="tab" aria-controls="networth" aria-selected="true">Networth</a>
 							</li>
 							<li class="nav-item" role="presentation">
-							<a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Awards</a>
+							<a class="nav-link" id="awards-tab" data-bs-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Awards</a>
 							</li>
 							<li class="nav-item" role="presentation">
-							<a class="nav-link" id="level-tab" data-toggle="tab" href="#level" role="tab" aria-controls="level" aria-selected="false">Level</a>
+							<a class="nav-link" id="level-tab" data-bs-toggle="tab" href="#level" role="tab" aria-controls="level" aria-selected="false">Level</a>
 							</li>
 						</ul>
 
@@ -230,14 +230,11 @@ $json = json_decode($data, true); // decode the JSON feed
 														case '13784':
 														echo "Warbirds";
 														break;
-														case '30085':
-														echo "WBNG";
-														break;
 														case '35507':
 														echo "The Nest";
 														break;
 														case '37132':
-														echo "Fowl Med";
+														echo "Fowl";
 														break;
 														default:
 														echo "N/A";
@@ -289,14 +286,11 @@ $json = json_decode($data, true); // decode the JSON feed
 														case '13784':
 														echo "Warbirds";
 														break;
-														case '30085':
-														echo "WBNG";
-														break;
 														case '35507':
 														echo "The Nest";
 														break;
 														case '37132':
-														echo "Fowl Med";
+														echo "Fowl";
 														break;
 														default:
 														echo "N/A";
@@ -349,14 +343,11 @@ $json = json_decode($data, true); // decode the JSON feed
 															case '13784':
 															echo "Warbirds";
 															break;
-															case '30085':
-															echo "WBNG";
-															break;
 															case '35507':
 															echo "The Nest";
 															break;
 															case '37132':
-															echo "Fowl Med";
+															echo "Fowl";
 															break;
 															default:
 															echo "N/A";
@@ -407,10 +398,10 @@ $json = json_decode($data, true); // decode the JSON feed
 
 								<ul class="nav nav-pills nav-justified flex-column flex-md-row my-2" id="memberTabs" role="tablist">
 									<li class="nav-item mx-2 mb-2">
-										<a class="flex-md-fill nav-link border border-dark" id="week-tab" data-fid="<?php echo $_SESSION['factionid']; ?>" data-timeline="week" data-toggle="tab" href="#week-<?php echo $_SESSION['factionid']; ?>" role="tab"><?php echo $factionName; ?>: 7 Days</a>
+										<a class="flex-md-fill nav-link border border-dark" id="week-tab" data-fid="<?php echo $_SESSION['factionid']; ?>" data-timeline="week" data-bs-toggle="tab" href="#week-<?php echo $_SESSION['factionid']; ?>" role="tab"><?php echo $factionName; ?>: 7 Days</a>
 									</li>
 									<li class="nav-item  mx-2 mb-2">
-										<a class="flex-md-fill nav-link border border-dark" id="month-tab" data-fid="<?php echo $_SESSION['factionid']; ?>" data-timeline="month" data-toggle="tab" href="#month-<?php echo $_SESSION['factionid']; ?>" role="tab"><?php echo $factionName; ?>: 30 Days</a>
+										<a class="flex-md-fill nav-link border border-dark" id="month-tab" data-fid="<?php echo $_SESSION['factionid']; ?>" data-timeline="month" data-bs-toggle="tab" href="#month-<?php echo $_SESSION['factionid']; ?>" role="tab"><?php echo $factionName; ?>: 30 Days</a>
 									</li>
 								</ul>
 								<div class="tab-content" id="memberTabsContent">
@@ -627,8 +618,10 @@ $(document).ready(function() {
     "lengthChange": false,
 		"pageLength": 10
   } );
-
 	$('#week-tab').click();
+	var tabEl = document.querySelector('#week-tab');
+	var tab = new bootstrap.Tab(tabEl);
+	tab.show();
 } );
 </script>
 <?php

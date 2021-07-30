@@ -210,6 +210,19 @@ class db_request extends db_connect {
 
   /////////////////////////////////////////////////
 
+  public function getAllFactionIDs() {
+    $sql = "SELECT factionID FROM torn_factions";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  /////////////////////////////////////////////////
+
   public function updateFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
     $sql = "UPDATE torn_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ? WHERE factionID = ?";
     $stmt = $this->pdo->prepare($sql);
@@ -1045,7 +1058,7 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
 
-
+  
   /////////////////////////////////////////////////
   ////////           END OF CLASS          ////////
   /////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 </li>
 
 <li class="nav-item active dropdown">
-  <a class="nav-link dropdown-toggle" href="#navTools" id="navToolsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <a class="nav-link dropdown-toggle" href="#navTools" id="navToolsDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Tools
   </a>
   <div class="dropdown-menu" aria-labelledby="navToolsDropdown">
@@ -13,7 +13,7 @@
   </div>
 </li>
 <li class="nav-item active dropdown">
-  <a class="nav-link dropdown-toggle" href="#navFac" id="navFactionDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <a class="nav-link dropdown-toggle" href="#navFac" id="navFactionDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Faction
   </a>
   <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
@@ -24,7 +24,7 @@
 </li>
 
 <li class="nav-item active dropdown">
-  <a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     <?php echo $_SESSION['username']; ?>
   </a>
   <div class="dropdown-menu" aria-labelledby="navProfileDropdown">

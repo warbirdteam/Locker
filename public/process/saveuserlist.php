@@ -41,25 +41,20 @@ if (isset($_POST['siteID'])) {
 
 
 if (isset($_POST['role'])) {
-  switch (strtolower($_POST['role'])) {
-    case 'admin':
-      $role = strtolower($_POST['role']);
-      break;
-    case 'leadership':
-      $role = strtolower($_POST['role']);
-      break;
-    case 'member':
-      $role = strtolower($_POST['role']);
-      break;
 
-    default:
-      exit();
-      break;
+  $roles  = ["admin","leadership","member","guest","none"]; // the white list of allowed field names
+  $key     = array_search($_POST['role'], $roles); // see if we have such a name
+  $field = $roles[$key];
+
+  if ($field == NULL) {
+    exit();
   }
 
-  $db_request->updateSiteUserRoleBySiteID($siteID, $role);
+  $db_request->updateSiteUserRoleBySiteID($siteID, $field);
 } else {
   exit();
 }
+
+
 
 ?>

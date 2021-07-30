@@ -74,7 +74,7 @@ if ($_SESSION['roleValue'] <= 3) { // 1 = guest / register, 2 = member, 3 = lead
 								$faction = $db_request->getFactionByFactionID($tornUser['tornFaction']);
 
 								if ($_SESSION['siteID'] == $siteUser['siteID']) {
-									$hover = ' data-toggle="tooltip" data-placement="right" title="You cannot edit your own role."';
+									$hover = ' data-bs-toggle="tooltip" data-placement="right" title="You cannot edit your own role."';
 									$disabled = ' disabled';
 								} else {
 									$hover = '';
@@ -83,17 +83,23 @@ if ($_SESSION['roleValue'] <= 3) { // 1 = guest / register, 2 = member, 3 = lead
 
 								switch ($siteUser['siteRole']) {
 									case 'admin':
-										$role_select = '<option value="admin" selected>ADMIN</option><option value="leadership">LEADERSHIP</option><option value="member">MEMBER</option>';
+										$role_select = '<option value="admin" selected>ADMIN</option><option value="leadership">LEADERSHIP</option><option value="member">MEMBER</option><option value="guest">GUEST</option><option value="none">NONE</option>';
 										break;
 									case 'leadership':
-										$role_select = '<option value="admin">ADMIN</option><option value="leadership" selected>LEADERSHIP</option><option value="member">MEMBER</option>';
+										$role_select = '<option value="admin">ADMIN</option><option value="leadership" selected>LEADERSHIP</option><option value="member">MEMBER</option><option value="guest">GUEST</option><option value="none">NONE</option>';
 										break;
 									case 'member':
-										$role_select = '<option value="admin">ADMIN</option><option value="leadership">LEADERSHIP</option><option value="member" selected>MEMBER</option>';
+										$role_select = '<option value="admin">ADMIN</option><option value="leadership">LEADERSHIP</option><option value="member" selected>MEMBER</option><option value="guest">GUEST</option><option value="none">NONE</option>';
+										break;
+									case 'guest':
+										$role_select = '<option value="admin">ADMIN</option><option value="leadership">LEADERSHIP</option><option value="member">MEMBER</option><option value="guest" selected>GUEST</option><option value="none">NONE</option>';
+										break;
+									case 'none':
+										$role_select = '<option value="admin">ADMIN</option><option value="leadership">LEADERSHIP</option><option value="member">MEMBER</option><option value="guest">GUEST</option><option value="none" selected>NONE</option>';
 										break;
 
 									default:
-										$role_select = '<option value="none" selected>None?</option><option value="admin" selected>ADMIN</option><option value="leadership">LEADERSHIP</option><option value="member">MEMBER</option>';
+										$role_select = '<option value="admin">ADMIN</option><option value="leadership">LEADERSHIP</option><option value="member">MEMBER</option><option value="guest">GUEST</option><option value="none" selected>NONE (error cannot find)</option>';
 										break;
 								}
 								?>

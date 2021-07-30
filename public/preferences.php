@@ -45,7 +45,7 @@ $siteUserPreferences = $db_request->getSiteUserPreferencesBySiteID($_SESSION['si
 	          <form>
 	            <div class="custom-control custom-switch">
 	              <input type="checkbox" class="custom-control-input" id="shareAPIswitch" name="share_api" <?php if ($siteUserPreferences['share_api'] && $siteUserPreferences['share_api'] == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
-	              <label class="custom-control-label" for="shareAPIswitch">Share API key?</label> <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Your API key will be used to help with faction functions such as collecting data for this website. All API keys are encrypted."></i>
+	              <label class="custom-control-label" for="shareAPIswitch">Share API key?</label> <i class="fas fa-info-circle" data-bs-toggle="tooltip" data-placement="top" title="Your API key will be used to help with faction functions such as collecting data for this website. All API keys are encrypted."></i>
 	            </div>
 	          </form>
 					</div>

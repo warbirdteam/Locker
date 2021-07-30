@@ -1,5 +1,5 @@
 <li class="nav-item active dropdown">
-  <a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-toggle="dropdown">
+  <a class="nav-link dropdown-toggle" href="#navPro" id="navProfileDropdown" role="button" data-bs-toggle="dropdown">
     <?php echo $_SESSION['username']; ?>
   </a>
   <div class="dropdown-menu" aria-labelledby="navProfileDropdown">

@@ -44,13 +44,13 @@ if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = lead
 
                   <ul class="nav nav-tabs mb-1" role="tablist">
                     <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="networth-tab" data-toggle="tab" href="#networth" role="tab" aria-controls="networth" aria-selected="true">Networth</a>
+                    <a class="nav-link active" id="networth-tab" data-bs-toggle="tab" href="#networth" role="tab" aria-controls="networth" aria-selected="true">Networth</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="awards-tab" data-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Awards</a>
+                    <a class="nav-link" id="awards-tab" data-bs-toggle="tab" href="#awards" role="tab" aria-controls="awards" aria-selected="false">Awards</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="level-tab" data-toggle="tab" href="#level" role="tab" aria-controls="level" aria-selected="false">Level</a>
+                    <a class="nav-link" id="level-tab" data-bs-toggle="tab" href="#level" role="tab" aria-controls="level" aria-selected="false">Level</a>
                     </li>
                   </ul>
 

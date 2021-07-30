@@ -42,13 +42,13 @@ $friendlyFactions = $db_request_friendly_factions->getAllFriendlyFactions();
 
 <?php
 if (isset($_SESSION['error'])) {
-	echo '<div class="alert alert-danger my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+	echo '<div class="alert alert-danger my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 	unset($_SESSION['error']);
 }
 ?>
 <?php
 if (isset($_SESSION['success'])) {
-	echo '<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['success'].'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+	echo '<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['success'].'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 	unset($_SESSION['success']);
 }
 ?>
@@ -62,19 +62,19 @@ if (isset($_SESSION['success'])) {
         <div class="card-body">
 					<div class="row ml-3">
 	          <form id="toggleSettings">
-	            <div class="custom-control custom-switch">
-	              <input type="checkbox" class="custom-control-input toggles" id="assistsToggle" name="assists" <?php if ($assistsToggle && $assistsToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
-	              <label class="custom-control-label" for="assistsToggle">Assist Bot</label> <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="right" title="Enable this to enable the assist bot/script. Used for acts of war."></i>
+	            <div class="form-check form-switch">
+	              <input type="checkbox" class="form-check-input toggles" id="assistsToggle" name="assists" <?php if ($assistsToggle && $assistsToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
+	              <label class="form-check-label" for="assistsToggle" data-bs-toggle="tooltip" data-bs-placement="right" title="Enable this to enable the assist bot/script. Used for acts of war.">Assist Bot</label>
 	            </div>
 
-              <div class="custom-control custom-switch">
-	              <input type="checkbox" class="custom-control-input toggles" id="revivesToggle" name="revives" <?php if ($revivesToggle && $revivesToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
-	              <label class="custom-control-label" for="revivesToggle">Revive Bot</label> <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="right" title="Enable this to enable the revive bot/script."></i>
+              <div class="form-check form-switch">
+	              <input type="checkbox" class="form-check-input toggles" id="revivesToggle" name="revives" <?php if ($revivesToggle && $revivesToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
+	              <label class="form-check-label" for="revivesToggle" data-bs-toggle="tooltip" data-bs-placement="right" title="Enable this to enable the revive bot/script.">Revive Bot</label>
 	            </div>
 
-							<div class="custom-control custom-switch">
-								<input type="checkbox" class="custom-control-input toggles" id="akwarsToggle" name="akwars" <?php if ($akwarsToggle && $akwarsToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
-								<label class="custom-control-label" for="akwarsToggle">AK War</label> <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="right" title="Enable this to set war status to AK war. Allows Allies to use war scripts."></i>
+							<div class="form-check form-switch">
+								<input type="checkbox" class="form-check-input toggles" id="akwarsToggle" name="akwars" <?php if ($akwarsToggle && $akwarsToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
+								<label class="form-check-label" for="akwarsToggle" data-bs-toggle="tooltip" data-bs-placement="right" title="Enable this to set war status to teamed war. Allows Allies to use war scripts.">Team War</label>
 							</div>
 	          </form>
 					</div>
@@ -98,7 +98,7 @@ if (isset($_SESSION['success'])) {
             <?php
 
             foreach((array) $factions as $faction) {
-              echo '<li data-faction="'. $faction['factionID'] .'" data-name="' . $faction['factionName'] . '" class="list-group-item"><a href="https://www.torn.com/factions.php?step=profile&ID='. $faction['factionID'] . '#/" target="_blank">'. $faction['factionName'] .' ['. $faction['factionID'] .']</a><button type="button" class="close removeFaction" data-toggle="modal" data-target="#removeFactionModal" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>';
+              echo '<li data-faction="'. $faction['factionID'] .'" data-name="' . $faction['factionName'] . '" class="list-group-item"><a href="https://www.torn.com/factions.php?step=profile&ID='. $faction['factionID'] . '#/" target="_blank">'. $faction['factionName'] .' ['. $faction['factionID'] .']</a><button type="button" class="btn-close removeFaction" data-bs-toggle="modal" data-bs-target="#removeFactionModal" aria-label="Close"></button></li>';
             }
 
             ?>
@@ -132,7 +132,7 @@ if (isset($_SESSION['success'])) {
 						<?php
 
 						foreach((array) $friendlyFactions as $friendlyfaction) {
-								echo '<li data-faction="'. $friendlyfaction['factionID'] .'" data-name="' . $friendlyfaction['factionName'] . '" class="list-group-item"><a href="https://www.torn.com/factions.php?step=profile&ID='. $friendlyfaction['factionID'] . '#/" target="_blank">'. $friendlyfaction['factionName'] .' ['. $friendlyfaction['factionID'] .']</a><button type="button" class="close removeFriendlyFaction" data-toggle="modal" data-target="#removeFriendlyFactionModal" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>';
+								echo '<li data-faction="'. $friendlyfaction['factionID'] .'" data-name="' . $friendlyfaction['factionName'] . '" class="list-group-item"><a href="https://www.torn.com/factions.php?step=profile&ID='. $friendlyfaction['factionID'] . '#/" target="_blank">'. $friendlyfaction['factionName'] .' ['. $friendlyfaction['factionID'] .']</a><button type="button" class="btn-close removeFriendlyFaction" data-bs-toggle="modal" data-bs-target="#removeFriendlyFactionModal" aria-label="Close"></button></li>';
 						}
 
 						?>
@@ -164,15 +164,13 @@ if (isset($_SESSION['success'])) {
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="removeFactionModalLabel">Remove Enemy Faction</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         You are about to remove the faction <b><span id="enemyFactionSpan">NULL</span></b> from the enemy list.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 				<form method="post" id="removeEnemy-form" action="process/removeEnemyFaction.php">
 					<input type="text" id="removeEnemyInput" name="enemyRemove" value="" required hidden>
         	<button class="btn btn-primary" type="submit" id="removeEnemy_button">Remove Enemy Faction</button>
@@ -188,15 +186,13 @@ if (isset($_SESSION['success'])) {
 	<div class="modal-content">
 		<div class="modal-header">
 			<h5 class="modal-title" id="removeFriendlyFactionModalLabel">Remove Friendly Faction</h5>
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 		</div>
 		<div class="modal-body">
 			You are about to remove the faction <b><span id="friendlyFactionSpan">NULL</span></b> from the friendly list.
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 			<form method="post" id="removeFriendly-form" action="process/removeFriendlyFaction.php">
 				<input type="text" id="removeFriendlyInput" name="friendlyRemove" value="" required hidden>
 				<button class="btn btn-primary" type="submit" id="removeFriendly_button">Remove Friendly Faction</button>
