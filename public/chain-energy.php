@@ -162,19 +162,19 @@ $(document).ready(function(){
 
 					<ul class="nav nav-tabs" id="myTab" role="tablist">
 					  <li class="nav-item">
-						<a class="nav-link" id="strength-result-tab" data-toggle="tab" href="#strength-result" role="tab">Strength results</a>
+						<a class="nav-link" id="strength-result-tab" data-bs-toggle="tab" href="#strength-result" role="tab">Strength results</a>
 					  </li>
 					  <li class="nav-item">
-						<a class="nav-link" id="speed-result-tab" data-toggle="tab" href="#speed-result" role="tab">Speed results</a>
+						<a class="nav-link" id="speed-result-tab" data-bs-toggle="tab" href="#speed-result" role="tab">Speed results</a>
 					  </li>
 					  <li class="nav-item">
-						<a class="nav-link" id="defense-result-tab" data-toggle="tab" href="#defense-result" role="tab">Defense results</a>
+						<a class="nav-link" id="defense-result-tab" data-bs-toggle="tab" href="#defense-result" role="tab">Defense results</a>
 					  </li>
 					  <li class="nav-item">
-						<a class="nav-link" id="dexterity-result-tab" data-toggle="tab" href="#dexterity-result" role="tab">Dexterity results</a>
+						<a class="nav-link" id="dexterity-result-tab" data-bs-toggle="tab" href="#dexterity-result" role="tab">Dexterity results</a>
 					  </li>
 					  <li class="nav-item">
-						<a class="nav-link active" id="total-result-tab" data-toggle="tab" href="#total-result" role="tab">Total</a>
+						<a class="nav-link active" id="total-result-tab" data-bs-toggle="tab" href="#total-result" role="tab">Total</a>
 					  </li>
 					</ul>
 					<div class="tab-content" id="myTabContent">

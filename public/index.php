@@ -23,13 +23,14 @@ include_once("../includes/autoloader.inc.php");
       unset($_SESSION['success']);
     }
     ?>
-    <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-8 offset-2 card border border-dark shadow rounded py-4 mt-4">
+    <div class="col-xl-4 offset-xl-4 col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-8 offset-2">
 
-      <div>
-        <h2 class="font-weight-light text-center pb-2">Login</h2>
+      <div class="card border border-dark shadow rounded py-2 mt-4">
+        <div class="card-body">
+        <h1 class="display-6 text-center pb-2">Login</h1>
         <hr/>
         <form method="post" id="login-form" action="process/login.php">
-          <div class="col">
+
             <span>Please enter your Torn API Key.</span>
             <input type="password" class="form-control" name="apikey" id="apikey" autocomplete="current-password" minlength="16" maxlength="16" required>
 
@@ -40,7 +41,7 @@ include_once("../includes/autoloader.inc.php");
               </label>
             </div>
 
-          </div>
+
 
           <hr />
 
@@ -51,6 +52,7 @@ include_once("../includes/autoloader.inc.php");
           </div>
 
         </form>
+        </div>
       </div>
 
     </div>

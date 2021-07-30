@@ -32,7 +32,7 @@ if (isset($_SESSION['error'])) {
 ?>
 <?php
 if (isset($_SESSION['success'])) {
-	echo '<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['success'].'<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>';
+	echo '<div class="alert alert-success alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['success'].'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
 	unset($_SESSION['success']);
 }
 ?>
@@ -70,7 +70,7 @@ if (isset($_SESSION['success'])) {
                               foreach ($uniquefactions as $fid => $lookup) {
                               ?>
                               <div class="card mb-2 border-bottom">
-                                <a class="list-group-item list-group-item-action border-0 bg-secondary-light" data-toggle="collapse" data-target="#fid_<?php echo $fid;?>">
+                                <a class="list-group-item list-group-item-action border-0 bg-secondary-light" data-bs-toggle="collapse" data-target="#fid_<?php echo $fid;?>">
                                   <?php echo $lookup['faction_name'] . " [" . $lookup['faction_id'] . "]";?>
                                   </a>
                                   <div id="fid_<?php echo $fid;?>" class="collapse" data-parent="#factionLookupAccordion">
@@ -80,7 +80,7 @@ if (isset($_SESSION['success'])) {
                                         foreach ($lookup['lookups'] as $lookup_id => $lookup_info) {
                                       ?>
 
-                                      <li class="list-group-item border-left-0 border-right-0 rounded-0"><a href="" class="float-left" data-toggle="collapse" data-target="#lookup_id_<?php echo $lookup_id;?>"><?php echo "Report: [" . $lookup_id . "] - " . $lookup_info['timestamp'];?></a><a class="float-right" data-toggle="collapse" data-target="#lookup_id_<?php echo $lookup_id;?>"><i class="fas fa-chevron-down"></i></a></li>
+                                      <li class="list-group-item border-left-0 border-right-0 rounded-0"><a href="" class="float-left" data-bs-toggle="collapse" data-target="#lookup_id_<?php echo $lookup_id;?>"><?php echo "Report: [" . $lookup_id . "] - " . $lookup_info['timestamp'];?></a><a class="float-right" data-bs-toggle="collapse" data-target="#lookup_id_<?php echo $lookup_id;?>"><i class="fas fa-chevron-down"></i></a></li>
 
                                       <div class="card-body collapse" id="lookup_id_<?php echo $lookup_id;?>">
 
@@ -107,7 +107,7 @@ if (isset($_SESSION['success'])) {
                                             <tr>
                                               <th scope="col" class="text-truncate">Name</th>
                                               <th scope="col" class="text-truncate">Level</th>
-                                              <th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="top" title="Days in current faction">DiF</th>
+                                              <th scope="col" class="text-truncate" data-bs-toggle="tooltip" data-placement="top" title="Days in current faction">DiF</th>
                                               <th scope="col" class="text-truncate">Donator</th>
                                               <th scope="col" class="text-truncate">Xanax</th>
                                               <th scope="col" class="text-truncate">Attacks Won</th>
@@ -136,7 +136,7 @@ if (isset($_SESSION['success'])) {
                                               $title = round((time() - $member['last_action'])/60/60);
                                 							$title .= ' hours ago';
 
-                                              echo '<tr role="row"><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $member['userid'] . '" target="_blank">' . $member['username'] . ' [' . $member['userid'] . ']</a></td><td>' . $member['level'] . '</td><td>' . $member['days_in_faction'] . '</td><td>' . $member['donator_status'] . '</td><td>' . $member['xanax'] . '</td><td>' . $member['attackswon'] . '</td><td>' . $member['defendswon'] . '</td><td>' . $member['property'] . '</td><td>' . $member['energy_refills'] . '</td><td>' . $member['nerve_refills'] . '</td><td>' . $member['boosters'] . '</td><td>' . $member['cans'] . '</td><td>' . $member['stat_enhancers'] . '</td><td>' . $member['enemies'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">' . date('m-d-Y H:i:s',$member['last_action']) . '</td>';
+                                              echo '<tr role="row"><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $member['userid'] . '" target="_blank">' . $member['username'] . ' [' . $member['userid'] . ']</a></td><td>' . $member['level'] . '</td><td>' . $member['days_in_faction'] . '</td><td>' . $member['donator_status'] . '</td><td>' . $member['xanax'] . '</td><td>' . $member['attackswon'] . '</td><td>' . $member['defendswon'] . '</td><td>' . $member['property'] . '</td><td>' . $member['energy_refills'] . '</td><td>' . $member['nerve_refills'] . '</td><td>' . $member['boosters'] . '</td><td>' . $member['cans'] . '</td><td>' . $member['stat_enhancers'] . '</td><td>' . $member['enemies'] . '</td><td data-bs-toggle="tooltip" data-placement="left" title="'.$title.'">' . date('m-d-Y H:i:s',$member['last_action']) . '</td>';
 
                                             }
 

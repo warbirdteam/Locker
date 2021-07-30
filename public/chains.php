@@ -36,19 +36,19 @@ if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = lead
 
 		<ul class="nav nav-tabs" id="chainTabs" role="tablist">
 			<li class="nav-item">
-			<a class="nav-link active" id="nest-chains-tab" data-toggle="tab" href="#nest-chains" role="tab">Nest Chains</a>
+			<a class="nav-link active" id="nest-chains-tab" data-bs-toggle="tab" href="#nest-chains" role="tab">Nest Chains</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" id="wb-chains-tab" data-toggle="tab" href="#wb-chains" role="tab">Warbirds Chains</a>
+			<a class="nav-link" id="wb-chains-tab" data-bs-toggle="tab" href="#wb-chains" role="tab">Warbirds Chains</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" id="wbng-chains-tab" data-toggle="tab" href="#wbng-chains" role="tab">WBNG Chains</a>
+			<a class="nav-link" id="wbng-chains-tab" data-bs-toggle="tab" href="#wbng-chains" role="tab">WBNG Chains</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" id="fowl-chains-tab" data-toggle="tab" href="#fowl-chains" role="tab">FowlMed Chains</a>
+			<a class="nav-link" id="fowl-chains-tab" data-bs-toggle="tab" href="#fowl-chains" role="tab">FowlMed Chains</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" id="other-chains-tab" data-toggle="tab" href="#other-chains" role="tab">Other Chains</a>
+			<a class="nav-link" id="other-chains-tab" data-bs-toggle="tab" href="#other-chains" role="tab">Other Chains</a>
 			</li>
 		</ul>
 		<div class="tab-content" id="chainTabContent">

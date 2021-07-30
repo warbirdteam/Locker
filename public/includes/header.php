@@ -11,14 +11,14 @@ This is a basic header. In the webpage.php file, add this first, then add any ex
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 	<!-- CSS -->
-	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/lib/bootstrap.css"> <!-- Bootstrap -->
 	<link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/theme.bootstrap_4.css">
-	<!-- jQuery -->
-	<script src="js/jquery-3.4.1.min.js"></script>
-	<script src="js/bootstrap.bundle.min.js"></script>
-  <script src="js/all.min.js"></script>
+  <link rel="stylesheet" href="css/lib/all.css"> <!-- Font Awesome -->
 
-  <script src="js/jquery.tablesorter.js"></script>
-  <script src="js/jquery.tablesorter.widgets.js"></script>
+	<script src="js/lib/jquery-3.4.1.min.js"></script> <!-- jQuery -->
+	<script src="js/lib/bootstrap.bundle.js"></script> <!-- Bootstrap -->
+  <script src="js/lib/all.js"></script> <!-- Font Awesome -->
+  <script src="js/lib/jquery.tablesorter.js"></script>
+  <script src="js/lib/jquery.tablesorter.widgets.js"></script>
+  
   <script src="js/tablesort.js"></script>

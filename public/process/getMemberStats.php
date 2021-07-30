@@ -40,9 +40,6 @@ switch ($fid) {
   case '13784':
   memberInfo('13784', $timeline);
   break;
-  case '30085':
-  memberInfo('30085', $timeline);
-  break;
 	case '37132':
 	memberInfo('37132', $timeline);
 	break;
@@ -54,7 +51,7 @@ switch ($fid) {
 
 function memberInfo($faction, $timeline) {
   $tabledata = '';
-  echo '<table class="member_info_table table table-hover table-striped table-dark table-sm" border=1 id="table_' . $faction . '_' . $timeline . '"><thead class="thead-dark">
+  echo '<table class="member_info_table table table-hover table-dark table-sm" border=1 id="table_' . $faction . '_' . $timeline . '"><thead class="thead-dark">
   <tr>
   <th scope="col" class="text-truncate sorter-false">#</th>
   <th scope="col" class="text-truncate">Name</th>
@@ -134,13 +131,13 @@ function memberInfo($faction, $timeline) {
 				$donatorclass = $donator == 0 ? 'class="bg-danger"' : '';
 
 				if ($row['status_details'] == 'Resting in Peace') {
-					$rowclass = ' class="bg-info"';
-					$lastactionclass = 'class="bg-info"';
-					$propertyclass = 'class="bg-info"';
-					$donatorclass = 'class="bg-info"';
+					$rowclass = ' class="table-info"';
+					$lastactionclass = 'class="table-info"';
+					$propertyclass = 'class="table-info"';
+					$donatorclass = 'class="table-info"';
 				}
 
-        $tabledata .= '<tr'.$rowclass.'><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $tornID . '" target="_blank">' . $memberName . ' [' . $tornID . ']</a></td><td ' . $donatorclass . '>'  . $donator . '</td><td ' . $propertyclass . '>'. $property . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$lastaction) . '</td><td>'.number_format((float)$data["xanScore"], 2, '.', '').'</dt><td>'.$data["xanax"].'</td><td>'.$data["overdosed"].'</td><td>'.$data["refill_energy"].'</td><td>'.$data["refill_nerve"].'</td><td>'.$data["boostersused"].'</td><td>'.$data["energydrinkused"].'</td><td>'.$data["statenhancersused"].'</td><td>'.$data["travel"].'</td><td>'.$data["dumpsearches"].'</td><td>'.$data["revives"].'</td></tr>';
+        $tabledata .= '<tr'.$rowclass.'><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $tornID . '" target="_blank">' . $memberName . ' [' . $tornID . ']</a></td><td ' . $donatorclass . '>'  . $donator . '</td><td ' . $propertyclass . '>'. $property . '</td><td data-bs-toggle="tooltip" data-placement="left" title="'.$title.'" '. $lastactionclass .'>'. date('m-d-Y H:i:s',$lastaction) . '</td><td>'.number_format((float)$data["xanScore"], 2, '.', '').'</dt><td>'.$data["xanax"].'</td><td>'.$data["overdosed"].'</td><td>'.$data["refill_energy"].'</td><td>'.$data["refill_nerve"].'</td><td>'.$data["boostersused"].'</td><td>'.$data["energydrinkused"].'</td><td>'.$data["statenhancersused"].'</td><td>'.$data["travel"].'</td><td>'.$data["dumpsearches"].'</td><td>'.$data["revives"].'</td></tr>';
       }
     }
 

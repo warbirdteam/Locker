@@ -78,23 +78,20 @@ if (empty($faction)) {
 
 					<ul class="nav nav-tabs" id="memberTabs" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link active" id="nest-members-tab" data-toggle="tab" href="#faction-35507" role="tab">Nest</a>
+							<a class="nav-link active" id="nest-members-tab" data-bs-toggle="tab" href="#faction-35507" role="tab">Nest</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="wb-members-tab" data-toggle="tab" href="#faction-13784" role="tab">Warbirds</a>
+							<a class="nav-link" id="wb-members-tab" data-bs-toggle="tab" href="#faction-13784" role="tab">Warbirds</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" id="wbng-members-tab" data-toggle="tab" href="#faction-30085" role="tab">WBNG</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" id="fm-members-tab" data-toggle="tab" href="#faction-37132" role="tab">Fowl Med</a>
+							<a class="nav-link" id="fm-members-tab" data-bs-toggle="tab" href="#faction-37132" role="tab">Fowl</a>
 						</li>
 					</ul>
 					<div class="tab-content" id="memberTabsContent">
 						<br>
 
 						<?php
-						$factions = array( "35507", "13784", "30085", "37132");
+						$factions = array( "35507", "13784", "37132");
 						$db_request = new db_request();
 
 						foreach ($factions as $faction) {
@@ -105,12 +102,12 @@ if (empty($faction)) {
 
 							<div class="tab-pane fade show<?php if ($faction == "35507") {echo " active";}?>" id="faction-<?php echo $faction;?>" role="tabpanel">
 								<div class="table-responsive">
-									<table class="faction_member_table table table-hover table-striped table-dark" border=1>
+									<table class="faction_member_table table table-hover table-dark" border=1>
 										<thead class="thead-dark">
 											<tr>
 												<th scope="col" class="text-truncate sorter-false">#</th>
 												<th scope="col" class="text-truncate">Name</th>
-												<th scope="col" class="text-truncate" data-toggle="tooltip" data-placement="top" title="Days in Faction">DiF</th>
+												<th scope="col" class="text-truncate" data-bs-toggle="tooltip" data-placement="top" title="Days in Faction">DiF</th>
 												<th scope="col" class="text-truncate">Last Action</th>
 												<th scope="col" class="text-truncate">Status</th>
 											</tr>
@@ -120,12 +117,13 @@ if (empty($faction)) {
 											<?php
 											if ($count > 0) {
 												foreach ($rows as $tornID=>$row){
-													$class = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="bg-danger"' : '';
+													$class = "";
+													$laclass = ($row['last_action'] <= strtotime('-24 hours')) ? 'class="table-danger"' : '';
 													$title = round((time() - $row['last_action'])/60/60);
 													$title .= ' hours ago';
-													if (strpos($row['status_desc'], 'In federal jail') !== false) {$class = 'class="bg-danger"';}
-													if (strpos($row['status_details'], 'Resting in Peace') !== false) {$class = 'class="bg-info"';}
-													echo '<tr ' . $class . '><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $tornID . '" target="_blank">' . $row['tornName'] . ' [' . $tornID . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td data-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>' . $row['status_desc'] . ' ' . $row['status_details'] . '</td></tr>';
+													if (strpos($row['status_desc'], 'In federal jail') !== false) {$class = 'class="table-danger"';}
+													if (strpos($row['status_details'], 'Resting in Peace') !== false) {$class = 'class="table-info"';$row['status_desc'] = "";}
+													echo '<tr ' . $class . '><td></td><td><a class="text-reset" href="https://www.torn.com/profiles.php?XID=' . $tornID . '" target="_blank">' . $row['tornName'] . ' [' . $tornID . ']</a></td><td>'  . $row['days_in_faction'] . '</td><td '.$laclass.' data-bs-toggle="tooltip" data-placement="left" title="'.$title.'">'. date('m-d-Y H:i:s',$row["last_action"]) . '</td><td>' . $row['status_desc'] . ' ' . $row['status_details'] . '</td></tr>';
 												}
 											} else {
 												echo '<td><td colspan=4 align=center>No members found...</td></td>';
