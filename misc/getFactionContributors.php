@@ -1,9 +1,18 @@
 <?php
 include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
-getFactionContributors('1468764', '13784'); //Warbirds
-getFactionContributors('1975338', '35507'); //Nest / deca
+$db_request_check_gymspy_status = new db_request();
+$bool = $db_request_check_gymspy_status->getToggleStatusByName("gymspy");
 
+if ($bool == 1) {
+  //Get faction keyholders (api key access for faction data)
+  $db_request = new db_request();
+  $factions = $db_request->getFactionKeyholders();
+
+  foreach($factions as $faction) {
+    getFactionContributors($faction['userID'], $faction['factionID']);
+  }
+}
 
 function getFactionContributors($tornid, $factionid) {
   $db_request = new db_request();
@@ -66,11 +75,104 @@ function getFactionContributors($tornid, $factionid) {
 
   }
 
+  $totalContributions = [];
+
   foreach ($databaseData as $userID => $contributionData) {
     $db_request_energy = new db_request();
     $db_request_energy->insertMemberEnergyUsed($userID, $factionid, $contributionData['contributions']);
+
+    //Add totals for each contribution type (strength, dex, speed, defense)
+    foreach($contributionData['contributions'] as $key => $value) {
+      if (!empty($totalContributions[$userID]) && !empty($totalContributions[$userID]['total'])) {
+        $totalContributions[$userID]['total'] = ($totalContributions[$userID]['total'] + $value);
+      } else {
+        $totalContributions[$userID]['total'] = $value;
+      }
+    }
   }
 
+  //Sort Array by total
+  uasort($totalContributions, function($b, $a) {
+      return $a['total'] <=> $b['total'];
+  });
+
+  $discordMessage = "```";
+
+  $db_request_faction = new $db_request();
+  $faction = $db_request_faction->getFactionByFactionID($factionid);
+
+  if ($faction) {
+    $factionName = $faction['factionName'];
+  } else {
+    $factionName = $factionid;
+  }
+
+  $db_request_gymspy_webhook = new db_request();
+
+  //custom thing to get correct webhook id
+  switch ($factionid) {
+    //WarBirds
+    case 13784:
+      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('wbgspy');
+    break;
+    //Nest
+    case 35507:
+      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('negspy');
+    break;
+    //Fowl
+    case 37132:
+      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('fwgspy');
+    break;
+
+    default:
+      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('gymspy'); //default gymspy channel if can't find others
+    break;
+  }
+
+
+  foreach ($totalContributions as $userID => $total) {
+    $db_request_member = new $db_request();
+    $member = $db_request_member->getMemberByTornID($userID);
+
+    if ($member && $member['tornName']) {
+      $discordMessage .= $member['tornName'] . " [" . $userID . "]: " . number_format($total['total']) . "e\n";
+    } else {
+      $discordMessage .= "[" . $userID . "]: " . number_format($total['total']) . "e\n";
+    }
+  }
+
+  $discordMessage .= '```';
+
+  if ($discordMessage != '``````') { //only send discord message if energy has been used
+
+    $url = 'https://discord.com/api/webhooks/' . $gymspyWebhook;
+    //create discord webhook message
+    $POST = [
+      'content' => '',
+      'username' => 'Gym Spy Bot',
+      'embeds' => [
+        [
+         'title' => "These members of ".$factionName." have just trained in the gym.",
+         "type" => "rich",
+         "description" => $discordMessage,
+         "color" => hexdec("6cad2b"),
+        ]
+      ]
+    ];
+
+    $headers = [ 'Content-Type: application/json; charset=utf-8' ];
+
+    //use curl to send discord webhook message
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
+    $response   = curl_exec($ch);
+
+  }
 
 }//function getFactionContributors
 
