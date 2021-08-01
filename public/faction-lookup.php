@@ -70,7 +70,7 @@ if (isset($_SESSION['success'])) {
                               foreach ($uniquefactions as $fid => $lookup) {
                               ?>
                               <div class="card mb-2 border-bottom">
-                                <a class="list-group-item list-group-item-action border-0 bg-secondary-light" data-bs-toggle="collapse" data-target="#fid_<?php echo $fid;?>">
+                                <a class="list-group-item list-group-item-action border-0 bg-secondary-light" role="button" data-bs-toggle="collapse" href="#fid_<?php echo $fid;?>">
                                   <?php echo $lookup['faction_name'] . " [" . $lookup['faction_id'] . "]";?>
                                   </a>
                                   <div id="fid_<?php echo $fid;?>" class="collapse" data-parent="#factionLookupAccordion">
@@ -80,7 +80,7 @@ if (isset($_SESSION['success'])) {
                                         foreach ($lookup['lookups'] as $lookup_id => $lookup_info) {
                                       ?>
 
-                                      <li class="list-group-item border-left-0 border-right-0 rounded-0"><a href="" class="float-left" data-bs-toggle="collapse" data-target="#lookup_id_<?php echo $lookup_id;?>"><?php echo "Report: [" . $lookup_id . "] - " . $lookup_info['timestamp'];?></a><a class="float-right" data-bs-toggle="collapse" data-target="#lookup_id_<?php echo $lookup_id;?>"><i class="fas fa-chevron-down"></i></a></li>
+                                      <li class="list-group-item border-left-0 border-right-0 rounded-0"><a href="#lookup_id_<?php echo $lookup_id;?>" class="float-start" data-bs-toggle="collapse"><?php echo "Report: [" . $lookup_id . "] - " . $lookup_info['timestamp'];?></a><a class="float-end" data-bs-toggle="collapse" href="#lookup_id_<?php echo $lookup_id;?>"><i class="fas fa-chevron-down"></i></a></li>
 
                                       <div class="card-body collapse" id="lookup_id_<?php echo $lookup_id;?>">
 
