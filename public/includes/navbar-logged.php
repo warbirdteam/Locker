@@ -58,7 +58,7 @@ $_SESSION['role'] = $site['siteRole'];
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark d-flex">
 		<div class="container-fluid mx-3">
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navMobileDropdown" aria-controls="navMobileDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMobileDropdown" aria-controls="navMobileDropdown" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 
