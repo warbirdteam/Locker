@@ -1058,7 +1058,110 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
 
-  
+  /////////////////////////////////////////////////
+  ////////        DISCORD FUNCTIONS        ////////
+  /////////////////////////////////////////////////
+
+  public function getAllDiscordCommands() {
+    $sql = "SELECT * FROM discord_commands";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getDiscordRolesByGuildID($guildID) {
+    $sql = "SELECT * FROM discord_roles WHERE guildID = ? ORDER BY rawPosition DESC";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$guildID]);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    return $row;
+  }
+
+  public function getDiscordChannelsByGuildID($guildID) {
+    $sql = "SELECT * FROM discord_channels WHERE guildID = ? ORDER BY rawPosition DESC";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$guildID]);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    return $row;
+  }
+
+  public function getDiscordPermissionByCommandIDandRoleID($commandID, $roleID) {
+    $sql = "SELECT * FROM discord_commands_permission_roles WHERE commandID = ? AND roleID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$commandID, $roleID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    return $row;
+  }
+
+  public function getDiscordPermissionByCommandIDandChannelID($commandID, $channelID) {
+    $sql = "SELECT * FROM discord_commands_permission_channels WHERE commandID = ? AND channelID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$commandID, $channelID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    return $row;
+  }
+
+  ////////           UPDATE/SET DISCORD COMMAND FUNCTIONS          ////////
+
+  public function updateDiscordCommandToggle($commandID, $enabled) {
+    $sql = "UPDATE discord_commands SET enabled = ? WHERE commandID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$enabled, $commandID]);
+  }
+
+
+
+  public function InsertDiscordCommandRole($commandID, $roleID) {
+    $sql = "INSERT INTO discord_commands_permission_roles (commandID, roleID) values (?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$commandID, $roleID]);
+  }
+
+  public function DeleteDiscordCommandRole($commandID, $roleID) {
+    $sql = "DELETE FROM discord_commands_permission_roles WHERE commandID = ? AND roleID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$commandID, $roleID]);
+  }
+
+
+
+
+  public function InsertDiscordCommandChannel($commandID, $channelID) {
+    $sql = "INSERT INTO discord_commands_permission_channels (commandID, channelID) values (?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$commandID, $channelID]);
+  }
+
+  public function DeleteDiscordCommandChannel($commandID, $channelID) {
+    $sql = "DELETE FROM discord_commands_permission_channels WHERE commandID = ? AND channelID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$commandID, $channelID]);
+  }
+
+
+
   /////////////////////////////////////////////////
   ////////           END OF CLASS          ////////
   /////////////////////////////////////////////////
