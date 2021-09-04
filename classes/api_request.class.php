@@ -87,6 +87,18 @@ class api_request {
     }
   }
 
+  public function getPlayerPersonalStatsTimestamp($userid, $timestamp) {
+    $url = 'https://api.torn.com/user/' . $userid . '?selections=timestamp,basic,personalstats,profile,discord&timestamp='.$timestamp.'&comment=wb.rocks&key=' . $this->apikey;
+    $data = file_get_contents($url);
+    $json = json_decode($data, true); // decode the JSON feed
+
+    if (is_array($json) || is_object($json)) {
+      return $json;
+    } else {
+      throw new Exception('Error while fetching API data.');
+    }
+  }
+
 
   /////////////////////////////////////////////////
 

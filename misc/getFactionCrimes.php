@@ -1,10 +1,12 @@
 <?php
 include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
+$db_request = new db_request();
+$factions = $db_request->getFactionKeyholders();
 
-getFactionCrimes('1468764', '13784'); //Warbirds
-getFactionCrimes('1975338', '35507'); //Nest / deca
-
+foreach($factions as $faction) {
+  getFactionCrimes($faction['userID'], $faction['factionID']);
+}
 
 function getFactionCrimes($tornid, $factionid) {
   $db_request = new db_request();
@@ -41,79 +43,16 @@ function getFactionCrimes($tornid, $factionid) {
 
           $participants = $crimeData['participants'];
           if ($participants) { //check if participant data exists
-            $participantsURL = '';
-            $participantsMessage = '';
-            $i = 0;
+
             foreach($participants as $participantData) { //loop through participants
 
               foreach($participantData as $participantID => $data) { //loop through participant data again cuz ched
-                if ($crime_type_id == 8) {
-                  $pay = splitPay($i, $money_gain);
-                  $i++;
-                } else {
-                  $pay = ($money_gain / 8);
-                }
 
-                $participantsURL .= $participantID . ',';
                 $db_request_crimes_participant = new db_request();
                 $db_request_crimes_participant->insertFactionCrimeParticipant($crimeID, $participantID); //add participant data to oc participants table
 
-                $db_request_name = new db_request();
-                $participantData = $db_request_name->getMemberByTornID($participantID); //get faction member data
-
-                if ($participantData && $participantData['tornName']) {
-                  $participantsMessage .= strval($participantData['tornName'] . ' [' . $participantData['tornID'] . '] is owed: **$' . number_format($pay) . '** ') . "\n";
-                } else {
-                  $participantsMessage .= strval(" [" . $participantID . "] is owed: **$" . number_format($pay) . "**") . "\n";
-                }
               }
 
-            }
-
-            if ($crime_type_id == 8) {
-              if ($success == 1) {
-                //$pay = ($money_gain / 5);
-
-                $paydayURL = 'https://www.torn.com/factions.php?step=your#/tab=controls&option=give-to-user'; //easy payday link
-
-                $db_request_payday_webhook = new db_request();
-                $attackWebhook = $db_request_payday_webhook->getWebhookByName('payday'); //get webhook id from database
-
-                $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
-                //create discord webhook message
-                $POST = [
-                  'content' => '<@&749043668299677829>',
-                  'username' => 'Payday Bot',
-                  'embeds' => [
-                    [
-                     'title' => "Adjust balances for " . $crime_name . " team",
-                     "type" => "rich",
-                     "description" => "The " . $crime_name . " attempt was a success!\nhttps://www.torn.com/factions.php?step=your#/tab=crimes&crimeID=" . $crimeID,
-                     "url" => $paydayURL,
-                     "color" => hexdec("6cad2b"),
-                     "fields" => [
-                        [
-                          "name" => "Money earned: $". number_format($money_gain),
-                          "value" => $participantsMessage
-                        ],
-                      ]
-                    ]
-                  ]
-                ];
-
-                $headers = [ 'Content-Type: application/json; charset=utf-8' ];
-
-                //use curl to send discord webhook message
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
-                $response   = curl_exec($ch);
-
-              }
             }
 
           } //if participants
@@ -130,29 +69,5 @@ function getFactionCrimes($tornid, $factionid) {
 
 } //function getcrimes
 
-
-function splitPay($i, $money) {
-  $pay = 0;
-  switch ($i) {
-    case 0:
-    $pay = ($money*0.35);
-    break;
-    case 1:
-    $pay = ($money*0.25);
-    break;
-    case 2:
-    $pay = ($money*0.20);
-    break;
-    case 3:
-    $pay = ($money*0.10);
-    break;
-
-    default:
-      $pay = 0;
-    break;
-  }
-
-  return $pay;
-}
 
 ?>

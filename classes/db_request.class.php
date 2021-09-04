@@ -1087,7 +1087,7 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
   public function getDiscordChannelsByGuildID($guildID) {
-    $sql = "SELECT * FROM discord_channels WHERE guildID = ? ORDER BY rawPosition DESC";
+    $sql = "SELECT * FROM discord_channels WHERE guildID = ? ORDER BY rawPosition ASC";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$guildID]);
     $row = $stmt->fetchAll();
