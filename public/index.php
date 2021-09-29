@@ -8,7 +8,6 @@ include('includes/header.php');
 
 <?php
 include('includes/navbar-index.php');
-include_once("../includes/autoloader.inc.php");
 ?>
 
 <div class="content">
