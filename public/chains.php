@@ -3,24 +3,17 @@
 session_start();
 $_SESSION['title'] = 'Chain Reports';
 include('includes/header.php');
-?>
-
-
-
-<?php
 include('includes/navbar-logged.php');
-?>
 
-<?php
-if (!isset($_SESSION['roleValue'])) {
-	$_SESSION = array();
-	$_SESSION['error'] = "You are no longer logged in.";
-	header("Location: /index.php");
-}
 
-if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+if ($_SESSION['role'] == 'admin') {
+	//##### MEMBER & LEADERSHIP & ADMIN ONLY PAGE
+	//temporarily disabled
+} else {
+	//else send to welcome page with error message
 	$_SESSION['error'] = "You do not have access to that area.";
 	header("Location: /welcome.php");
+	exit;
 }
 ?>
 
