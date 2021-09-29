@@ -29,6 +29,7 @@ class db_login {
 
   /////////////////////////////////////////////////
 
+  //Verify that the entered string is accurate to a Torn API Key (16 characters, only numbers and letters)
   private function verifyString() {
     if (strlen($this->apikey) != 16) {
       return false;
@@ -43,8 +44,10 @@ class db_login {
 
   /////////////////////////////////////////////////
 
+  //Verify the user's faction is part of the faction family
   private function verifyFaction($factionid) {
-    $faction_list = array("13784","35507","37132");
+    $db_request = new db_request();
+    $faction_list = $db_request->getAllFactionIDs();
 
     if(!in_array($factionid, $faction_list)){
       return false;
@@ -64,7 +67,7 @@ class db_login {
     if (is_array($json) || is_object($json)) {
       if (isset($json['error'])) {
         //APIKEY probably invalid
-        $error = new Error_Message('API Key Error Code: ' . $player['error']['code'] . ' - ' . $player['error']['error'],"../index.php");
+        $error = new Error_Message('API Key Error Code: ' . $json['error']['code'] . ' - ' . $json['error']['error'],"../index.php");
       } else {
         if (isset($json['timestamp'])) {
           $this->userid = $json['player_id'];
@@ -78,21 +81,13 @@ class db_login {
   /////////////////////////////////////////////////
 
   public function login() {
-    $account_exists = "false";
-    while ($account_exists == "false") {
-
+    //Assume account doesn't exist yet
+    $account_exists = false;
+    while (!$account_exists) {
       $db_request = new db_request();
-      $torn = $db_request->getTornUserByTornID($this->userid);
-      if (empty($torn)) {
-        $this->register();
-        $this->verifyAPI();
-        continue;
-      } else {
-        $this->torn_user = $torn;
-      }
 
-
-      $site = $db_request->getSiteUserBySiteID($this->torn_user['siteID']);
+      //check if user exists via tornID to site users table
+      $site = $db_request->getSiteUserByTornID($this->userid);
       if (empty($site)) {
         $this->register();
         $this->verifyAPI();
@@ -101,25 +96,21 @@ class db_login {
         $this->site_user = $site;
       }
 
-      $account_exists = "true";
+      $account_exists = true;
     } //while
 
-
-      if ($this->torn_user['tornName'] != $this->username) {
-        $db_request->updateTornName($this->torn_user['siteID'], $this->username);
-        $this->torn_user['tornName'] = $this->username;
-      }
-
-      if ($this->site_user['siteRole'] == "member") {
-        if ( !$this->verifyFaction($this->factionid) ) {
+      if ($this->site_user['siteRole'] == "none") {
+        if (!$this->verifyFaction($this->factionid) ) {
           $error = new Error_Message("You are not in the Warbirds Family.","../index.php");
+        } else {
+          $db_request->updateSiteUserRoleBySiteID($this->site_user['siteID'], "member");
         }
       }
 
 
       $this->refreshJSON();
-      $this->compareAndUpdateAPIKey($this->torn_user['siteID'], $this->site_user['enc_api'], $this->site_user['iv'], $this->site_user['tag']);
-      $data = ["tornid" => $this->torn_user['tornID'], "factionid" => $this->torn_user['tornFaction'], "username" => $this->torn_user['tornName'], "userrole" => $this->site_user['siteRole'], "siteID" => $this->torn_user['siteID']];
+      $this->compareAndUpdateAPIKey($this->site_user['siteID'], $this->site_user['enc_api'], $this->site_user['iv'], $this->site_user['tag']);
+      $data = ["tornid" => $this->site_user['tornID'], "factionid" => $this->factionid, "username" => $this->username, "userrole" => $this->site_user['siteRole'], "siteID" => $this->site_user['siteID']];
 
       return $data;
   }
@@ -131,7 +122,7 @@ class db_login {
     $enc_api = $crypt->pad($this->apikey);
 
     $db_request = new db_request();
-    $result = $db_request->registerUser('member', $enc_api, $crypt, $this->userid, $this->username, $this->factionid, 'member');
+    $result = $db_request->registerUser("none", $enc_api, $crypt, $this->userid);
 
     if(empty($result)){
       $error = new Error_Message("There was an error registering. Please try again later.","../index.php");

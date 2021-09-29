@@ -1,56 +1,27 @@
 <?php
-if(!isset($_SESSION['userid'])){
+//If cannot find site ID, empty session array and send to login page with error message
+if(!isset($_SESSION['siteID'])){
 	$_SESSION = array();
 	$_SESSION['error'] = "You are no longer logged in.";
 	header("Location: /index.php");
+	exit;
 }
 // Load classes
 include_once(__DIR__ . "/../../includes/autoloader.inc.php");
-
+//put site user info from database
 $db_request = new db_request();
-$torn = $db_request->getTornUserByTornID($_SESSION['userid']);
-if (empty($torn)) { $error = new Error_Message("You are no longer logged in.","../index.php"); }
-$site = $db_request->getSiteUserBySiteID($torn['siteID']);
-if (empty($site)) { $error = new Error_Message("You are no longer logged in.","../index.php"); }
+$site = $db_request->getSiteUserByTornID($_SESSION['userid']);
+if (empty($site)) { $error = new Error_Message("You are no longer logged in.","../index.php"); exit; }
 
-
-if (empty($site['siteRole'])) {
+//if site user/siterole doesnt exist or is set to none, logout
+if (empty($site['siteRole']) || $site['siteRole'] == "none") {
 	$_SESSION = array();
 	$_SESSION['error'] = "You are no longer logged in.";
 	header("Location: /index.php");
+	exit;
+} else {
+	$_SESSION['role'] = $site['siteRole'];
 }
-
-
-$roleValue = 0;
-
-switch ($site['siteRole']) {
-	case 'admin':
-	$roleValue = 4;
-	break;
-	case 'leadership':
-	$roleValue = 3;
-	break;
-	case 'member':
-	$roleValue = 2;
-	break;
-	case 'guest':
-	$roleValue = 1;
-	break;
-	case 'register':
-	$roleValue = 1;
-	break;
-	case 'none':
-	$roleValue = 0;
-	break;
-	default:
-	$_SESSION = array();
-	$_SESSION['error'] = "You are no longer logged in.";
-	header("Location: /index.php");
-	break;
-}
-
-$_SESSION['roleValue'] = $roleValue;
-$_SESSION['role'] = $site['siteRole'];
 ?>
 
 
@@ -72,26 +43,24 @@ $_SESSION['role'] = $site['siteRole'];
 
 					<ul class="navbar-nav mr-3">
 						<?php
-						switch ($roleValue) {
-							case 4:
+						switch ($_SESSION['role']) {
+							case 'admin':
 							include('includes/navbar-admin.php');
 							break;
-							case 3:
+							case 'leadership':
 							include('includes/navbar-leadership.php');
 							break;
-							case 2:
+							case 'member':
 							include('includes/navbar-member.php');
 							break;
-							case 1:
-							include('includes/navbar-guest.php');
-							break;
-							case 0:
+							case 'guest':
 							include('includes/navbar-guest.php');
 							break;
 							default:
 							$_SESSION = array();
 							$_SESSION['error'] = "You are no longer logged in.";
 							header("Location: /index.php");
+							exit;
 							break;
 						}
 						 ?>

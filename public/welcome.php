@@ -11,18 +11,14 @@ include('includes/header.php'); //required to include basic bootstrap and javasc
 
 <?php
 include('includes/navbar-logged.php');
-?>
 
-<?php
-if (!isset($_SESSION['roleValue'])) {
-	$_SESSION = array();
-	$_SESSION['error'] = "You are no longer logged in.";
-	header("Location: /index.php");
-}
-
-if ($_SESSION['roleValue'] <= 0) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership' || $_SESSION['role'] == 'member') {
+	//##### MEMBER & LEADERSHIP & ADMIN ONLY PAGE
+} else {
+	//else send to welcome page with error message
 	$_SESSION['error'] = "You do not have access to that area.";
 	header("Location: /welcome.php");
+	exit;
 }
 ?>
 
@@ -50,7 +46,7 @@ $json = json_decode($data, true); // decode the JSON feed
 <div class="content">
   <?php
   if (isset($_SESSION['error'])) {
-    echo '<div class="alert alert-danger my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'</div>';
+    echo '<div class="alert alert-danger alert-dismissible fade show my-3 col-md-6 offset-md-3 col-xl-4 offset-xl-4" role="alert">'.$_SESSION['error'].'<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>';
     unset($_SESSION['error']);
   }
   ?>

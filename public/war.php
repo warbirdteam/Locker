@@ -3,30 +3,17 @@
 session_start();
 $_SESSION['title'] = 'War'; //Add whatever title you wish here. This will be displayed in the tab of your browser
 include('includes/header.php'); //required to include basic bootstrap and javascript files
-?>
-
-
-<?php
 include('includes/navbar-logged.php');
-?>
 
-<?php
-if (!isset($_SESSION['roleValue'])) {
-	$_SESSION = array();
-	$_SESSION['error'] = "You are no longer logged in.";
-	header("Location: /index.php");
-}
-
-if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
+	//##### LEADERSHIP & ADMIN ONLY PAGE
+} else {
+	//else send to welcome page with error message
 	$_SESSION['error'] = "You do not have access to that area.";
 	header("Location: /welcome.php");
+	exit;
 }
 
-if (empty($_SESSION['siteID'])) {
-  $_SESSION = array();
-  $_SESSION['error'] = "You are no longer logged in.";
-  header("Location: /index.php");
-}
 
 $db_request = new db_request();
 $revivesToggle = $db_request->getToggleStatusByName('revives');

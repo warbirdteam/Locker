@@ -1,18 +1,28 @@
 <?php
+//##### LEADERSHIP & ADMIN ONLY PAGE
+//start the session array
 session_start();
-if(!isset($_SESSION['role'])){
-			header("Location: ../index.php");
+//If cannot find site ID, empty session array and send to login page with error message
+if(!isset($_SESSION['siteID'])){
+	$_SESSION = array();
+	$_SESSION['error'] = "You are no longer logged in.";
+	header("Location: /index.php");
+	exit;
+}
+if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
+	//##### LEADERSHIP & ADMIN ONLY PAGE
+	//load classes files in classes folder
+	include_once(__DIR__ . "/../../includes/autoloader.inc.php");
+	$db_api = new db_request();
+	$apikeys = $db_api->getAllAvailableRawAPIKeys();
+	$count_api = $db_api->row_count;
 } else {
-  if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
-    include_once(__DIR__ . "/../../includes/autoloader.inc.php");
+	//else send to welcome page with error message
+	$_SESSION['error'] = "You do not have access to that area.";
+	header("Location: ../welcome.php");
+	exit;
+}
 
-    $db_api = new db_request();
-    $apikeys = $db_api->getAllAvailableRawAPIKeys();
-    $count_api = $db_api->row_count;
-} else {
-		header("Location: ../welcome.php");
-}
-}
 
 if (isset($_POST['fidlookup']) && !empty($_POST['fidlookup']) && is_numeric($_POST['fidlookup'])) {
     $fid = $_POST['fidlookup'];

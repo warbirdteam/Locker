@@ -688,6 +688,18 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     return $site;
   }
 
+  public function getSiteUserByTornID($tornID) {
+    $sql = "SELECT * FROM site_users WHERE tornID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID]);
+    $site = $stmt->fetch();
+    if(empty($site)) {
+      return NULL;
+    }
+
+    return $site;
+  }
+
 
   public function getAllSiteUsers() {
     $sql = "SELECT siteID, siteRole FROM site_users ORDER BY siteRole, siteID ASC";
@@ -726,17 +738,13 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
 
-  public function registerUser($siteRole, $enc_api, $crypt, $tornID, $tornName, $tornFaction, $factionRole) {
-    $sql = "INSERT INTO site_users (siteRole, enc_api, iv, tag) VALUES(?,?,?,?)";
+  public function registerUser($siteRole, $enc_api, $crypt, $tornID) {
+    $sql = "INSERT INTO site_users (siteRole, tornID, enc_api, iv, tag) VALUES(?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
-    $result = $stmt->execute([$siteRole, $enc_api, $crypt->iv, $crypt->tag]);
+    $result = $stmt->execute([$siteRole, $tornID, $enc_api, $crypt->iv, $crypt->tag]);
     if (!$result) {return NULL;};
 
     $last_id = $this->pdo->lastInsertId();
-
-    $sql = "INSERT INTO torn_users (tornID, siteID, tornName, tornFaction, factionRole) VALUES(?,?,?,?,?)";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$tornID, $last_id, $tornName, $tornFaction, $factionRole]);
 
     $sql = "INSERT INTO site_users_preferences (siteID) VALUES(?)";
     $stmt = $this->pdo->prepare($sql);
