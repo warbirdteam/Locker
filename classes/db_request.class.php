@@ -663,7 +663,7 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
 
 
   public function getTornUserBySiteID($siteID) {
-    $sql = "SELECT * FROM torn_users WHERE siteID = ? LIMIT 1";
+    $sql = "SELECT `site_users`.siteID, `site_users`.tornID, `site_users`.siteRole, tornName, factionID FROM `site_users` inner join `torn_members` where `torn_members`.tornID = `site_users`.tornID AND `site_users`.siteID = ? LIMIT 1";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$siteID]);
     $torn = $stmt->fetch();
@@ -702,7 +702,7 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
 
 
   public function getAllSiteUsers() {
-    $sql = "SELECT siteID, siteRole FROM site_users ORDER BY siteRole, siteID ASC";
+    $sql = "SELECT siteID, siteRole, tornID FROM site_users ORDER BY siteRole, siteID ASC";
     $stmt = $this->pdo->query($sql);
     $row = $stmt->fetchAll();
     $this->row_count = $stmt->rowCount();

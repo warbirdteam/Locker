@@ -46,6 +46,7 @@ if ($_SESSION['role'] == 'admin') {
 					<table class="table table-dark">
 						<thead class="thead-dark">
 							<tr>
+								<th scope="col">Site ID</th>
 								<th scope="col">User</th>
 								<th scope="col">Faction</th>
 								<th scope="col">Site Role</th>
@@ -67,7 +68,14 @@ if ($_SESSION['role'] == 'admin') {
 
 								$tornUser = $db_request->getTornUserBySiteID($siteUser['siteID']);
 
-								$faction = $db_request->getFactionByFactionID($tornUser['tornFaction']);
+								//If User's info is not found, most likely not in faction. Add in blank info
+								if (empty($tornUser)) {
+									$tornUser['tornID'] = $siteUser['tornID'];
+									$tornUser['factionID'] = NULL;
+									$tornUser['tornName'] = '';
+								}
+
+								$faction = $db_request->getFactionByFactionID($tornUser['factionID']);
 
 								if ($_SESSION['siteID'] == $siteUser['siteID']) {
 									$hover = ' data-bs-toggle="tooltip" data-placement="right" title="You cannot edit your own role."';
@@ -101,6 +109,7 @@ if ($_SESSION['role'] == 'admin') {
 								?>
 
 								<tr data-siteid=<?php echo $siteUser['siteID']; ?>>
+									<td class="border-left"><?php echo $siteUser['siteID']; ?></td>
 									<td class="border-left"><a class="text-reset" href="https://www.torn.com/profiles.php?XID=<?php echo $tornUser['tornID'] ?>"><?php echo $tornUser['tornName'] . " [" . $tornUser['tornID'] . "]"; ?></a></td>
 									<td class="border-left"><a class="text-reset" href="https://www.torn.com/factions.php?step=profile&ID=<?php echo $faction['factionID'] ?>"><?php echo $faction['factionName'] ?></a></td>
 									<td class="border-left" <?php echo $hover; ?>>
