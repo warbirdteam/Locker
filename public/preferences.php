@@ -3,34 +3,19 @@
 session_start();
 $_SESSION['title'] = 'Preferences'; //Add whatever title you wish here. This will be displayed in the tab of your browser
 include('includes/header.php'); //required to include basic bootstrap and javascript files
-?>
-
-
-<?php
 include('includes/navbar-logged.php');
-?>
 
-<?php
-if (!isset($_SESSION['roleValue'])) {
-	$_SESSION = array();
-	$_SESSION['error'] = "You are no longer logged in.";
-	header("Location: /index.php");
-}
 
-if ($_SESSION['roleValue'] <= 0) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership' || $_SESSION['role'] == 'member' || $_SESSION['role'] == 'guest') {
+	//##### GUEST & MEMBER & LEADERSHIP & ADMIN ONLY PAGE
+	$db_request = new db_request();
+	$siteUserPreferences = $db_request->getSiteUserPreferencesBySiteID($_SESSION['siteID']);
+} else {
+	//else send to welcome page with error message
 	$_SESSION['error'] = "You do not have access to that area.";
 	header("Location: /welcome.php");
+	exit;
 }
-
-if (empty($_SESSION['siteID'])) {
-  $_SESSION = array();
-  $_SESSION['error'] = "You are no longer logged in.";
-  header("Location: /index.php");
-}
-
-$db_request = new db_request();
-$siteUserPreferences = $db_request->getSiteUserPreferencesBySiteID($_SESSION['siteID']);
-
 ?>
 
 
