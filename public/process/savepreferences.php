@@ -1,9 +1,12 @@
 <?php
+//start the session array
 session_start();
+//If cannot find site ID, empty session array and send to login page with error message
 if(!isset($_SESSION['siteID'])){
-  $_SESSION = array();
+	$_SESSION = array();
 	$_SESSION['error'] = "You are no longer logged in.";
-	header("Location: ../index.php");
+	header("Location: /index.php");
+	exit;
 }
 
 include_once(__DIR__ . "/../../includes/autoloader.inc.php");

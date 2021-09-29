@@ -1,4 +1,5 @@
 <?php
+//##### LEADERSHIP & ADMIN ONLY PAGE
 //start the session array
 session_start();
 //If cannot find site ID, empty session array and send to login page with error message
@@ -12,7 +13,6 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
 	//##### LEADERSHIP & ADMIN ONLY PAGE
 	//load classes files in classes folder
 	include_once(__DIR__ . "/../../includes/autoloader.inc.php");
-
 	$db_api = new db_request();
 	$apikeys = $db_api->getAllAvailableRawAPIKeys();
 	$count_api = $db_api->row_count;

@@ -1,4 +1,5 @@
 <?php
+//##### LEADERSHIP & ADMIN ONLY PAGE
 //start the session array
 session_start();
 //If cannot find site ID, empty session array and send to login page with error message
@@ -15,9 +16,10 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
 } else {
 	//else send to welcome page with error message
 	$_SESSION['error'] = "You do not have access to that area.";
-	header("Location: /welcome.php");
+	header("Location: ../welcome.php");
   exit;
 }
+
 
 if (isset($_POST['fidEnemy']) && !empty($_POST['fidEnemy']) && is_numeric($_POST['fidEnemy'])) {
     $fid = $_POST['fidEnemy'];

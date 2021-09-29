@@ -1,4 +1,5 @@
 <?php
+//##### MEMBER & LEADERSHIP & ADMIN ONLY PAGE
 //start the session array
 session_start();
 //If cannot find site ID, empty session array and send to login page with error message
@@ -18,6 +19,7 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership' || $_SESSI
 	header("Location: ../welcome.php");
 	exit;
 }
+
 
 if (isset($_POST["type"]) && isset($_POST["factionid"])) {
 
