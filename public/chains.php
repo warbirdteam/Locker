@@ -11,7 +11,7 @@ if ($_SESSION['role'] == 'admin') {
 	//temporarily disabled
 } else {
 	//else send to welcome page with error message
-	$_SESSION['error'] = "You do not have access to that area.";
+	$_SESSION['error'] = "That page is temporarily closed for construction.";
 	header("Location: /welcome.php");
 	exit;
 }
