@@ -10,18 +10,14 @@ include('includes/header.php');
 
 <?php
 include('includes/navbar-logged.php');
-?>
 
-<?php
-if (!isset($_SESSION['roleValue'])) {
-	$_SESSION = array();
-	$_SESSION['error'] = "You are no longer logged in.";
-	header("Location: /index.php");
-}
-
-if ($_SESSION['roleValue'] <= 2) { // 1 = guest / register, 2 = member, 3 = leadership, 4 = admin
+if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership' || $_SESSION['role'] == 'member') {
+	//##### MEMBER & LEADERSHIP & ADMIN ONLY PAGE
+} else {
+	//else send to welcome page with error message
 	$_SESSION['error'] = "You do not have access to that area.";
 	header("Location: /welcome.php");
+	exit;
 }
 
 
@@ -34,36 +30,7 @@ if (empty($faction)) {
 ?>
 <div class="container">
 
-	<div class="row">
-		<div class="col pt-3 mx-auto">
-			<div class="card border border-dark shadow rounded mt-4">
-				<h5 class="card-header"><?php echo $faction['factionName']; ?></h5>
-				<div class="card-body">
-					<select class="custom-select" id="faction_graphs_select">
-					  <option value="respect" selected>Respect</option>
-						<option value="territoryrespect">Respect from Territories</option>
-					  <option value="gymenergy">Gym Energy Trained</option>
-						<option value="gymstrength">Strength Energy Trained</option>
-						<option value="gymspeed">Speed Energy Trained</option>
-						<option value="gymdefense">Defense Energy Trained</option>
-						<option value="gymdexterity">Dexterity Energy Trained</option>
-						<option value="drugsused">Drugs Used</option>
-						<option value="drugoverdoses">Overdoses</option>
-					  <option value="attackswon">Attacks Won</option>
-						<option value="attackslost">Attacks Lost</option>
-						<option value="criminaloffences">Criminal Offences</option>
-						<option value="organisedcrimemoney">OC Profit</option>
-					</select>
-          <div class="card-box mx-3">
-                <div id="faction_graphs"></div>
-      		</div>
 
-				</div> <!-- card-body -->
-			</div> <!-- card -->
-
-
-</div> <!-- col -->
-</div> <!-- row -->
 
 
 </div> <!-- container -->
@@ -73,7 +40,7 @@ if (empty($faction)) {
 	<div class="row">
 		<div class="col pt-3 mx-auto">
 			<div class="card border border-dark shadow rounded mt-4">
-				<h5 class="card-header">Faction Members</h5>
+				<h5 class="card-header">Faction</h5>
 				<div class="card-body">
 
 					<ul class="nav nav-tabs" id="memberTabs" role="tablist">
@@ -91,7 +58,7 @@ if (empty($faction)) {
 						<br>
 
 						<?php
-						$factions = array( "35507", "13784", "37132");
+						$factions = $db_request->getAllFactionIDs();
 						$db_request = new db_request();
 
 						foreach ($factions as $faction) {
@@ -99,8 +66,34 @@ if (empty($faction)) {
 							$rows = $db_request->getFactionMembersByFaction($faction);
 							$count = $db_request->row_count;
 							?>
-
 							<div class="tab-pane fade show<?php if ($faction == "35507") {echo " active";}?>" id="faction-<?php echo $faction;?>" role="tabpanel">
+
+							<div class="col-12 col-md-10 col-lg-10 col-xl-8 mx-auto mb-4">
+								<div class="card border border-dark shadow rounded mt-4">
+									<div class="card-body">
+										<select class="custom-select faction_graphs_select" data-factionid="<?php echo $faction;?>">
+											<option value="respect">Respect</option>
+											<option value="territoryrespect">Respect from Territories</option>
+											<option value="gymenergy">Gym Energy Trained</option>
+											<option value="gymstrength">Strength Energy Trained</option>
+											<option value="gymspeed">Speed Energy Trained</option>
+											<option value="gymdefense">Defense Energy Trained</option>
+											<option value="gymdexterity">Dexterity Energy Trained</option>
+											<option value="drugsused">Drugs Used</option>
+											<option value="drugoverdoses">Overdoses</option>
+											<option value="attackswon">Attacks Won</option>
+											<option value="attackslost">Attacks Lost</option>
+											<option value="criminaloffences">Criminal Offences</option>
+											<option value="organisedcrimemoney">OC Profit</option>
+										</select>
+										<div class="card-box mx-3">
+													<div class="faction_graphs" data-factionid="<?php echo $faction;?>"></div>
+										</div>
+
+									</div> <!-- card-body -->
+								</div> <!-- card -->
+							</div> <!-- col -->
+
 								<div class="table-responsive">
 									<table class="faction_member_table table table-hover table-dark" border=1>
 										<thead class="thead-dark">
@@ -178,19 +171,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
   Highcharts.setOptions(Highcharts.theme);
 
-	Highcharts.setOptions({
+	var options = {
 	    lang: {
 	      decimalPoint: '.',
 	      thousandsSep: ',',
 				noData: "No data available for your faction"
-	    }
-	});
-
-	var faction_chart = Highcharts.chart('faction_graphs', {
+	    },
 			credits: {
 				enabled: false
 			},
-	    title: {
+			title: {
 	        text: 'Total Respect'
 	    },
 			tooltip: {
@@ -201,39 +191,44 @@ document.addEventListener('DOMContentLoaded', function () {
 			xAxis: {
 						type: 'datetime',
 						labels: {
-				      formatter: function() {
-				        return Highcharts.dateFormat("%d %b %Y", this.value);
-				      },
+							formatter: function() {
+								return Highcharts.dateFormat("%d %b %Y", this.value);
+							},
 							step: 3
-    				},
+						},
 			},
-	    yAxis: {
-	        title: {
-	            text: null
-	        },
+			yAxis: {
+					title: {
+							text: null
+					},
 					labels: {
-		        formatter: function() {
-		          return (this.value / 1000000).toFixed(2) + 'M';
-		        }
-		      }
-	    },
-	    series: [{
-	        name: 'Respect',
-	        data: <?php echo $highchartData; ?>
-	    }],
-	    noData: {
-	        style: {
-	            fontWeight: 'bold',
-	            fontSize: '15px',
-	            color: '#303030'
-	        }
-	    }
+						formatter: function() {
+							return (this.value / 1000000).toFixed(2) + 'M';
+						}
+					}
+			},
+			noData: {
+					style: {
+							fontWeight: 'bold',
+							fontSize: '15px',
+							color: '#303030'
+					}
+			}
+	}
+
+
+	$('.faction_graphs').each(function(index) {
+		var factionid = $(this).data('factionid');
+		Highcharts.chart($(this)[0], options);
 	});
 
-	$('#faction_graphs_select').change(function() {
+$('.faction_graphs_select').change(function() {
+	var chartsId = $(this).next('.card-box').find('.faction_graphs').find('.highcharts-container').attr("id");
+	let faction_chart = Highcharts.charts.find(c => c.container.id == chartsId);
 
 	var type = $(this).val();
-	var name = $( "#faction_graphs_select option:selected" ).text();
+	var factionid = $(this).data('factionid');
+	var name = $(this).find("option:selected").text();
 
 	const types  = ["respect","criminaloffences","gymtrains","gymstrength","gymdefense","gymspeed","gymdexterity","attacksdamagehits","attacksdamage","hosps","attackslost","hosptimereceived","rehabs","traveltime","hosptimegiven","attacksmug","attackswon","alcoholused","drugsused","attacksrunaway","traveltimes","medicalitemsused","medicalcooldownused","jails","attacksdamaging","attacksleave","medicalitemrecovery","energydrinkused","busts", "drugoverdoses", "attackshosp", "candyused", "hunting", "organisedcrimerespect", "organisedcrimemoney", "organisedcrimesuccess", "organisedcrimefail", "revives", "territoryrespect", "caymaninterest", "highestterritories", "bestchain","gymenergy"];
 	const found = types.find(element => element == type);
@@ -245,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		$.ajax({
 			method: "POST",
 			url: "process/getFactionStats.php",
-			data: { type: found }
+			data: { type: found, factionid: factionid }
 		})
 
 		.done(function( data ) {
@@ -337,7 +332,15 @@ document.addEventListener('DOMContentLoaded', function () {
 	}
 
 	});
+
+	$('.faction_graphs_select').each(function(index) {
+		$(this).val('respect');
+		$(this).trigger('change');
+	});
 });
+
+
+
 </script>
 
 <?php
