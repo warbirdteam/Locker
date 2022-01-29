@@ -496,7 +496,7 @@
         },
         {
             "name": "symfony/serializer",
-            "version": "v4.3.1",
+            "version": "v4.4.35",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/serializer.git",
