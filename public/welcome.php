@@ -108,7 +108,7 @@ $json = json_decode($data, true); // decode the JSON feed
 						}
 
 						if ($memberStatsWeek && $memberStatsMonth) {
-							if ($_SESSION['factionid'] == "13784" || $_SESSION['factionid'] == "30085") {
+							if ($_SESSION['factionid'] == "13784") {
 								if ($memberStatsWeek['xanScore'] >= 2) {
 									$xanscoreWeek = '<span class="text-success">' . number_format((float)$memberStatsWeek["xanScore"], 2) . '</span>';
 									$xanaxWeek = '<span class="text-success">' . $memberStatsWeek['xanax'] . "/21" . '</span>';
@@ -126,7 +126,7 @@ $json = json_decode($data, true); // decode the JSON feed
 								}
 
 							}
-							if ($_SESSION['factionid'] == "35507" || $_SESSION['factionid'] == "37132") {
+							if ($_SESSION['factionid'] == "35507") {
 
 									if ($memberStatsWeek['xanScore'] >= 1) {
 										$xanscoreWeek = '<span class="text-success">' . number_format((float)$memberStatsWeek["xanScore"], 2) . '</span>';
@@ -229,9 +229,6 @@ $json = json_decode($data, true); // decode the JSON feed
 														case '35507':
 														echo "The Nest";
 														break;
-														case '37132':
-														echo "Fowl";
-														break;
 														default:
 														echo "N/A";
 														break;
@@ -284,9 +281,6 @@ $json = json_decode($data, true); // decode the JSON feed
 														break;
 														case '35507':
 														echo "The Nest";
-														break;
-														case '37132':
-														echo "Fowl";
 														break;
 														default:
 														echo "N/A";
@@ -341,9 +335,6 @@ $json = json_decode($data, true); // decode the JSON feed
 															break;
 															case '35507':
 															echo "The Nest";
-															break;
-															case '37132':
-															echo "Fowl";
 															break;
 															default:
 															echo "N/A";

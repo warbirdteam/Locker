@@ -29,6 +29,7 @@
   <div class="dropdown-menu" aria-labelledby="navFactionDropdown">
     <a class="dropdown-item" href="faction.php"><i class="fas fa-users"></i> Faction</a>
     <a class="dropdown-item" href="memberstats.php"><i class="fas fa-archive"></i> Member Stats</a>
+    <a class="dropdown-item" href="organizedcrimes.php"><i class="fas fa-money-bill"></i> Organized Crimes</a>
     <a class="dropdown-item" href="chains.php"><i class="fas fa-link"></i> Chain History</a>
   </div>
 </li>

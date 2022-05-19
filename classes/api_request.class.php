@@ -38,13 +38,40 @@ class api_request {
 
   private function verifyFaction($factionid) {
 
-    $faction_list = array("13784","35507","37132");
+    $faction_list = array("13784","35507");
 
     if(!in_array($factionid, $faction_list)){
       return false;
     }
 
     return true;
+  }
+
+  /////////////////////////////////////////////////
+
+  private function verifyJSON($json) {
+    if (is_array($json) || is_object($json)) {
+      if (isset($json['error'])) {
+        $this->APIERROR($json['error']); //TORN API ERROR
+        return false;
+      }
+    } else {
+      throw new Exception('Error while fetching API data. Data not in JSON form.');
+    }
+
+    return true;
+  }
+
+  /////////////////////////////////////////////////
+
+  private function pullAPI($type, $id, $selection) {
+    $url = 'https://api.torn.com/'.$type.'/'. $id .'?selections='.$selection.'&comment=wb.rocks&key=' . $this->apikey; // URL to Torn API
+    $data = file_get_contents($url);
+    $json = json_decode($data, true); // decode the JSON feed
+
+    if ( $this->verifyJSON($json) ) {
+      return $json;
+    }
   }
 
   /////////////////////////////////////////////////
@@ -194,9 +221,19 @@ class api_request {
 
   /////////////////////////////////////////////////
 
+
+  public function getFactionBalances($factionid) {
+    $json = $this->pullAPI('faction', $factionid, 'donations');
+    return $json;
+  }
+
+
+  /////////////////////////////////////////////////
+
   private function APIError($error) {
     //Check Error Code and describe reason, such as bad key, etc
     throw new Exception('API Key Error Code: ' . $error['code'] . ' - ' . $error['error']);
+    exit('API Key Error Code: ' . $error['code'] . ' - ' . $error['error']);
   }
 
   /////////////////////////////////////////////////

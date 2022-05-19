@@ -35,12 +35,6 @@ if ($_SESSION['role'] == 'admin') {
 			<a class="nav-link" id="wb-chains-tab" data-bs-toggle="tab" href="#wb-chains" role="tab">Warbirds Chains</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" id="wbng-chains-tab" data-bs-toggle="tab" href="#wbng-chains" role="tab">WBNG Chains</a>
-			</li>
-			<li class="nav-item">
-			<a class="nav-link" id="fowl-chains-tab" data-bs-toggle="tab" href="#fowl-chains" role="tab">FowlMed Chains</a>
-			</li>
-			<li class="nav-item">
 			<a class="nav-link" id="other-chains-tab" data-bs-toggle="tab" href="#other-chains" role="tab">Other Chains</a>
 			</li>
 		</ul>
@@ -130,90 +124,6 @@ if ($_SESSION['role'] == 'admin') {
 			</div>
 			</div>
 
-			<div class="tab-pane fade" id="wbng-chains" role="tabpanel">
-				<div class="table-responsive">
-				<table class="table table-hover table-striped table-dark py-4 mt-4">
-					 <thead class="thead-dark">
-						 <tr>
-							 <th scope="col">Chain</th>
-							 <th scope="col">Date</th>
-							 <th scope="col">Hits</th>
-							 <th scope="col">Respect</th>
-							 <th scope="col">Duration</th>
-						 </tr>
-					 </thead>
-					 <tbody>
-
-
-						 <?php
-						 // Get member rows
-						 $wbng_chains = new DB_request();
-						 $rows = $wbng_chains->getChainsByFactionID('30085');
-						 $count = $wbng_chains->row_count;
-
-						 if($count > 0){
-
-						 foreach ($rows as $row){
-						 ?>
-
-							<tr>
-								<td><?php echo '<a class="text-reset" href="https://www.torn.com/war.php?step=chainreport&chainID=' . $row["ndx"] . '" target="_blank">' . $row["ndx"] . '</a>';?></td>
-								<td><?php echo $row["date"]; ?></td>
-								<td><?php echo $row["hits"]; ?></td>
-								<td><?php echo $row["respect"]; ?></td>
-								<td><?php echo $row["duration"]; ?></td>
-							</tr>
-
-						 <?php } }else{ ?>
-							 <tr><td colspan="5">No information found...</td></tr>
-						 <?php } ?>
-					 </tbody>
-				</table>
-			</div>
-			</div>
-
-
-			<div class="tab-pane fade" id="fowl-chains" role="tabpanel">
-				<div class="table-responsive">
-				<table class="table table-hover table-striped table-dark py-4 mt-4">
-					 <thead class="thead-dark">
-						 <tr>
-							 <th scope="col">Chain</th>
-							 <th scope="col">Date</th>
-							 <th scope="col">Hits</th>
-							 <th scope="col">Respect</th>
-							 <th scope="col">Duration</th>
-						 </tr>
-					 </thead>
-					 <tbody>
-
-
-						 <?php
-						 // Get member rows
-						 $fowl_chains = new DB_request();
-						 $rows = $fowl_chains->getChainsByFactionID('37132');
-						 $count = $fowl_chains->row_count;
-
-						 if($count > 0){
-
-						 foreach ($rows as $row){
-						 ?>
-
-							<tr>
-								<td><?php echo '<a class="text-reset" href="https://www.torn.com/war.php?step=chainreport&chainID=' . $row["ndx"] . '" target="_blank">' . $row["ndx"] . '</a>';?></td>
-								<td><?php echo $row["date"]; ?></td>
-								<td><?php echo $row["hits"]; ?></td>
-								<td><?php echo $row["respect"]; ?></td>
-								<td><?php echo $row["duration"]; ?></td>
-							</tr>
-
-						 <?php } }else{ ?>
-							 <tr><td colspan="5">No information found...</td></tr>
-						 <?php } ?>
-					 </tbody>
-				</table>
-			</div>
-			</div>
 
 
 			<div class="tab-pane fade" id="other-chains" role="tabpanel">

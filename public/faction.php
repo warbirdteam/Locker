@@ -19,21 +19,7 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership' || $_SESSI
 	header("Location: /welcome.php");
 	exit;
 }
-
-
-$db_request = new db_request();
-$faction = $db_request->getFactionByFactionID($_SESSION['factionid']);
-if (empty($faction)) {
-	$_SESSION['error'] = "There was an error accessing that page.";
-	header("Location: /welcome.php");
-}
 ?>
-<div class="container">
-
-
-
-
-</div> <!-- container -->
 
 <div class="container">
 
@@ -50,16 +36,13 @@ if (empty($faction)) {
 						<li class="nav-item">
 							<a class="nav-link" id="wb-members-tab" data-bs-toggle="tab" href="#faction-13784" role="tab">Warbirds</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" id="fm-members-tab" data-bs-toggle="tab" href="#faction-37132" role="tab">Fowl</a>
-						</li>
 					</ul>
 					<div class="tab-content" id="memberTabsContent">
 						<br>
 
 						<?php
-						$factions = $db_request->getAllFactionIDs();
 						$db_request = new db_request();
+						$factions = $db_request->getAllFactionIDs();
 
 						foreach ($factions as $faction) {
 
@@ -148,18 +131,7 @@ if (empty($faction)) {
 
 
 </div> <!-- container -->
-<?php
-		$db_request_faction_data = new db_request();
-		$graph_data = $db_request_faction_data->getFactionStatsByFactionIDAndType($_SESSION['factionid'], 'respect');
 
-		$highchartData = "[";
-		foreach ($graph_data as $row) {
-			$highchartData .= '[new Date("'. $row["timestamp"] . '").getTime(), '. $row["data"] . '],';
-		}
-
-		$highchartData .= "]";
-
-?>
 <script type="text/javascript">
 
 document.addEventListener('DOMContentLoaded', function () {
