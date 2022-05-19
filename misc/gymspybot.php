@@ -124,10 +124,6 @@ function getFactionContributors($tornid, $factionid) {
     case 35507:
       $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('negspy');
     break;
-    //Fowl
-    case 37132:
-      $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('fwgspy');
-    break;
 
     default:
       $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('gymspy'); //default gymspy channel if can't find others

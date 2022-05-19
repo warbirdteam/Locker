@@ -43,14 +43,13 @@ function getFactionCrimes($tornid, $factionid) {
 
           $participants = $crimeData['participants'];
           if ($participants) { //check if participant data exists
-
+            $pos = 1; //team position counter
             foreach($participants as $participantData) { //loop through participants
 
-              foreach($participantData as $participantID => $data) { //loop through participant data again cuz ched
-
+              foreach($participantData as $participantID => $data) { //loop through participant data again to get userid from key
                 $db_request_crimes_participant = new db_request();
-                $db_request_crimes_participant->insertFactionCrimeParticipant($crimeID, $participantID); //add participant data to oc participants table
-
+                $db_request_crimes_participant->insertFactionCrimeParticipant($crimeID, $participantID, $pos); //add participant data to oc participants table
+                $pos++;
               }
 
             }

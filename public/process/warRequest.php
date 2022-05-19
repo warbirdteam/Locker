@@ -133,7 +133,7 @@ if ($akbool == 1) {
 
     $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
     $POST = [
-      'content' => '<@&642592525755875357>',
+      'content' => '@Assist',
       'username' => 'Assist Bot',
       'embeds' => [
         [

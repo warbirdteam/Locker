@@ -44,9 +44,6 @@ switch ($fid) {
   case '13784':
   memberInfo('13784', $timeline);
   break;
-	case '37132':
-	memberInfo('37132', $timeline);
-	break;
 
   default:
     $_SESSION['error'] = 'Faction requested could not be found.'; exit("Error: Faction requested could not be found.");

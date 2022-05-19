@@ -37,17 +37,11 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
 						<li class="nav-item  mx-2 mb-2">
 							<a class="flex-md-fill nav-link border border-dark" id="wb-members-month-tab" data-fid="13784" data-timeline="month" data-bs-toggle="tab" href="#month-13784" role="tab">Warbirds: 30 Days</a>
 						</li>
-						<li class="nav-item  mx-2 mb-2">
-							<a class="flex-md-fill nav-link border border-dark" id="fowl-members-week-tab" data-fid="37132" data-timeline="week" data-bs-toggle="tab" href="#week-37132" role="tab">Fowl: 7 Days</a>
-						</li>
-						<li class="nav-item  mx-2 mb-2">
-							<a class="flex-md-fill nav-link border border-dark" id="fowl-members-month-tab" data-fid="37132" data-timeline="month" data-bs-toggle="tab" href="#month-37132" role="tab">Fowl: 30 Days</a>
-						</li>
 					</ul>
 					<div class="tab-content" id="memberTabsContent">
 						<?php
 
-						$factions = array( "35507", "13784", "37132" );
+						$factions = $db_request->getAllFactionIDs();
 
 						foreach ($factions as $faction) { ?>
 

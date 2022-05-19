@@ -221,6 +221,17 @@ class db_request extends db_connect {
     return $row;
   }
 
+  public function getAllFactions() {
+    $sql = "SELECT * FROM torn_factions";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
   /////////////////////////////////////////////////
 
   public function updateFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
@@ -360,10 +371,34 @@ class db_request extends db_connect {
   }
 
 
-  public function insertFactionCrimeParticipant($crimeID, $participantID) {
-    $sql = "INSERT INTO organized_crimes_participants (crimeID, userID) values (?,?)";
+  public function insertFactionCrimeParticipant($crimeID, $participantID, $pos) {
+    $sql = "INSERT INTO organized_crimes_participants (crimeID, userID, pos) values (?,?,?)";
     $stmtinsert = $this->pdo->prepare($sql);
-    $stmtinsert->execute([$crimeID, $participantID]);
+    $stmtinsert->execute([$crimeID, $participantID, $pos]);
+  }
+
+  public function getFactionCrimesByFactionIDAndCrimeTypeID($factionID, $crime_type_id) {
+    $sql = "SELECT * FROM `organized_crimes` where factionID = ? AND crime_type_id = ?  ORDER BY `organized_crimes`.`time_completed`  DESC";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionID, $crime_type_id]);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getCrimeTeamByCrimeID($crimeID) {
+    $sql = "SELECT `crimeID`,`userID`,`tornName`,`pos` FROM `organized_crimes_participants` LEFT JOIN `torn_members` ON `torn_members`.`tornID`=`organized_crimes_participants`.`userID` WHERE CrimeID = ? ORDER BY `organized_crimes_participants`.`pos` ASC";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$crimeID]);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
   }
 
   /////////////////////////////////////////////////
@@ -645,6 +680,18 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     return $row;
   }
 
+  public function getFactionKeyholderByFactionID($fid) {
+    $sql = "SELECT userID FROM faction_keyholder WHERE factionID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fid]);
+    $row = $stmt->fetchColumn();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    return $row;
+  }
+
   /////////////////////////////////////////////////
   ////////                                 ////////
   /////////////////////////////////////////////////
@@ -653,12 +700,12 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     $sql = "SELECT * FROM torn_users WHERE tornID = ? LIMIT 1";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$userid]);
-    $torn = $stmt->fetch();
-    if(empty($torn)) {
+    $row = $stmt->fetch();
+    if(empty($row)) {
       return NULL;
     }
 
-    return $torn;
+    return $row;
   }
 
 
@@ -777,6 +824,23 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   /////////////////////////////////////////////////
   ////////         SITE FUNCTIONS          ////////
   /////////////////////////////////////////////////
+
+  public function getSiteVariableByName($name) {
+    $sql = "SELECT value FROM site_variables WHERE variable = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$name]);
+    $row = $stmt->fetchColumn();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function updateSiteVariableByName($value, $name) {
+    $sql = "UPDATE site_variables SET value = ? WHERE variable = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$value, $name]);
+  }
 
   public function updateAPIKey($siteID, $enc_api, $crypt) {
     $sql = "UPDATE site_users SET enc_api=?, iv=?, tag=? WHERE siteID=?";
