@@ -248,6 +248,11 @@ if (isset($_SESSION['success'])) {
         tot3 = totPay * (<?php echo $pa3;?> / 100);
         tot4 = totPay * (<?php echo $pa4;?> / 100);
         tot5 = totPay * (<?php echo $pa5;?> / 100);
+        
+        pay1 = (Math.round(tot1/(Object.keys(ones).length)));
+        pay2 = (Math.round(tot2/(Object.keys(twos).length)));
+        pay3 = (Math.round(tot3/(Object.keys(threes).length)));
+        pay4 = (Math.round(tot4/(Object.keys(fours).length)));
 
 
         let gets = "fid=" + fid + '&ids=' + ids.toString();
@@ -265,6 +270,7 @@ if (isset($_SESSION['success'])) {
                       <th class="text-center" colspan="2">Total Pool: <b>$${totPay.toLocaleString()}</b></td>
                     </tr>
                     <tr>
+                      <th scope="col">Pay Grade</th>
                       <th scope="col">User</th>
                       <th scope="col">New Vault Balance</th>
                     </tr>
@@ -272,56 +278,77 @@ if (isset($_SESSION['success'])) {
                 <tbody>
                 
                 <tr>
-                  <td class="text-center" colspan="2">Leads Owed: <b>$${Math.round(tot1/(Object.keys(ones).length)).toLocaleString()}</b></td>
+                  <td class="text-center" colspan="3">Leads Owed: <b>$${pay1.toLocaleString()}</b></td>
+                </tr>
+                <tr>
+                  <td class="text-center" colspan="3">Twos Owed: <b>$${pay2.toLocaleString()}</b></td>
+                </tr>
+                <tr>
+                  <td class="text-center" colspan="3">Threes Owed: <b>$${pay3.toLocaleString()}</b></td>
+                </tr>
+                <tr>
+                  <td class="text-center" colspan="3">Fours Owed: <b>$${pay4.toLocaleString()}</b></td>
                 </tr>
                 `;
+
+
+
                   for (const [id, name] of Object.entries(ones)) {
                     tableStr += `
                     <tr>
+                      <td class="pay_scale">
+                        <input type="radio" name="pay_${id}" value="${pay1}" checked><label>1</label>
+                        <input type="radio" name="pay_${id}" value="${pay2}"><label>2</label>
+                        <input type="radio" name="pay_${id}" value="${pay3}"><label>3</label>
+                        <input type="radio" name="pay_${id}" value="${pay4}"><label>4</label>
+                      </td>
                       <td><a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name} [${id}]</a></td>
-                      <td>$${(parseInt(balances[id]) + Math.round(tot1/(Object.keys(ones).length))).toLocaleString()}</td>
+                      <td class="new_bal" data-bal="${balances[id]}">${(parseInt(balances[id]) + pay1).toLocaleString()}</td>
                     </tr>
                     `;
                   }
 
-                  tableStr += `
-                  <tr>
-                  <td class="text-center" colspan="2">Twos Owed: <b>$${Math.round(tot2/(Object.keys(twos).length)).toLocaleString()}</b></td>
-                  </tr>
-                  `;
                   for (const [id, name] of Object.entries(twos)) {
                     tableStr += `
                     <tr>
+                      <td class="pay_scale">
+                        <input type="radio" name="pay_${id}" value="${pay1}"><label>1</label>
+                        <input type="radio" name="pay_${id}" value="${pay2}" checked><label>2</label>
+                        <input type="radio" name="pay_${id}" value="${pay3}"><label>3</label>
+                        <input type="radio" name="pay_${id}" value="${pay4}"><label>4</label>
+                      </td>
                       <td><a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name} [${id}]</a></td>
-                      <td>$${(parseInt(balances[id]) + Math.round(tot2/(Object.keys(twos).length))).toLocaleString()}</td>
+                      <td class="new_bal" data-bal="${balances[id]}">${(parseInt(balances[id]) + pay2).toLocaleString()}</td>
                     </tr>
                     `;
                   }
 
-                  tableStr += `
-                  <tr>
-                  <td class="text-center" colspan="2">Threes Owed: <b>$${Math.round(tot3/(Object.keys(threes).length)).toLocaleString()}</b></td>
-                  </tr>
-                  `;
                   for (const [id, name] of Object.entries(threes)) {
                     tableStr += `
                     <tr>
+                      <td class="pay_scale">
+                        <input type="radio" name="pay_${id}" value="${pay1}"><label>1</label>
+                        <input type="radio" name="pay_${id}" value="${pay2}"><label>2</label>
+                        <input type="radio" name="pay_${id}" value="${pay3}" checked><label>3</label>
+                        <input type="radio" name="pay_${id}" value="${pay4}"><label>4</label>
+                      </td>
                       <td><a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name} [${id}]</a></td>
-                      <td>$${(parseInt(balances[id]) + Math.round(tot3/(Object.keys(threes).length))).toLocaleString()}</td>
+                      <td class="new_bal" data-bal="${balances[id]}">${(parseInt(balances[id]) + pay3).toLocaleString()}</td>
                     </tr>
                     `;
                   }
 
-                  tableStr += `
-                  <tr>
-                  <td class="text-center" colspan="2">Fours Owed: <b>$${Math.round(tot4/(Object.keys(fours).length)).toLocaleString()}</b></td>
-                  </tr>
-                  `;
                   for (const [id, name] of Object.entries(fours)) {
                     tableStr += `
                     <tr>
+                      <td class="pay_scale">
+                        <input type="radio" name="pay_${id}" value="${pay1}"><label>1</label>
+                        <input type="radio" name="pay_${id}" value="${pay2}"><label>2</label>
+                        <input type="radio" name="pay_${id}" value="${pay3}"><label>3</label>
+                        <input type="radio" name="pay_${id}" value="${pay4}" checked><label>4</label>
+                      </td>
                       <td><a href="https://www.torn.com/profiles.php?XID=${id}" target="_blank">${name} [${id}]</a></td>
-                      <td>$${(parseInt(balances[id]) + Math.round(tot4/(Object.keys(fours).length))).toLocaleString()}</td>
+                      <td class="new_bal" data-bal="${balances[id]}">${(parseInt(balances[id]) + pay4).toLocaleString()}</td>
                     </tr>
                     `;
                   }
