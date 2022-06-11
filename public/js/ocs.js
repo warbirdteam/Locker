@@ -57,4 +57,13 @@ $(document).ready(function() {
       }
   });
 
+
+  $(document).on('change', 'td.pay_scale input[type="radio"]', function() {
+    let parent = $(this).closest('tr');
+    let pay = parseInt($(this).val());
+    let bal = parseInt(parent.find('td.new_bal').attr('data-bal'));
+
+    parent.find('td.new_bal').text((bal + pay).toLocaleString());
+  });
+
   });
