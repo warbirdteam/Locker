@@ -29,9 +29,6 @@ else
     $_SESSION['request_cnt'] = 1;
 }
 
-
-
-
 $type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
 $enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
 $userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
@@ -51,6 +48,22 @@ if ($type == 'revive' || $type == 'attack') {
 
 
 include_once("../../includes/autoloader.inc.php"); //include classes
+
+// API Authentication
+//check if AK War or warbirds war
+$db_request_check_api_auth = new db_request();
+$api_auth_bool = $db_request_check_api_auth->getToggleStatusByName("assist_api");
+
+if ($api_auth_bool == 1) {
+    $headers = getallheaders();
+    if (in_array('Authorization', $headers)) {
+        echo $headers['Authorization'];
+        exit;
+    } else {
+        echo "API key invalid"; //api key invalid
+        exit;
+    }
+}
 
 
 //check if AK War or warbirds war
