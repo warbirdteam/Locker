@@ -65,7 +65,7 @@ if (isset($_SESSION['success'])) {
 								<label class="form-check-label" for="akwarsToggle" data-bs-toggle="tooltip" data-bs-placement="right" title="Enable this to set war status to teamed war. Allows Allies to use war scripts.">Team War</label>
 							</div>
 		<div class="form-check form-switch">
-	              <input type="checkbox" class="form-check-input toggles" id="assist_apiToggle" name="assists" <?php if (assist_apiToggle && assist_apiToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
+	              <input type="checkbox" class="form-check-input toggles" id="assist_apiToggle" name="assists" <?php if ($assist_apiToggle && $assist_apiToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
 	              <label class="form-check-label" for="assist_apiToggle" data-bs-toggle="tooltip" data-bs-placement="right" title="Require API authentication for the assist/revive script.">API Verify</label>
 	    	</div>
 	          </form>
