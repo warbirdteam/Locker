@@ -138,7 +138,7 @@ if ($akbool == 1) {
       if (empty($attackPingRole)) {
         $attackPingRole = "🔫";
       } else {
-        $attackPingRole = "<@" . $attackPingRole . ">";
+        $attackPingRole = "<@&" . $attackPingRole . ">";
       }
       
 
@@ -171,7 +171,7 @@ if ($akbool == 1) {
       if (empty($akattackPingRole)) {
         $akattackPingRole = "🔫";
       } else {
-        $akattackPingRole = "<@" . $akattackPingRole . ">";
+        $akattackPingRole = "<@&" . $akattackPingRole . ">";
       }
         
       if (empty($akattackWebhook)) {
