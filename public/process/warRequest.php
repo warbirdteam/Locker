@@ -127,13 +127,24 @@ if ($akbool == 1) {
     } else {
       $foot = [
        "icon_url" => "https://cdn.discordapp.com/attachments/654438792748597249/655065404816752680/Asset_92x_AK_wh.png",
-       "text" => "An AK member needs your help!"
+       "text" => "An alliance member needs your help!"
       ];
     }
+      
+    $db_request_webhook_ping = new db_request();
+
+    $attackPingRole = $db_request_webhook_ping->getDiscordWebhookRolePingByName('nest_ping');
+
+      if (empty($attackPingRole)) {
+        $attackPingRole = "🔫";
+      } else {
+        $attackPingRole = "<@" . $attackPingRole . ">";
+      }
+      
 
     $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
     $POST = [
-      'content' => '@Assist',
+      'content' => $attackPingRole,
       'username' => 'Assist Bot',
       'embeds' => [
         [
@@ -154,6 +165,15 @@ if ($akbool == 1) {
     if ($akbool == 1) {
       $db_request_akattack_webhook = new db_request();
       $akattackWebhook = $db_request_akattack_webhook->getWebhookByName('akhelp');
+
+      $akattackPingRole = $db_request_akattack_webhook->getDiscordWebhookRolePingByName('team_war_ping');
+
+      if (empty($akattackPingRole)) {
+        $akattackPingRole = "🔫";
+      } else {
+        $akattackPingRole = "<@" . $akattackPingRole . ">";
+      }
+        
       if (empty($akattackWebhook)) {
         echo "Discord channel doesn't exist";
         exit;
@@ -161,7 +181,7 @@ if ($akbool == 1) {
       $url = 'https://discord.com/api/webhooks/' . $akattackWebhook;
 
       $POST = [
-        'content' => '<@&805503184919199764>',
+        'content' => $akattackPingRole,
         'username' => 'Assist Bot',
         'embeds' => [
           [
