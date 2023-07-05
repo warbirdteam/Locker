@@ -53,16 +53,10 @@ include_once("../../includes/autoloader.inc.php"); //include classes
 //check if AK War or warbirds war
 $db_request_check_api_auth = new db_request();
 $api_auth_bool = $db_request_check_api_auth->getToggleStatusByName("assist_api");
+$headers = array_change_key_case(getallheaders());
 
 if ($api_auth_bool == 1) {
-    foreach (getallheaders() as $name => $value) {
-        if ($name == 'Authorization') {
-            echo $value;
-        }
-    }
-    exit;
-    
-    if (in_array('Authorization', $headers)) {
+    if (array_key_exists('Authorization', $headers)) {
         echo $headers['Authorization'];
         exit;
     } else {
