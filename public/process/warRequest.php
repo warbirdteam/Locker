@@ -62,8 +62,13 @@ if ($api_auth_bool == 1) {
         $api_request = new api_request($apikey);
         $json = $api_request->getBasicUser();
 
-        echo $json;
-        exit;
+        if (!empty($json) && $json['player_id'] != NULL) {
+          if ($userID != $json['player_id']) { //someone changed userID in script, or not using their own api key
+            echo "user not allowed";
+            exit;
+          }
+          $userID = $json['player_id'];
+        }
     } else {
         echo "API key invalid"; //api key invalid
         exit;
