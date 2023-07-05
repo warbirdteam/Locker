@@ -58,6 +58,10 @@ $headers = array_change_key_case(getallheaders());
 if ($api_auth_bool == 1) {
     if (array_key_exists('authorization', $headers)) {
         $apikey = $headers['authorization'];
+        if (empty($apikey)) {
+          echo "api key invalid";
+          exit;
+        }
         
         $api_request = new api_request($apikey);
         $json = $api_request->getBasicUser();
@@ -68,9 +72,12 @@ if ($api_auth_bool == 1) {
             exit;
           }
           $userID = $json['player_id'];
+        } else {
+          echo "api key invalid";
+          exit;
         }
     } else {
-        echo "API key invalid"; //api key invalid
+        echo "api key invalid"; //api key invalid
         exit;
     }
 }
