@@ -56,6 +56,7 @@ $api_auth_bool = $db_request_check_api_auth->getToggleStatusByName("assist_api")
 $headers = array_change_key_case(getallheaders());
 
 if ($api_auth_bool == 1) {
+    print_r($headers);
     if (array_key_exists('Authorization', $headers)) {
         echo $headers['Authorization'];
         exit;
