@@ -130,7 +130,7 @@ if (isset($_SESSION['success'])) {
 						?>
 					</ul>
 					<br>
-					<label><u>Add an friendly faction:</u></label>
+					<label><u>Add a friendly faction:</u></label>
 					<form method="post" id="fidFriendly-form" action="process/addFriendlyFaction.php">
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
