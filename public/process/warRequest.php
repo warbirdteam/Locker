@@ -55,7 +55,14 @@ $db_request_check_api_auth = new db_request();
 $api_auth_bool = $db_request_check_api_auth->getToggleStatusByName("assist_api");
 
 if ($api_auth_bool == 1) {
-    $headers = getallheaders();
+    foreach (getallheaders() as $name => $value) {
+                echo "$name: $value\n";
+        if ($name == 'Authorization') {
+            echo "$name: $value\n";
+        }
+    }
+    exit;
+    
     if (in_array('Authorization', $headers)) {
         echo $headers['Authorization'];
         exit;
