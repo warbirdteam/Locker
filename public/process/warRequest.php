@@ -57,7 +57,7 @@ $headers = array_change_key_case(getallheaders());
 
 if ($api_auth_bool == 1) {
     if (array_key_exists('authorization', $headers)) {
-        echo $headers['Authorization'];
+        echo $headers['authorization'];
         exit;
     } else {
         echo "API key invalid"; //api key invalid
