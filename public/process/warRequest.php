@@ -64,7 +64,7 @@ if ($api_auth_bool == 1) {
 
         if (!empty($json) && $json['player_id'] != NULL) {
           if ($userID != $json['player_id']) { //someone changed userID in script, or not using their own api key
-            echo "user not allowed";
+            echo "user is not allowed";
             exit;
           }
           $userID = $json['player_id'];
