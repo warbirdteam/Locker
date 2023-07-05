@@ -57,7 +57,12 @@ $headers = array_change_key_case(getallheaders());
 
 if ($api_auth_bool == 1) {
     if (array_key_exists('authorization', $headers)) {
-        echo $headers['authorization'];
+        $apikey = $headers['authorization'];
+        
+        $api_request = new api_request($apikey);
+        $json = $api_request->getBasicUser();
+
+        echo $json;
         exit;
     } else {
         echo "API key invalid"; //api key invalid
