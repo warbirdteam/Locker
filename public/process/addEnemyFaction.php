@@ -31,7 +31,6 @@ if (isset($_POST['fidEnemy']) && !empty($_POST['fidEnemy'])) {
       $apikey = $get_apikey->getRawAPIKeyByUserID($_SESSION['userid']);
 
       foreach ($fidsArray as $fid) {
-          
         $api_request = new api_request($apikey);
         $faction = $api_request->getFactionAPI($fid);
         sleep(1);
@@ -54,7 +53,7 @@ if (isset($_POST['fidEnemy']) && !empty($_POST['fidEnemy'])) {
           $best_chain = $faction['best_chain'];
           $total_members = count($faction['members']);
           $respect = $faction['respect'];
-          $timestamp = time();
+          $timestamp = 0;
     
           $db_request_add_enemy_faction = new db_request();
           $db_request_add_enemy_faction->insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);

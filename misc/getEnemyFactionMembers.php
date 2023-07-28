@@ -25,7 +25,7 @@ function getEnemyFactionMembers($userid, $factionID) {
     if($now >= ($factionTimestamp + 3600)) {
       //continue to gather faction data
     } else {
-      exit; //skip api pull and update because it was recently updated an hour ago
+      return; //skip api pull and update because it was recently updated an hour ago
     }
   }
 
