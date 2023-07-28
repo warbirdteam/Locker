@@ -1074,7 +1074,7 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   /////////////////////////////////////////////////
 
   public function insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp) {
-    $sql = "INSERT INTO enemy_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect, timestamp) values (?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO enemy_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect, timestamp) values (?,?,?,?,?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp]);
   }
