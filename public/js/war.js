@@ -40,14 +40,14 @@ $('#fidEnemy_button').click(function(e) {
   }
 
   const pattern = /^[0-9,]*$/g;
-  if (!fid.match(pattern)) {
-    e.preventDefault();
+  if (fid.match(pattern)) {
+    $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
     return;
   } else {
     if (!$.isNumeric($('#fidEnemyInput').val())) {
       e.preventDefault();
     } else {
-    $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+      $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
     }
   }
 });
