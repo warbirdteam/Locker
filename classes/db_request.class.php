@@ -1053,18 +1053,18 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
 
   /////////////////////////////////////////////////
 
-  public function updateEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
-    $sql = "UPDATE enemy_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ? WHERE factionID = ?";
+  public function updateEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp) {
+    $sql = "UPDATE enemy_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ?, timestamp = ? WHERE factionID = ?";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $fid]);
+    $stmt->execute([$fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp, $fid]);
   }
 
   /////////////////////////////////////////////////
 
-  public function insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
-    $sql = "INSERT INTO enemy_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect) values (?,?,?,?,?,?,?,?)";
+  public function insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp) {
+    $sql = "INSERT INTO enemy_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect, timestamp) values (?,?,?,?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect]);
+    $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp]);
   }
 
 

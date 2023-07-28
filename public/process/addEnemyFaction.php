@@ -21,9 +21,62 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
 }
 
 
-if (isset($_POST['fidEnemy']) && !empty($_POST['fidEnemy']) && is_numeric($_POST['fidEnemy'])) {
+if (isset($_POST['fidEnemy']) && !empty($_POST['fidEnemy'])) {
     $fid = $_POST['fidEnemy'];
+    $pattern = "/^[0-9,]*$/";
+    if (preg_match($pattern, $fid)) {
+      //Loop through array of faction IDs
+      $fidsArray = preg_split ("/\,/", $fid); 
+      $get_apikey = new db_request();
+      $apikey = $get_apikey->getRawAPIKeyByUserID($_SESSION['userid']);
 
+      foreach ($fidsArray as $fid) {
+          
+        $api_request = new api_request($apikey);
+        $faction = $api_request->getFactionAPI($fid);
+        sleep(1);
+
+        if (!empty($faction) && $faction['ID'] != NULL) {
+    
+          $db_request_check_enemy_faction = new db_request();
+          $row = $db_request_check_enemy_faction->getEnemyFactionByFactionID($fid);
+    
+          if (!empty($row)) {
+            //faction is already in list of enemy factions
+            break;
+          }
+    
+          $fid = $faction['ID'];
+          $fname = $faction['name'];
+          $leader = $faction['leader'];
+          $coleader = $faction['co-leader'];
+          $age = $faction['age'];
+          $best_chain = $faction['best_chain'];
+          $total_members = count($faction['members']);
+          $respect = $faction['respect'];
+          $timestamp = time();
+    
+          $db_request_add_enemy_faction = new db_request();
+          $db_request_add_enemy_faction->insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);
+    
+          include(__DIR__ . "/../../misc/getEnemyFactionMembers.php");
+        } //if faction api exists
+      }
+
+      
+      $_SESSION['success'] = "Factions successfully added to enemy list.";
+      header("Location: ../war.php");
+      exit;
+    } else {
+      if (!is_numeric($_POST['fidEnemy'])) {
+        $_SESSION['error'] = "The faction you entered does not exist.";
+        header("Location: ../war.php");
+        exit;
+      }
+    }
+
+
+    // Or just get the 1 faction ID
     $get_apikey = new db_request();
     $apikey = $get_apikey->getRawAPIKeyByUserID($_SESSION['userid']);
 
@@ -50,9 +103,10 @@ if (isset($_POST['fidEnemy']) && !empty($_POST['fidEnemy']) && is_numeric($_POST
       $best_chain = $faction['best_chain'];
       $total_members = count($faction['members']);
       $respect = $faction['respect'];
+      $timestamp = time();
 
       $db_request_add_enemy_faction = new db_request();
-      $db_request_add_enemy_faction->insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
+      $db_request_add_enemy_faction->insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);
 
       include_once(__DIR__ . "/../../misc/getEnemyFactionMembers.php");
 
