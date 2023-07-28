@@ -42,7 +42,7 @@ if (isset($_POST['fidEnemy']) && !empty($_POST['fidEnemy'])) {
     
           if (!empty($row)) {
             //faction is already in list of enemy factions
-            break;
+            continue;
           }
     
           $fid = $faction['ID'];
