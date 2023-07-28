@@ -1,13 +1,11 @@
 $(function () {
 
   $('input.toggles').change(function() {
-    console.log($(this).val());
       if(this.checked) {
         $(this).val("1");
       } else {
         $(this).val("0");
       }
-      console.log($(this).val());
   });
 
   $('button#saveSettingsButton').click(function() {
@@ -35,16 +33,27 @@ function saveSettings() {
 
 
 $('#fidEnemy_button').click(function(e) {
-  if ( !$('#fidEnemyInput').val() || !$.isNumeric($('#fidEnemyInput').val())) {
+  const fid = $('#fidEnemyInput').val();
+  if (!fid) {
     e.preventDefault();
+    return;
+  }
+
+  const pattern = /^[0-9,]*$/g;
+  if (!fid.match(pattern)) {
+    e.preventDefault();
+    return;
   } else {
-  $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+    if (!$.isNumeric($('#fidEnemyInput').val())) {
+      e.preventDefault();
+    } else {
+    $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+    }
   }
 });
 
 
 $('ul > li > button.removeFaction').click(function() {
-    console.log($(this).parent('li').data("faction"));
     $('input#removeEnemyInput').val($(this).parent('li').data("faction"));
     $('span#enemyFactionSpan').html($(this).parent('li').data("name") + " [" + $(this).parent('li').data("faction") + "]")
 });

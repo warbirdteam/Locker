@@ -15,6 +15,21 @@ function getEnemyFactionMembers($userid, $factionID) {
   $db_request = new db_request();
   $apikey = $db_request->getRawAPIKeyByUserID($userid);
 
+  $db_request_check_enemy_faction = new db_request();
+  $row = $db_request_check_enemy_faction->getEnemyFactionByFactionID($factionID);
+
+  if (!empty($row)) {
+    //faction is already in list of enemy factions
+    $factionTimestamp = $row['timestamp'];
+    $now = time();
+    if($now >= ($factionTimestamp + 3600)) {
+      //continue to gather faction data
+    } else {
+      exit; //skip api pull and update because it was recently updated an hour ago
+    }
+  }
+
+
   $api_request = new api_request($apikey);
   $factionData = $api_request->getFactionAPI($factionID);
 
@@ -27,13 +42,14 @@ function getEnemyFactionMembers($userid, $factionID) {
   $best_chain = $factionData['best_chain'];
   $total_members = count($factionData['members']);
   $respect = $factionData['respect'];
+  $timestamp = time();
 
   $row = $db_request->getEnemyFactionByFactionID($fid);
 
   if($row) {
-    $db_request->updateEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
+    $db_request->updateEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);
   } else {
-    $db_request->insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
+    $db_request->insertEnemyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);
   }
 
 
