@@ -21,7 +21,7 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
 }
 
 
-if (isset($_POST['fidFriendly']) && !empty($_POST['fidFriendly']) && is_numeric($_POST['fidFriendly'])) {
+if (isset($_POST['fidFriendly']) && !empty($_POST['fidFriendly'])) {
     $fid = $_POST['fidFriendly'];
 
 
