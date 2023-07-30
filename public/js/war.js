@@ -61,10 +61,22 @@ $('ul > li > button.removeFaction').click(function() {
 
 
 $('#fidFriendly_button').click(function(e) {
-  if ( !$('#fidFriendlyInput').val() || !$.isNumeric($('#fidFriendlyInput').val())) {
+  const fid = $('#fidFriendlyInput').val();
+  if (!fid) {
     e.preventDefault();
+    return;
+  }
+
+  const pattern = /^[0-9,]*$/g;
+  if (fid.match(pattern)) {
+    $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+    return;
   } else {
-  $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+    if (!$.isNumeric($('#fidEnemyInput').val())) {
+      e.preventDefault();
+    } else {
+      $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+    }
   }
 });
 
