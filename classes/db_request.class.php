@@ -945,18 +945,18 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
 
   /////////////////////////////////////////////////
 
-  public function updateFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
-    $sql = "UPDATE friendly_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ? WHERE factionID = ?";
+  public function updateFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp) {
+    $sql = "UPDATE friendly_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ?, timestamp = ? WHERE factionID = ?";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $fid]);
+    $stmt->execute([$fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp, $fid]);
   }
 
   /////////////////////////////////////////////////
 
-  public function insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
-    $sql = "INSERT INTO friendly_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect) values (?,?,?,?,?,?,?,?)";
+  public function insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp) {
+    $sql = "INSERT INTO friendly_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect, timestamp) values (?,?,?,?,?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect]);
+    $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp]);
   }
 
 
@@ -1118,6 +1118,30 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     return $row;
   }
 
+  public function getEnemyFactionByTornID($tornID) {
+    $sql = "SELECT * FROM enemy_members WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID]);
+    $member = $stmt->fetch();
+    if(empty($member)) {
+      return NULL;
+    }
+    $factionID = $member['factionID'];
+    if (!$factionID) {
+      return NULL;
+    }
+
+    $sql = "SELECT * FROM enemy_factions WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    return $row;
+  }
+
   public function getAllEnemyFactions() {
     $sql = "SELECT * FROM enemy_factions";
     $stmt = $this->pdo->query($sql);
@@ -1136,6 +1160,17 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
 
   public function getAllDiscordCommands() {
     $sql = "SELECT * FROM discord_commands";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getAllDiscordServers() {
+    $sql = "SELECT * FROM discord_server";
     $stmt = $this->pdo->query($sql);
     $row = $stmt->fetchAll();
     $this->row_count = $stmt->rowCount();
@@ -1232,6 +1267,32 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     $stmt->execute([$commandID, $channelID]);
   }
 
+  ////////           DISCORD MODULE FUNCTIONS          ////////
+
+
+  public function getRoleByGuildIDAndModule($guildID, $module) {
+    $sql = "SELECT * FROM discord_module_role WHERE guildID = ? AND module = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$guildID, $module]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    } else {
+      return $row;
+    }
+  }
+
+  public function insertRoleModuleByGuildID($guildID, $module, $roleID) {
+    $sql = "INSERT INTO discord_module_role (module, guildID, roleID) values (?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$module, $guildID, $roleID]);
+  }
+
+  public function updateRoleModuleByGuildID($guildID, $module, $roleID) {
+    $sql = "UPDATE discord_module_role SET roleID = ? WHERE guildID = ? AND module = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$roleID, $guildID, $module]);
+  }
 
 
   /////////////////////////////////////////////////

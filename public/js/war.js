@@ -72,6 +72,10 @@ $('#FriendlyRefresh_button').click(function(e) {
   $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
 });
 
+$('#EnemyRefresh_button').click(function(e) {
+  $(this).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...');
+});
+
 
 $('ul > li > button.removeFriendlyFaction').click(function() {
     console.log($(this).parent('li').data("faction"));

@@ -103,7 +103,9 @@ if (isset($_SESSION['success'])) {
               </div>
             </div>
           </form>
-
+		  <form method="post" id="fidFriendly-form" action="process/refreshEnemies.php">
+						<button class="btn btn-outline-secondary" type="submit" id="EnemyRefresh_button"><i class="fas fa-sync-alt"></i> Refresh Enemies</button>
+		  </form>
         </div>
       </div>
     </div> <!-- col -->
@@ -138,7 +140,7 @@ if (isset($_SESSION['success'])) {
 						</div>
 					</form>
 					<form method="post" id="fidFriendly-form" action="process/refreshFriendlies.php">
-						<button class="btn btn-outline-secondary" type="submit" id="FriendlyRefresh_button"><i class="fas fa-sync-alt"></i> Refresh All</button>
+						<button class="btn btn-outline-secondary" type="submit" id="FriendlyRefresh_button"><i class="fas fa-sync-alt"></i> Refresh Friends</button>
 					</form>
 				</div>
 			</div>

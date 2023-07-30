@@ -24,6 +24,60 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
 if (isset($_POST['fidFriendly']) && !empty($_POST['fidFriendly']) && is_numeric($_POST['fidFriendly'])) {
     $fid = $_POST['fidFriendly'];
 
+
+    $pattern = "/^[0-9,]*$/";
+    if (preg_match($pattern, $fid)) {
+      //Loop through array of faction IDs
+      $fidsArray = preg_split ("/\,/", $fid); 
+      $get_apikey = new db_request();
+      $apikey = $get_apikey->getRawAPIKeyByUserID($_SESSION['userid']);
+
+      foreach ($fidsArray as $fid) {
+        $api_request = new api_request($apikey);
+        $faction = $api_request->getFactionAPI($fid);
+        sleep(1);
+
+        if (!empty($faction) && $faction['ID'] != NULL) {
+    
+          $db_request_check_friendly_faction = new db_request();
+          $row = $db_request_check_friendly_faction->getFriendlyFactionByFactionID($fid);
+    
+          if (!empty($row)) {
+            //faction is already in list of enemy factions
+            continue;
+          }
+    
+          $fid = $faction['ID'];
+          $fname = $faction['name'];
+          $leader = $faction['leader'];
+          $coleader = $faction['co-leader'];
+          $age = $faction['age'];
+          $best_chain = $faction['best_chain'];
+          $total_members = count($faction['members']);
+          $respect = $faction['respect'];
+          $timestamp = 0;
+    
+          $db_request_add_friendly_faction = new db_request();
+          $db_request_add_friendly_faction->insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);
+    
+          getFriendlyFactionMembers('1468764', $fid);
+        } //if faction api exists
+      }
+
+      
+      $_SESSION['success'] = "Factions successfully added to friendly list.";
+      header("Location: ../war.php");
+      exit;
+    } else {
+      if (!is_numeric($_POST['fidFriendly'])) {
+        $_SESSION['error'] = "The faction you entered does not exist.";
+        header("Location: ../war.php");
+        exit;
+      }
+    }
+
+
+
     $get_apikey = new db_request();
     $apikey = $get_apikey->getRawAPIKeyByUserID($_SESSION['userid']);
 
@@ -50,9 +104,10 @@ if (isset($_POST['fidFriendly']) && !empty($_POST['fidFriendly']) && is_numeric(
       $best_chain = $faction['best_chain'];
       $total_members = count($faction['members']);
       $respect = $faction['respect'];
+      $timestamp = time();
 
-      $db_request_add_enemy_faction = new db_request();
-      $db_request_add_enemy_faction->insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
+      $db_request_add_friendly_faction = new db_request();
+      $db_request_add_friendly_faction->insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);
 
       getFriendlyFactionMembers("1468764", $fid);
 
@@ -84,13 +139,14 @@ function getFriendlyFactionMembers($userid, $factionID) {
   $best_chain = $factionData['best_chain'];
   $total_members = count($factionData['members']);
   $respect = $factionData['respect'];
+  $timestamp = time();
 
   $row = $db_request->getFriendlyFactionByFactionID($fid);
 
   if($row) {
-    $db_request->updateFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
+    $db_request->updateFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);
   } else {
-    $db_request->insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect);
+    $db_request->insertFriendlyFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $timestamp);
   }
 
 

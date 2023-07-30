@@ -41,16 +41,46 @@ if ($type == "NULL" OR $enemyID == "NULL" OR $userID == "NULL") {
   exit;
 }
 
-if ($type == 'revive' || $type == 'attack') {
+if ($type == 'revive' || $type == 'attack' || $type == 'checkFaction') {
   //continue
 } else {
   echo 'not a request';
   exit;
 }
-
-
-
 include_once("../../includes/autoloader.inc.php"); //include classes
+
+
+
+if ($type == "checkFaction") {
+  if (!$enemyID || !$userID) {
+    exit;
+  }
+
+  $db_request_check_user = new db_request();
+  $user = $db_request_check_user->getFriendlyByTornID($userID);
+
+  $db_request_check_bird = new db_request();
+  $bird = $db_request_check_bird->getMemberByTornID($userID);
+
+  if (empty($user)) {
+    echo "user not allowed";
+    exit;
+  }
+  if (empty($bird)) {
+    echo "user not allowed";
+  }
+
+  $db_request_check_faction = new db_request();
+  $faction = $db_request_check_faction->getEnemyFactionByTornID($enemyID);
+
+  if ($faction && !empty($faction)) {
+    header("Content-Type: application/json");
+    $farray = array('faction_name' => $faction['factionName'], 'faction_id' => $faction['factionName'], 'user_id' => $enemyID);
+
+    echo json_encode($farray);
+  }
+  exit;
+}
 
 
 //check if AK War or warbirds war
