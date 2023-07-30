@@ -1,11 +1,14 @@
 <?php
 include_once(__DIR__ . "/../includes/autoloader.inc.php");
 
-$db_request = new db_request();
-$factions = $db_request->getAllEnemyFactions();
-
+$db_request_fac = new db_request();
+$factions = $db_request_fac->getAllEnemyFactions();
+$rowCount = $db_request_fac->row_count;
 foreach($factions as $faction) {
   getEnemyFactionMembers('1468764', $faction['factionID']);
+  if ($rowCount > 5) {
+    sleep(1);
+  }
 }
 
 
@@ -89,9 +92,4 @@ function getEnemyFactionMembers($userid, $factionID) {
   }
 
 } //getEnemyFactionMembers Function
-
-
-
-
-
 ?>
