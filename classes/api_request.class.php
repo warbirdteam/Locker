@@ -228,6 +228,13 @@ class api_request {
   }
 
 
+
+  public function getBasicUser() {
+    $json = $this->pullAPI('user','','');
+    return $json;
+  }
+
+
   /////////////////////////////////////////////////
 
   private function APIError($error) {

@@ -905,6 +905,18 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
 
+  public function getDiscordWebhookRolePingByName($name) {
+    $sql = "SELECT roleID FROM discord_webhooks_role_ping WHERE name = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$name]);
+    $row = $stmt->fetchColumn();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+
   /////////////////////////////////////////////////
   ////////        FRIENDLY FUNCTIONS       ////////
   /////////////////////////////////////////////////

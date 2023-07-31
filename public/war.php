@@ -19,6 +19,7 @@ $db_request = new db_request();
 $revivesToggle = $db_request->getToggleStatusByName('revives');
 $assistsToggle = $db_request->getToggleStatusByName('assists');
 $akwarsToggle = $db_request->getToggleStatusByName('akwars');
+$assist_apiToggle = $db_request->getToggleStatusByName('assist_api');
 
 $db_request_enemy_factions = new db_request();
 $factions = $db_request_enemy_factions->getAllEnemyFactions();
@@ -63,6 +64,10 @@ if (isset($_SESSION['success'])) {
 								<input type="checkbox" class="form-check-input toggles" id="akwarsToggle" name="akwars" <?php if ($akwarsToggle && $akwarsToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
 								<label class="form-check-label" for="akwarsToggle" data-bs-toggle="tooltip" data-bs-placement="right" title="Enable this to set war status to teamed war. Allows Allies to use war scripts.">Team War</label>
 							</div>
+		<div class="form-check form-switch">
+	              <input type="checkbox" class="form-check-input toggles" id="assist_apiToggle" name="assist_api" <?php if ($assist_apiToggle && $assist_apiToggle == 1) {echo ' value="1" checked';} else { echo ' value="0"';};?>>
+	              <label class="form-check-label" for="assist_apiToggle" data-bs-toggle="tooltip" data-bs-placement="right" title="Require API authentication for the assist/revive script.">API Verify</label>
+	    	</div>
 	          </form>
 					</div>
 					<div class="row">
@@ -127,7 +132,7 @@ if (isset($_SESSION['success'])) {
 						?>
 					</ul>
 					<br>
-					<label><u>Add an friendly faction:</u></label>
+					<label><u>Add a friendly faction:</u></label>
 					<form method="post" id="fidFriendly-form" action="process/addFriendlyFaction.php">
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">

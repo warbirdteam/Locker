@@ -29,9 +29,6 @@ else
     $_SESSION['request_cnt'] = 1;
 }
 
-
-
-
 $type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
 $enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
 $userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
@@ -48,6 +45,39 @@ if ($type == 'revive' || $type == 'attack' || $type == 'checkFaction') {
   exit;
 }
 include_once("../../includes/autoloader.inc.php"); //include classes
+
+// API Authentication
+//check if AK War or warbirds war
+$db_request_check_api_auth = new db_request();
+$api_auth_bool = $db_request_check_api_auth->getToggleStatusByName("assist_api");
+$headers = array_change_key_case(getallheaders());
+
+if ($api_auth_bool == 1) {
+    if (array_key_exists('authorization', $headers)) {
+        $apikey = $headers['authorization'];
+        if (empty($apikey)) {
+          echo "api key invalid";
+          exit;
+        }
+        
+        $api_request = new api_request($apikey);
+        $json = $api_request->getBasicUser();
+
+        if (!empty($json) && $json['player_id'] != NULL) {
+          if ($userID != $json['player_id']) { //someone changed userID in script, or not using their own api key
+            echo "user not allowed";
+            exit;
+          }
+          $userID = $json['player_id'];
+        } else {
+          echo "api key invalid";
+          exit;
+        }
+    } else {
+        echo "api key invalid"; //api key invalid
+        exit;
+    }
+}
 
 
 
@@ -157,13 +187,24 @@ if ($akbool == 1) {
     } else {
       $foot = [
        "icon_url" => "https://cdn.discordapp.com/attachments/654438792748597249/655065404816752680/Asset_92x_AK_wh.png",
-       "text" => "An AK member needs your help!"
+       "text" => "An alliance member needs your help!"
       ];
     }
+      
+    $db_request_webhook_ping = new db_request();
+
+    $attackPingRole = $db_request_webhook_ping->getDiscordWebhookRolePingByName('nest_ping');
+
+      if (empty($attackPingRole)) {
+        $attackPingRole = "🔫";
+      } else {
+        $attackPingRole = "<@&" . $attackPingRole . ">";
+      }
+      
 
     $url = 'https://discord.com/api/webhooks/' . $attackWebhook;
     $POST = [
-      'content' => '@Assist',
+      'content' => $attackPingRole,
       'username' => 'Assist Bot',
       'embeds' => [
         [
@@ -184,6 +225,15 @@ if ($akbool == 1) {
     if ($akbool == 1) {
       $db_request_akattack_webhook = new db_request();
       $akattackWebhook = $db_request_akattack_webhook->getWebhookByName('akhelp');
+
+      $akattackPingRole = $db_request_akattack_webhook->getDiscordWebhookRolePingByName('team_war_ping');
+
+      if (empty($akattackPingRole)) {
+        $akattackPingRole = "🔫";
+      } else {
+        $akattackPingRole = "<@&" . $akattackPingRole . ">";
+      }
+        
       if (empty($akattackWebhook)) {
         echo "Discord channel doesn't exist";
         exit;
@@ -191,7 +241,7 @@ if ($akbool == 1) {
       $url = 'https://discord.com/api/webhooks/' . $akattackWebhook;
 
       $POST = [
-        'content' => '<@&805503184919199764>',
+        'content' => $akattackPingRole,
         'username' => 'Assist Bot',
         'embeds' => [
           [
