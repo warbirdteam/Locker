@@ -1,8 +1,19 @@
 <?php
 session_start();
 
-$time_interval = 5;#In seconds
-$max_requests = 1;
+$type = isset($_POST["type"]) ? $_POST["type"] : NULL; // 'revive' or 'attack' or 'checkFaction'
+$enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : NULL;
+$userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : NULL;
+
+if ($type == 'checkFaction') {
+  $time_interval = 0;#In seconds
+  $max_requests = 10;
+} else {
+  $time_interval = 5;#In seconds
+  $max_requests = 1;
+}
+
+
 $fast_request_check = ($_SESSION['last_session_request'] > time() - $time_interval);
 
 if (!isset($_SESSION))
@@ -29,9 +40,7 @@ else
     $_SESSION['request_cnt'] = 1;
 }
 
-$type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : NULL; // 'revive' or 'attack'
-$enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : NULL;
-$userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : NULL;
+
 
 if (empty($type) OR empty($enemyID) OR empty($userID)) {
   echo "failure to request";
