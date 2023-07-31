@@ -1165,6 +1165,34 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     return $row;
   }
 
+  /////////////////////////////////////////////////
+  ////////  API AUTHORIZATION FUNCTIONS    ////////
+  /////////////////////////////////////////////////
+  public function getAPIAuthByAPIKEY($apikey) {
+    $sql = "SELECT * FROM api_authorization WHERE apikey = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$apikey]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return null;
+    }
+
+    return $row;
+  }
+
+  public function insertAPIAuth($userid, $apikey) {
+    $sql = "INSERT INTO api_authorization (userID, apikey) values (?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid, $apikey]);
+  }
+
+
+  public function insertAuthorizationLog($userid, $apikey, $request_type, $enemyID) {
+    $sql = "INSERT INTO api_authorization (userID, apikey, request_type, enemyID) values (?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid, $apikey, $request_type, $enemyID]);
+  }
+
 
   /////////////////////////////////////////////////
   ////////        DISCORD FUNCTIONS        ////////
