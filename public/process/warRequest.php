@@ -61,8 +61,9 @@ if ($api_auth_bool == 1) {
         }
         
         //log authorization
+        $ip_address = get_client_ip();
         $db_request_save_auth = new db_request();
-        $db_request_save_auth->insertAuthorizationLog($userID, $apikey, $type, $enemyID);
+        $db_request_save_auth->insertAuthorizationLog($userID, $apikey, $type, $enemyID, $ip_address);
 
         //check if apikey has already been checked and saved in database, to save spamming api
         $db_request_api_auth = new db_request();
@@ -127,15 +128,28 @@ if ($type == "checkFaction") {
     echo "user not allowed";
   }
 
-  $db_request_check_faction = new db_request();
-  $faction = $db_request_check_faction->getEnemyFactionByTornID($enemyID);
+  //check enemy
+  $db_request_check_faction_e = new db_request();
+  $factionEnemy = $db_request_check_faction_e->getEnemyFactionByTornID($enemyID);
 
-  if ($faction && !empty($faction)) {
+  if ($factionEnemy && !empty($factfactionEnemyion)) {
     header("Content-Type: application/json");
-    $farray = array('faction_name' => $faction['factionName'], 'faction_id' => $faction['factionName'], 'user_id' => $enemyID);
+    $fearray = array('faction_name' => $factionEnemy['factionName'], 'faction_id' => $factionEnemy['factionName'], 'user_id' => $enemyID, 'faction_type' => 'enemy');
 
-    echo json_encode($farray);
+    echo json_encode($fearray);
   }
+
+  //check friendly
+  $db_request_check_faction_f = new db_request();
+  $factionFriendly = $db_request_check_faction_f->getFriendlyFactionByTornID($enemyID);
+
+  if ($factionFriendly && !empty($factionFriendly)) {
+    header("Content-Type: application/json");
+    $ffarray = array('faction_name' => $factionFriendly['factionName'], 'faction_id' => $factionFriendly['factionName'], 'user_id' => $enemyID, 'faction_type' => 'friendly');
+
+    echo json_encode($ffarray);
+  }
+
   exit;
 }
 
@@ -375,6 +389,26 @@ function SendToDiscord($url, $POST) {
   curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
   $response = curl_exec($ch);
+}
+
+// Function to get the client IP address
+function get_client_ip() {
+  $ipaddress = '';
+  if (getenv('HTTP_CLIENT_IP'))
+      $ipaddress = getenv('HTTP_CLIENT_IP');
+  else if(getenv('HTTP_X_FORWARDED_FOR'))
+      $ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+  else if(getenv('HTTP_X_FORWARDED'))
+      $ipaddress = getenv('HTTP_X_FORWARDED');
+  else if(getenv('HTTP_FORWARDED_FOR'))
+      $ipaddress = getenv('HTTP_FORWARDED_FOR');
+  else if(getenv('HTTP_FORWARDED'))
+     $ipaddress = getenv('HTTP_FORWARDED');
+  else if(getenv('REMOTE_ADDR'))
+      $ipaddress = getenv('REMOTE_ADDR');
+  else
+      $ipaddress = 'UNKNOWN';
+  return $ipaddress;
 }
 
 ?>

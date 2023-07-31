@@ -1165,6 +1165,32 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     return $row;
   }
 
+
+  
+  public function getFriendlyFactionByTornID($tornID) {
+    $sql = "SELECT * FROM friendly_members WHERE tornID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$tornID]);
+    $member = $stmt->fetch();
+    if(empty($member)) {
+      return NULL;
+    }
+    $factionID = $member['factionID'];
+    if (!$factionID) {
+      return NULL;
+    }
+
+    $sql = "SELECT * FROM friendly_factions WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    return $row;
+  }
+
   /////////////////////////////////////////////////
   ////////  API AUTHORIZATION FUNCTIONS    ////////
   /////////////////////////////////////////////////
@@ -1187,10 +1213,10 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
 
-  public function insertAuthorizationLog($userid, $apikey, $request_type, $enemyID) {
-    $sql = "INSERT INTO api_authorization (userID, apikey, request_type, enemyID) values (?,?,?,?)";
+  public function insertAuthorizationLog($userid, $apikey, $request_type, $enemyID, $ip_address) {
+    $sql = "INSERT INTO api_authorization (userID, apikey, request_type, enemyID, ip_address) values (?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$userid, $apikey, $request_type, $enemyID]);
+    $stmt->execute([$userid, $apikey, $request_type, $enemyID, $ip_address]);
   }
 
 
