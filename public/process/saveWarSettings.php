@@ -24,6 +24,8 @@ $revives = isset($_POST['revives']) && $_POST['revives'] == 1 ? 1 : 0;
 $assists = isset($_POST['assists']) && $_POST['assists'] == 1 ? 1 : 0;
 $akwars = isset($_POST['akwars']) && $_POST['akwars'] == 1 ? 1 : 0;
 $assist_api = isset($_POST['assist_api']) && $_POST['assist_api'] == 1 ? 1 : 0;
+$check_faction = isset($_POST['check_faction']) && $_POST['check_faction'] == 1 ? 1 : 0;
+
 
 
 
@@ -32,6 +34,7 @@ $db_request->updateToggleStatusByName('revives', $revives);
 $db_request->updateToggleStatusByName('assists', $assists);
 $db_request->updateToggleStatusByName('akwars', $akwars);
 $db_request->updateToggleStatusByName('assist_api', $assist_api);
+$db_request->updateToggleStatusByName('check_faction', $check_faction);
 
 
 ?>

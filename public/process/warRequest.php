@@ -29,11 +29,11 @@ else
     $_SESSION['request_cnt'] = 1;
 }
 
-$type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : 'NULL'; // 'revive' or 'attack'
-$enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : 'NULL';
-$userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : 'NULL';
+$type = isset($_POST["type"]) && strlen($_POST["type"]) == 6 ? $_POST["type"] : NULL; // 'revive' or 'attack'
+$enemyID = isset($_POST["enemy"]) && is_numeric($_POST["enemy"]) && strlen($_POST["enemy"]) <= 8 ? $_POST["enemy"] : NULL;
+$userID = isset($_POST["user"]) && is_numeric($_POST["user"]) && strlen($_POST["user"]) <= 8 ? $_POST["user"] : NULL;
 
-if ($type == "NULL" OR $enemyID == "NULL" OR $userID == "NULL") {
+if (empty($type) OR empty($enemyID) OR empty($userID)) {
   echo "failure to request";
   exit;
 }
@@ -60,18 +60,36 @@ if ($api_auth_bool == 1) {
           exit;
         }
         
-        $api_request = new api_request($apikey);
-        $json = $api_request->getBasicUser();
+        //log authorization
+        $db_request_save_auth = new db_request();
+        $db_request_save_auth->insertAuthorizationLog($userID, $apikey, $type, $enemyID);
 
-        if (!empty($json) && $json['player_id'] != NULL) {
-          if ($userID != $json['player_id']) { //someone changed userID in script, or not using their own api key
-            echo "user not allowed";
+        //check if apikey has already been checked and saved in database, to save spamming api
+        $db_request_api_auth = new db_request();
+        $authCheck = $db_request_api_auth->getAPIAuthByAPIKEY($apikey); //has apikey already been authorized
+
+        if (!empty($authCheck)) {
+          $userID = $authCheck['userID'];
+        } else {
+          //check apikey via api request
+          $api_request = new api_request($apikey);
+          $json = $api_request->getBasicUser();
+  
+          if (!empty($json) && $json['player_id'] != NULL) {
+            if ($userID != $json['player_id']) { //someone changed userID in script, or not using their own api key
+              echo "user not allowed";
+              exit;
+            }
+            //good ending, player is okay to request
+            $userID = $json['player_id'];
+            //save auth apikey to db
+            $db_request_save_auth = new db_request();
+            $db_request_save_auth->insertAPIAuth($userID, $apikey);
+  
+          } else {
+            echo "api key invalid";
             exit;
           }
-          $userID = $json['player_id'];
-        } else {
-          echo "api key invalid";
-          exit;
         }
     } else {
         echo "api key invalid"; //api key invalid
@@ -85,6 +103,15 @@ if ($type == "checkFaction") {
   if (!$enemyID || !$userID) {
     exit;
   }
+
+  $db_request_check_faction = new db_request();
+  $bool = $db_request_check_faction->getToggleStatusByName("check_faction");
+
+  if ($bool != 1) {
+    echo "Checking factions currently disabled";
+    exit;
+  }
+
 
   $db_request_check_user = new db_request();
   $user = $db_request_check_user->getFriendlyByTornID($userID);
