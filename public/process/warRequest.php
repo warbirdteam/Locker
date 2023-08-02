@@ -110,7 +110,8 @@ if ($api_auth_bool == 1) {
 
 
 if ($type == "checkFaction") {
-  if (!$enemyID || !$userID) {
+  if (empty($enemyID) OR empty($userID)) {
+    echo "failed to obtain enemy or user";
     exit;
   }
 
@@ -118,7 +119,7 @@ if ($type == "checkFaction") {
   $bool = $db_request_check_faction->getToggleStatusByName("check_faction");
 
   if ($bool != 1) {
-    echo "Checking factions currently disabled";
+    echo "checking factions currently disabled";
     exit;
   }
 
@@ -135,6 +136,7 @@ if ($type == "checkFaction") {
   }
   if (empty($bird)) {
     echo "user not allowed";
+    exit;
   }
 
   //check enemy
@@ -146,6 +148,7 @@ if ($type == "checkFaction") {
     $fearray = array('faction_name' => $factionEnemy['factionName'], 'faction_id' => $factionEnemy['factionName'], 'user_id' => $enemyID, 'faction_type' => 'enemy');
 
     echo json_encode($fearray);
+    exit;
   }
 
   //check friendly
@@ -157,8 +160,10 @@ if ($type == "checkFaction") {
     $ffarray = array('faction_name' => $factionFriendly['factionName'], 'faction_id' => $factionFriendly['factionName'], 'user_id' => $enemyID, 'faction_type' => 'friendly');
 
     echo json_encode($ffarray);
+    exit;
   }
 
+  echo "something went wrong";
   exit;
 }
 
