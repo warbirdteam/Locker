@@ -145,7 +145,7 @@ if ($type == "checkFaction") {
 
   if ($factionEnemy && !empty($factfactionEnemyion)) {
     header("Content-Type: application/json");
-    $fearray = array('faction_name' => $factionEnemy['factionName'], 'faction_id' => $factionEnemy['factionName'], 'user_id' => $enemyID, 'faction_type' => 'enemy');
+    $fearray = array('faction_name' => $factionEnemy['factionName'], 'faction_id' => $factionEnemy['factionID'], 'user_id' => $enemyID, 'faction_type' => 'enemy');
 
     echo json_encode($fearray);
     exit;
@@ -157,7 +157,7 @@ if ($type == "checkFaction") {
 
   if ($factionFriendly && !empty($factionFriendly)) {
     header("Content-Type: application/json");
-    $ffarray = array('faction_name' => $factionFriendly['factionName'], 'faction_id' => $factionFriendly['factionName'], 'user_id' => $enemyID, 'faction_type' => 'friendly');
+    $ffarray = array('faction_name' => $factionFriendly['factionName'], 'faction_id' => $factionFriendly['factionID'], 'user_id' => $enemyID, 'faction_type' => 'friendly');
 
     echo json_encode($ffarray);
     exit;
