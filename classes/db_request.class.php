@@ -1214,7 +1214,7 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
 
 
   public function insertAuthorizationLog($userid, $apikey, $request_type, $enemyID, $ip_address) {
-    $sql = "INSERT INTO api_authorization (userID, apikey, request_type, enemyID, ip_address) values (?,?,?,?,?)";
+    $sql = "INSERT INTO api_authorization_log (userID, apikey, request_type, enemyID, ip_address) values (?,?,?,?,?)";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$userid, $apikey, $request_type, $enemyID, $ip_address]);
   }
