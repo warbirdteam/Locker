@@ -1207,9 +1207,15 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
   }
 
   public function insertAPIAuth($userid, $apikey) {
-    $sql = "INSERT INTO api_authorization (userID, apikey) values (?,?)";
+    $sql = "SELECT * FROM api_authorization WHERE apikey = ?";
     $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$userid, $apikey]);
+    $stmt->execute([$apikey]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      $sql = "INSERT INTO api_authorization (userID, apikey) values (?,?)";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$userid, $apikey]);
+    }
   }
 
 
