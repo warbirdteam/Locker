@@ -143,7 +143,7 @@ if ($type == "checkFaction") {
   $db_request_check_faction_e = new db_request();
   $factionEnemy = $db_request_check_faction_e->getEnemyFactionByTornID($enemyID);
 
-  if ($factionEnemy && !empty($factfactionEnemyion)) {
+  if ($factionEnemy && !empty($factionEnemy)) {
     header("Content-Type: application/json");
     $fearray = array('faction_name' => $factionEnemy['factionName'], 'faction_id' => $factionEnemy['factionID'], 'user_id' => $enemyID, 'faction_type' => 'enemy');
 
