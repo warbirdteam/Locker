@@ -109,7 +109,7 @@ if (isset($_SESSION['success'])) {
                   ?>
                     <tr> 
                         <td><input type="checkbox" class="paCheckbox"></td>
-                        <td><?php echo date('m-d-Y', $crime['time_completed']); ?></td>
+                        <td><?php echo date('Y-m-d', $crime['time_completed']); ?></td>
                         <td><?php echo date('H:i:s', $crime['time_completed']); ?></td>
                         <td class="team"><?php echo $teamStr; ?></td>
                         <td><?php echo $success; ?></td>
