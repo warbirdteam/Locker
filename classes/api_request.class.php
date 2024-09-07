@@ -234,6 +234,32 @@ class api_request {
     return $json;
   }
 
+  /////////////////////////////////////////////////
+
+
+  public function getFactionRankedWars($factionid) {
+    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,rankedwars&comment=wb.rocks&key=' . $this->apikey;
+
+    $data = file_get_contents($url);
+    $json = json_decode($data, true); // decode the JSON feed
+
+    if (is_array($json) || is_object($json)) {
+
+      if (isset($json['error'])) {
+        $this->APIERROR($json['error']); //TORN API ERROR
+      } else {
+        if ( isset($json['timestamp']) ) {
+          return $json;
+        } else {
+          throw new Exception('Could not find API data.');
+        }
+      }
+
+    } else {
+      throw new Exception('Error while fetching API data.');
+    }
+  }
+
 
   /////////////////////////////////////////////////
 

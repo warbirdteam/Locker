@@ -1366,6 +1366,33 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     $stmt->execute([$roleID, $guildID, $module]);
   }
 
+  /////////////////////////////////////////////////
+  ////////           RANKED WAR FUNCTIONS  ////////
+  /////////////////////////////////////////////////
+
+  public function getRankedWarByWarID($warID) {
+    $sql = "SELECT * FROM faction_ranked_wars WHERE rw_id = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$warID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function insertRankedWar($rw_id, $enemy_faction_id, $enemy_faction_name, $enemy_faction_score, $friendly_faction_id, $friendly_faction_name, $friendly_faction_score, $start_timestamp, $end_timestamp, $winner, $original_target, $final_target) {
+    $sql = "INSERT INTO faction_ranked_wars (rw_id, enemy_faction_id, enemy_faction_name, enemy_faction_score, friendly_faction_id, friendly_faction_name, friendly_faction_score, start_timestamp, end_timestamp, winner, original_target, final_target) values (?,?,?,?,?,?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$rw_id, $enemy_faction_id, $enemy_faction_name, $enemy_faction_score, $friendly_faction_id, $friendly_faction_name, $friendly_faction_score, $start_timestamp, $end_timestamp, $winner, $original_target, $final_target]);
+  }
+
+  public function updateRankedWarWinnerAndTimestamp($rw_id, $end_timestamp, $winner, $final_target) {
+    $sql = "UPDATE faction_ranked_wars SET end_timestamp = ?, winner = ?, final_target = ? WHERE rw_id = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$end_timestamp, $winner, $final_target, $rw_id]);
+  }
+
 
   /////////////////////////////////////////////////
   ////////           END OF CLASS          ////////
