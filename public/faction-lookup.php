@@ -41,9 +41,9 @@ if (isset($_SESSION['success'])) {
 
                             <div class="accordion" id="factionLookupAccordion">
                               <?php
-                              $db_faction_lookups = new db_request();
-                        			$rows = $db_faction_lookups->getAllFactionLookups();
-                        			$count = $db_faction_lookups->row_count;
+                              $db_torn_faction_lookups = new db_request();
+                        			$rows = $db_torn_faction_lookups->getAllFactionLookups();
+                        			$count = $db_torn_faction_lookups->row_count;
 
                               $uniquefactions = array();
                               foreach ($rows as $lookups) {

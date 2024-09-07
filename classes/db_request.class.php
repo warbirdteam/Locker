@@ -251,7 +251,7 @@ class db_request extends db_connect {
   /////////////////////////////////////////////////
 
   public function getAllFactionLookups() {
-    $sql = "SELECT * from faction_lookup_factions";
+    $sql = "SELECT * from torn_faction_lookup_factions";
     $stmt = $this->pdo->query($sql);
     $row = $stmt->fetchAll();
     $this->row_count = $stmt->rowCount();
@@ -265,7 +265,7 @@ class db_request extends db_connect {
   /////////////////////////////////////////////////
 
   public function getUsersInLookup($lookup_id) {
-    $sql = "SELECT * from faction_lookups where lookup_id=?";
+    $sql = "SELECT * from torn_faction_lookups where lookup_id=?";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$lookup_id]);
     $row = $stmt->fetchAll();
@@ -280,7 +280,7 @@ class db_request extends db_connect {
   /////////////////////////////////////////////////
 
   public function insertFactionLookupFaction($faction) {
-    $sql = "INSERT INTO faction_lookup_factions (faction_id, faction_name, respect, leader, co_leader, age, best_chain, total_members) VALUES (?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO torn_faction_lookup_factions (faction_id, faction_name, respect, leader, co_leader, age, best_chain, total_members) VALUES (?,?,?,?,?,?,?,?)";
     $stmtinsert = $this->pdo->prepare($sql);
     $stmtinsert->execute([$faction['ID'],$faction['name'],$faction['respect'],$faction['leader'],$faction['co-leader'],$faction['age'],$faction['best_chain'],count($faction['members'])]);
 
@@ -291,7 +291,7 @@ class db_request extends db_connect {
   /////////////////////////////////////////////////
 
   public function insertFactionLookupPlayer($lookup_id, $userid, $username, $level, $days_in_faction, $last_action, $donator, $xantaken, $attackswon, $defendswon, $property, $refills, $nerverefills, $boostersused, $energydrinkused, $statenhancers, $enemies) {
-    $sql = "INSERT INTO faction_lookups (lookup_id, userid, username, level, days_in_faction, last_action, donator_status, xanax, attackswon, defendswon, property, energy_refills, nerve_refills, boosters, cans, stat_enhancers, enemies) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO torn_faction_lookups (lookup_id, userid, username, level, days_in_faction, last_action, donator_status, xanax, attackswon, defendswon, property, energy_refills, nerve_refills, boosters, cans, stat_enhancers, enemies) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     $stmtinsert = $this->pdo->prepare($sql);
     $stmtinsert->execute([$lookup_id, $userid, $username, $level, $days_in_faction, $last_action, $donator, $xantaken, $attackswon, $defendswon, $property, $refills, $nerverefills, $boostersused, $energydrinkused, $statenhancers, $enemies]);
   }
@@ -353,7 +353,7 @@ class db_request extends db_connect {
 
 
   public function getOrganizedCrimeByCrimeID($crimeID) {
-    $sql = "SELECT * FROM organized_crimes WHERE crimeID = ?";
+    $sql = "SELECT * FROM faction_organized_crimes WHERE crimeID = ?";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$crimeID]);
     $row = $stmt->fetch();
@@ -365,20 +365,20 @@ class db_request extends db_connect {
 
 
   public function insertFactionCrime($crimeID, $fid, $crime_type_id, $crime_name, $time_started, $time_completed, $initiated_by, $planned_by, $success, $money_gain, $respect_gain) {
-    $sql = "INSERT INTO organized_crimes (crimeID, factionID, crime_type_id, crime_name, time_started, time_completed, initiated_by, planned_by, success, money_gain, respect_gain) values (?,?,?,?,?,?,?,?,?,?,?)";
+    $sql = "INSERT INTO faction_organized_crimes (crimeID, factionID, crime_type_id, crime_name, time_started, time_completed, initiated_by, planned_by, success, money_gain, respect_gain) values (?,?,?,?,?,?,?,?,?,?,?)";
     $stmtinsert = $this->pdo->prepare($sql);
     $stmtinsert->execute([$crimeID, $fid, $crime_type_id, $crime_name, $time_started, $time_completed, $initiated_by, $planned_by, $success, $money_gain, $respect_gain]);
   }
 
 
   public function insertFactionCrimeParticipant($crimeID, $participantID, $pos) {
-    $sql = "INSERT INTO organized_crimes_participants (crimeID, userID, pos) values (?,?,?)";
+    $sql = "INSERT INTO faction_organized_crimes_participants (crimeID, userID, pos) values (?,?,?)";
     $stmtinsert = $this->pdo->prepare($sql);
     $stmtinsert->execute([$crimeID, $participantID, $pos]);
   }
 
   public function getFactionCrimesByFactionIDAndCrimeTypeID($factionID, $crime_type_id) {
-    $sql = "SELECT * FROM `organized_crimes` where factionID = ? AND crime_type_id = ?  ORDER BY `organized_crimes`.`time_completed`  DESC";
+    $sql = "SELECT * FROM `faction_organized_crimes` where factionID = ? AND crime_type_id = ?  ORDER BY `faction_organized_crimes`.`time_completed`  DESC";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$factionID, $crime_type_id]);
     $row = $stmt->fetchAll();
@@ -390,7 +390,7 @@ class db_request extends db_connect {
   }
 
   public function getCrimeTeamByCrimeID($crimeID) {
-    $sql = "SELECT `crimeID`,`userID`,`tornName`,`pos` FROM `organized_crimes_participants` LEFT JOIN `torn_members` ON `torn_members`.`tornID`=`organized_crimes_participants`.`userID` WHERE CrimeID = ? ORDER BY `organized_crimes_participants`.`pos` ASC";
+    $sql = "SELECT `crimeID`,`userID`,`tornName`,`pos` FROM `faction_organized_crimes_participants` LEFT JOIN `torn_members` ON `torn_members`.`tornID`=`faction_organized_crimes_participants`.`userID` WHERE CrimeID = ? ORDER BY `faction_organized_crimes_participants`.`pos` ASC";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$crimeID]);
     $row = $stmt->fetchAll();
