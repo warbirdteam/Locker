@@ -457,7 +457,7 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
       $bestchain = isset($stats['bestchain']) ? $stats['bestchain'] : 0;
 
 
-      $sql = "INSERT INTO `factions_stats` (`factionID`, `respect`, `criminaloffences`, `gymtrains`, `gymstrength`, `gymdefense`, `gymspeed`, `gymdexterity`, `attacksdamagehits`, `attacksdamage`, `hosps`, `attackslost`, `hosptimereceived`, `rehabs`, `traveltime`, `hosptimegiven`, `attacksmug`, `attackswon`, `alcoholused`, `drugsused`, `attacksrunaway`, `traveltimes`, `medicalitemsused`, `medicalcooldownused`, `jails`, `attacksdamaging`, `attacksleave`, `medicalitemrecovery`, `energydrinkused`, `busts`, `drugoverdoses`, `attackshosp`, `candyused`, `hunting`, `organisedcrimerespect`, `organisedcrimemoney`, `organisedcrimesuccess`, `organisedcrimefail`, `revives`, `territoryrespect`, `caymaninterest`, `highestterritories`, `bestchain`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+      $sql = "INSERT INTO `faction_stats` (`factionID`, `respect`, `criminaloffences`, `gymtrains`, `gymstrength`, `gymdefense`, `gymspeed`, `gymdexterity`, `attacksdamagehits`, `attacksdamage`, `hosps`, `attackslost`, `hosptimereceived`, `rehabs`, `traveltime`, `hosptimegiven`, `attacksmug`, `attackswon`, `alcoholused`, `drugsused`, `attacksrunaway`, `traveltimes`, `medicalitemsused`, `medicalcooldownused`, `jails`, `attacksdamaging`, `attacksleave`, `medicalitemrecovery`, `energydrinkused`, `busts`, `drugoverdoses`, `attackshosp`, `candyused`, `hunting`, `organisedcrimerespect`, `organisedcrimemoney`, `organisedcrimesuccess`, `organisedcrimefail`, `revives`, `territoryrespect`, `caymaninterest`, `highestterritories`, `bestchain`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
       $stmtinsert = $this->pdo->prepare($sql);
       $stmtinsert->execute([$factionid, $respect, $criminaloffences, $gymtrains, $gymstrength, $gymdefense, $gymspeed, $gymdexterity, $attacksdamagehits, $attacksdamage, $hosps, $attackslost, $hosptimereceived, $rehabs, $traveltime, $hosptimegiven, $attacksmug, $attackswon, $alcoholused, $drugsused, $attacksrunaway, $traveltimes, $medicalitemsused, $medicalcooldownused, $jails, $attacksdamaging, $attacksleave, $medicalitemrecovery, $energydrinkused, $busts, $drugoverdoses, $attackshosp, $candyused, $hunting, $organisedcrimerespect, $organisedcrimemoney, $organisedcrimesuccess, $organisedcrimefail, $revives, $territoryrespect, $caymaninterest, $highestterritories, $bestchain]);
 
@@ -474,9 +474,9 @@ $testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
     $field = $types[$key];
 
     if ($field == "gymenergy") {
-      $sql = "SELECT timestamp, (gymstrength + gymdefense + gymspeed + gymdexterity) AS data FROM `factions_stats` WHERE factionID = ? ORDER BY timestamp ASC";
+      $sql = "SELECT timestamp, (gymstrength + gymdefense + gymspeed + gymdexterity) AS data FROM `faction_stats` WHERE factionID = ? ORDER BY timestamp ASC";
     } else {
-      $sql = "SELECT timestamp, $field AS data FROM `factions_stats` WHERE factionID = ? ORDER BY timestamp ASC";
+      $sql = "SELECT timestamp, $field AS data FROM `faction_stats` WHERE factionID = ? ORDER BY timestamp ASC";
     }
 
     $stmt = $this->pdo->prepare($sql);
