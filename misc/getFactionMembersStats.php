@@ -13,11 +13,9 @@ foreach ($data as $memberdata) {
 
     if (isset($memberdata['error'])) {
       //incorrect key
-      echo "Error Code: ".$memberdata['error']['code']." using " . $apikeys[$i].".";
       if ($memberdata['error']['code'] == 2) {
         //add reminder to update api key
       }
-      $i++;
       continue; //go back to while, try again with same user but different apikey.
     } else {
   
@@ -45,19 +43,18 @@ foreach ($data as $memberdata) {
   
         $discordID = isset($memberdata['discord']['discordID']) ? $memberdata['discord']['discordID'] : null;
   
-        $db_request_members->insertMemberPersonalStats($member['tornID'],$xantaken,$overdosed,$refills,$nerverefills,$consumablesused,$boostersused,$energydrinkused,$statenhancers,$traveltimes,$dumpsearches,$revives);
+        $db_request_members->insertMemberPersonalStats($memberdata['player_id'],$xantaken,$overdosed,$refills,$nerverefills,$consumablesused,$boostersused,$energydrinkused,$statenhancers,$traveltimes,$dumpsearches,$revives);
   
-        $db_request_members->setMemberStatsByIDWeek($member['tornID']);
-        $db_request_members->setMemberStatsByIDMonth($member['tornID']);
+        $db_request_members->setMemberStatsByIDWeek($memberdata['player_id']);
+        $db_request_members->setMemberStatsByIDMonth($memberdata['player_id']);
   
-        $memexists = $db_request_members->getMemberInfoByTornID($member['tornID']);
+        $memexists = $db_request_members->getMemberInfoByTornID($memberdata['player_id']);
         if (!empty($memexists)) {
-          $db_request_members->updateMemberInfo($member['tornID'],$discordID,$donator,$property,$networth,$awards,$age,$level);
+          $db_request_members->updateMemberInfo($memberdata['player_id'],$discordID,$donator,$property,$networth,$awards,$age,$level);
         } else {
-          $db_request_members->insertMemberInfo($member['tornID'],$discordID,$donator,$property,$networth,$awards,$age,$level);
+          $db_request_members->insertMemberInfo($memberdata['player_id'],$discordID,$donator,$property,$networth,$awards,$age,$level);
         }
         $complete = true;
-        $i++;
       }//if timestamp
   
     }//else
