@@ -3,6 +3,8 @@
 class api_request {
 
   protected $apikey;
+  private $baseURL = "https://api.torn.com";
+  private $baseURLv2 = "https://api.torn.com/v2";
 
   /////////////////////////////////////////////////
 
@@ -65,7 +67,7 @@ class api_request {
   /////////////////////////////////////////////////
 
   private function pullAPI($type, $id, $selection) {
-    $url = 'https://api.torn.com/'.$type.'/'. $id .'?selections='.$selection.'&comment=wb.rocks&key=' . $this->apikey; // URL to Torn API
+    $url = $this->baseURL.'/'.$type.'/'. $id .'?selections='.$selection.'&comment=wb.rocks&key='.$this->apikey; // URL to Torn API
     $data = file_get_contents($url);
     $json = json_decode($data, true); // decode the JSON feed
 
@@ -75,115 +77,32 @@ class api_request {
   }
 
   /////////////////////////////////////////////////
+  ////////           API Requests          ////////
+  /////////////////////////////////////////////////
+  
 
   public function getFactionAPI($factionid) {
-    $url = 'https://api.torn.com/faction/'. $factionid .'?selections=timestamp,basic&comment=wb.rocks&key=' . $this->apikey; // URL to Torn API
-    $data = file_get_contents($url);
-    $json = json_decode($data, true); // decode the JSON feed
-
-    if (is_array($json) || is_object($json)) {
-
-      if (isset($json['error'])) {
-        $this->APIERROR($json['error']); //TORN API ERROR
-      } else {
-        if ( isset($json['timestamp']) ) {
-          return $json;
-        } else {
-          throw new Exception('Could not find API data.');
-        }
-      }
-
-    } else {
-      throw new Exception('Error while fetching API data.');
-    }
-
-    return NULL;
+    return $this->pullAPI('faction', $factionid, 'timestamp,basic');
   }
 
-  /////////////////////////////////////////////////
 
   public function getPlayerPersonalStats($userid) {
-    $url = 'https://api.torn.com/user/' . $userid . '?selections=timestamp,basic,personalstats,profile,discord&comment=wb.rocks&key=' . $this->apikey;
-    $data = file_get_contents($url);
-    $json = json_decode($data, true); // decode the JSON feed
-
-    if (is_array($json) || is_object($json)) {
-      return $json;
-    } else {
-      throw new Exception('Error while fetching API data.');
-    }
+    return $this->pullAPI('user', $userid, 'timestamp,basic,personalstats,profile,discord');
   }
 
   public function getPlayerPersonalStatsTimestamp($userid, $timestamp) {
-    $url = 'https://api.torn.com/user/' . $userid . '?selections=timestamp,basic,personalstats,profile,discord&timestamp='.$timestamp.'&comment=wb.rocks&key=' . $this->apikey;
-    $data = file_get_contents($url);
-    $json = json_decode($data, true); // decode the JSON feed
-
-    if (is_array($json) || is_object($json)) {
-      return $json;
-    } else {
-      throw new Exception('Error while fetching API data.');
-    }
+    return $this->pullAPI('user', $userid, 'timestamp,basic,personalstats,profile,discord&timestamp='.$timestamp);
   }
-
-
-  /////////////////////////////////////////////////
 
 
   public function getFactionStats($factionid) {
-    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,basic,stats&comment=wb.rocks&key=' . $this->apikey;
-
-    $data = file_get_contents($url);
-    $json = json_decode($data, true); // decode the JSON feed
-
-    if (is_array($json) || is_object($json)) {
-
-      if (isset($json['error'])) {
-        $this->APIERROR($json['error']); //TORN API ERROR
-      } else {
-        if ( isset($json['timestamp']) ) {
-          return $json;
-        } else {
-          throw new Exception('Could not find API data.');
-        }
-      }
-
-    } else {
-      throw new Exception('Error while fetching API data.');
-    }
+    return $this->pullAPI('faction', $factionid, 'timestamp,basic,stats');
   }
-
-
-
-
-  /////////////////////////////////////////////////
 
 
   public function getFactionCrimes($factionid) {
-    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,basic,crimes&comment=wb.rocks&key=' . $this->apikey;
-
-    $data = file_get_contents($url);
-    $json = json_decode($data, true); // decode the JSON feed
-
-    if (is_array($json) || is_object($json)) {
-
-      if (isset($json['error'])) {
-        $this->APIERROR($json['error']); //TORN API ERROR
-      } else {
-        if ( isset($json['timestamp']) ) {
-          return $json;
-        } else {
-          throw new Exception('Could not find API data.');
-        }
-      }
-
-    } else {
-      throw new Exception('Error while fetching API data.');
-    }
+    return $this->pullAPI('faction', $factionid, 'timestamp,basic,crimes');
   }
-
-
-  /////////////////////////////////////////////////
 
 
   public function getFactionContributions($factionid,$stat) {
@@ -196,68 +115,26 @@ class api_request {
       exit;
     }
 
-    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,contributors&comment=wb.rocks&stat=' . $field . '&key=' . $this->apikey;
-
-    $data = file_get_contents($url);
-    $json = json_decode($data, true); // decode the JSON feed
-
-    if (is_array($json) || is_object($json)) {
-
-      if (isset($json['error'])) {
-        $this->APIERROR($json['error']); //TORN API ERROR
-      } else {
-        if ( isset($json['timestamp']) ) {
-          return $json;
-        } else {
-          throw new Exception('Could not find API data.');
-        }
-      }
-
-    } else {
-      throw new Exception('Error while fetching API data.');
-    }
+    return $this->pullAPI('faction', $factionid, 'timestamp,contributors&stat=' . $field);
   }
-
-
-  /////////////////////////////////////////////////
 
 
   public function getFactionBalances($factionid) {
-    $json = $this->pullAPI('faction', $factionid, 'donations');
-    return $json;
+    return $this->pullAPI('faction', $factionid, 'donations');
   }
-
 
 
   public function getBasicUser() {
-    $json = $this->pullAPI('user','','');
-    return $json;
+    return $this->pullAPI('user','','');
   }
 
-  /////////////////////////////////////////////////
+  public function getUserProfile() {
+    return $this->pullAPI('user','','timestamp,basic,profile');
+  }
 
 
   public function getFactionRankedWars($factionid) {
-    $url = 'https://api.torn.com/faction/' . $factionid . '?selections=timestamp,rankedwars&comment=wb.rocks&key=' . $this->apikey;
-
-    $data = file_get_contents($url);
-    $json = json_decode($data, true); // decode the JSON feed
-
-    if (is_array($json) || is_object($json)) {
-
-      if (isset($json['error'])) {
-        $this->APIERROR($json['error']); //TORN API ERROR
-      } else {
-        if ( isset($json['timestamp']) ) {
-          return $json;
-        } else {
-          throw new Exception('Could not find API data.');
-        }
-      }
-
-    } else {
-      throw new Exception('Error while fetching API data.');
-    }
+    return $this->pullAPI('faction', $factionid, 'timestamp,rankedwars');
   }
 
 
