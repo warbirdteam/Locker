@@ -59,22 +59,16 @@ class db_login {
   /////////////////////////////////////////////////
 
   private function verifyAPI() {
-    $url = 'https://api.torn.com/user/?selections=timestamp,basic,profile&key=' . $this->apikey; // url to api json
-    $data = file_get_contents($url);
+    try {
+      $api_request = new api_request($this->apikey);
+      $data = $api_request->getUserProfile();
 
-    $json = json_decode($data, true); // decode the JSON feed
-
-    if (is_array($json) || is_object($json)) {
-      if (isset($json['error'])) {
-        //APIKEY probably invalid
-        $error = new Error_Message('API Key Error Code: ' . $json['error']['code'] . ' - ' . $json['error']['error'],"../index.php");
-      } else {
-        if (isset($json['timestamp'])) {
-          $this->userid = $json['player_id'];
-          $this->username = $json['name'];
-          $this->factionid = isset($json['faction']['faction_id']) ? $json['faction']['faction_id'] : NULL;
-        }
-      }
+      $this->userid = $data['player_id'];
+      $this->username = $data['name'];
+      $this->factionid = isset($data['faction']['faction_id']) ? $data['faction']['faction_id'] : NULL;
+    }
+    catch (Exception $e) {
+      new Error_Message($e->getMessage(),"../index.php");
     }
   }
 
@@ -99,17 +93,20 @@ class db_login {
       $account_exists = true;
     } //while
 
-      if ($this->site_user['siteRole'] == "none") {
-        if (!$this->verifyFaction($this->factionid) ) {
-          $error = new Error_Message("You are not in the Warbirds Family.","../index.php");
-        } else {
-          $db_request->updateSiteUserRoleBySiteID($this->site_user['siteID'], "member");
-        }
+    if ($this->site_user['siteRole'] == "none") {
+      if (!$this->verifyFaction($this->factionid) ) {
+        $error = new Error_Message("You are not in the Warbirds Family.","../index.php");
+      } else {
+        $db_request->updateSiteUserRoleBySiteID($this->site_user['siteID'], "member");
       }
+    }
 
 
       $this->refreshJSON();
-      $this->compareAndUpdateAPIKey($this->site_user['siteID'], $this->site_user['enc_api'], $this->site_user['iv'], $this->site_user['tag']);
+
+      $siteAPI = $db_request->getSiteUserAPIBySiteID($this->site_user['siteID']);
+
+      $this->compareAndUpdateAPIKey($this->site_user['siteID'], $siteAPI['enc_api'], $siteAPI['iv'], $siteAPI['tag']);
       $data = ["tornid" => $this->site_user['tornID'], "factionid" => $this->factionid, "username" => $this->username, "userrole" => $this->site_user['siteRole'], "siteID" => $this->site_user['siteID']];
 
       return $data;
@@ -143,7 +140,7 @@ class db_login {
 
     if (is_array($json) || is_object($json)) {
       if (isset($json['error'])) {
-        $error = new Error_Message('API Key Error Code: ' . $player['error']['code'] . ' - ' . $player['error']['error'],"../index.php");
+        $error = new Error_Message('API Key Error Code: ' . $json['error']['code'] . ' - ' . $json['error']['error'],"../index.php");
       }
 
       if (!is_dir(__DIR__.'/../TornAPIs/' . $this->factionid)) {
