@@ -665,6 +665,29 @@ class db_request extends db_connect {
     return $apikeys;
   }
 
+  public function getAllWorkingRawAPIKeys() {
+    $sql = "SELECT su.siteID, su.enc_api, su.iv, su.tag FROM site_users_api su JOIN site_users_preferences sup ON su.siteID = sup.siteID WHERE sup.share_api = 1 AND active = 1;";
+    $stmt = $this->pdo->query($sql);
+    $rows = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($rows)) {
+      return NULL;
+    }
+
+    $apikeys = [];
+
+    foreach ($rows as $row) {
+      $uncrypt = new API_Crypt();
+      $apikey = $uncrypt->unpad($row['enc_api'], $row['iv'], $row['tag']);
+      if(empty($apikey)) {
+        throw new Exception('Could not unencrypt API Key.');
+      }
+
+      $apikeys[$row['siteID']] = $apikey;
+    }
+    return $apikeys;
+  }
+
   /////////////////////////////////////////////////
 
   public function getFactionKeyholders() {
