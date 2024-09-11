@@ -14,7 +14,7 @@ if ($_SESSION['role'] == 'admin' || $_SESSION['role'] == 'leadership') {
 	//load classes files in classes folder
 	include_once(__DIR__ . "/../../includes/autoloader.inc.php");
 	$db_api = new db_request();
-	$apikeys = $db_api->getAllAvailableRawAPIKeys();
+	$apikeys = $db_api->getAllWorkingRawAPIKeys();
 	$count_api = $db_api->row_count;
 } else {
 	//else send to welcome page with error message

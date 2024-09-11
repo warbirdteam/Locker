@@ -606,17 +606,9 @@ class db_request extends db_connect {
   /////////////////////////////////////////////////
 
   public function getRawAPIKeyByUserID($userid) {
-    $sql = "SELECT siteID FROM torn_users WHERE tornID=?";
+    $sql = "SELECT enc_api, iv, tag FROM site_users_api WHERE siteID = (SELECT siteID FROM torn_users WHERE tornID = ?)";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$userid]);
-    $siteID = $stmt->fetchColumn();
-    if(empty($siteID)) {
-      throw new Exception('Could not find user associated with Torn ID.');
-    }
-
-    $sql = "SELECT enc_api, iv, tag FROM site_users WHERE siteID=?";
-    $stmt = $this->pdo->prepare($sql);
-    $stmt->execute([$siteID]);
     $row = $stmt->fetch();
     if(empty($row)) {
       throw new Exception('Could not find API Key associated with user.');
@@ -633,7 +625,7 @@ class db_request extends db_connect {
 
   /////////////////////////////////////////////////
 
-  public function getAllAvailableRawAPIKeys() {
+  public function getAllAvailableRawAPIKeys() { /* Depreciated */
     $sql = "SELECT siteID FROM site_users_preferences WHERE share_api = 1";
     $stmt = $this->pdo->query($sql);
     $rows = $stmt->fetchAll();
