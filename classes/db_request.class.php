@@ -817,11 +817,17 @@ class db_request extends db_connect {
     $stmt->execute([$role, $siteID]);
   }
 
+  public function updateSiteAPIActive($siteID, $active) {
+    $sql = "UPDATE site_users_api SET active=? WHERE siteID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$active, $siteID]);
+  }
+
 
   public function registerUser($siteRole, $enc_api, $crypt, $tornID) {
-    $sql = "INSERT INTO site_users (siteRole, tornID, enc_api, iv, tag) VALUES(?,?,?,?,?)";
+    $sql = "INSERT INTO site_users (siteRole, tornID) VALUES(?,?)";
     $stmt = $this->pdo->prepare($sql);
-    $result = $stmt->execute([$siteRole, $tornID, $enc_api, $crypt->iv, $crypt->tag]);
+    $result = $stmt->execute([$siteRole, $tornID]);
     if (!$result) {return NULL;};
 
     $last_id = $this->pdo->lastInsertId();
@@ -829,6 +835,10 @@ class db_request extends db_connect {
     $sql = "INSERT INTO site_users_preferences (siteID) VALUES(?)";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$last_id]);
+
+    $sql = "INSERT INTO site_users_api (siteID, enc_api, iv, tag) VALUES(?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$last_id, $enc_api, $crypt->iv, $crypt->tag]);
 
     return $result;
   }
@@ -876,9 +886,11 @@ class db_request extends db_connect {
   }
 
   public function updateAPIKey($siteID, $enc_api, $crypt) {
-    $sql = "UPDATE site_users SET enc_api=?, iv=?, tag=? WHERE siteID=?";
+    $sql = "UPDATE site_users_api SET enc_api=?, iv=?, tag=?, active=1 WHERE siteID=?";
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$enc_api, $crypt->iv, $crypt->tag, $siteID]);
+
+    $_SESSION['success'] = "You have logged in using a new API Key. Your account has been updated.";
   }
 
 
