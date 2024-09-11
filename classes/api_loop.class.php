@@ -18,8 +18,8 @@ class api_loop {
     public function processData() {
         $this->apikeys_copy = $this->apikeys;
 
-        foreach ($this->data_array as $data_point) {
-            $this->processDataWithAPIKeys($data_point);
+        foreach ($this->data_array as $index => $data_point) {
+            $this->processDataWithAPIKeys($data_point, $index);
         }
 
         // Return or access results array after processing all data_points
@@ -27,17 +27,27 @@ class api_loop {
     }
 
 
-    private function processDataWithAPIKeys($data_point) {
+    private function processDataWithAPIKeys($data_point, $indx = null) {
         do {
             foreach ($this->apikeys_copy as $index => $apiKey) {
                 try {
+                    unset($this->apikeys_copy[$index]); // Remove the used API key from this copy always
+                    
+                    // Now try to use it
                     switch ($this->type) {
                         case 'getFactionMembersStats':
                             // Pull data using the API key for the member
                             $api_request = new api_request($apiKey, $index);
                             $memberdata = $api_request->getPlayerPersonalStats($data_point['tornID']);
                             $this->results[$data_point['tornID']] = $memberdata; // Store the result
-                            unset($this->apikeys_copy[$index]); // Remove the used API key from this copy
+                            return;
+                        break;
+
+                        case 'factionLookup':
+                            // Pull data using the API key for the member
+                            $api_request = new api_request($apiKey, $index);
+                            $lookupdata = $api_request->getPlayerPersonalStats($indx);
+                            $this->results[$indx] = $lookupdata; // Store the result
                             return;
                         break;
                         
@@ -49,7 +59,6 @@ class api_loop {
                 } catch (Exception $e) {
                     // Handle the error and remove the faulty API key
                     unset($this->apikeys[array_search($apiKey, $this->apikeys)]);
-                    unset($this->apikeys_copy[$index]);
                     continue; // Continue to the next API key
                 }
             }
