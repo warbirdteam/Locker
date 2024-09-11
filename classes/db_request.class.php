@@ -768,6 +768,18 @@ class db_request extends db_connect {
     return $site;
   }
 
+  public function getSiteUserAPIBySiteID($siteID) {
+    $sql = "SELECT * FROM site_users_api WHERE siteID = ? LIMIT 1";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$siteID]);
+    $site = $stmt->fetch();
+    if(empty($site)) {
+      return NULL;
+    }
+
+    return $site;
+  }
+
 
   public function getAllSiteUsers() {
     $sql = "SELECT siteID, siteRole, tornID FROM site_users ORDER BY siteRole, siteID ASC";
