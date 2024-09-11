@@ -409,8 +409,6 @@ class db_request extends db_connect {
 
     $stats = isset($factionData['stats']) ? $factionData['stats'] : NULL;
 
-$testtest = isset($stats['testtest']) ? $stats['testtest'] : 0;
-
     if ($stats) {
       $criminaloffences = isset($stats['criminaloffences']) ? $stats['criminaloffences'] : 0;
 
