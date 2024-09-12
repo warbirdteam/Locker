@@ -143,6 +143,10 @@ class api_request {
     return $this->pullAPI('faction', $factionid, 'timestamp,rankedwars');
   }
 
+  public function getSiteJSON() {
+    return $this->pullAPI('user', '', 'networth,personalstats,battlestats,profile,basic,timestamp');
+  }
+
   /////////////////////////////////////////////////
   ////////             API ERROR           ////////
   /////////////////////////////////////////////////

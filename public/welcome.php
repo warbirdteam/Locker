@@ -37,8 +37,7 @@ if (!file_exists($filename)) {
   header("Location: /index.php");
 }
 
-$data = unserialize(file_get_contents($filename));
-$json = json_decode($data, true); // decode the JSON feed
+$json = unserialize(file_get_contents($filename));
 ?>
 
 

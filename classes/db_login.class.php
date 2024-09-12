@@ -129,29 +129,20 @@ class db_login {
   /////////////////////////////////////////////////
 
   private function refreshJSON() {
+    try {
+      $api_request = new api_request($this->apikey);
+      $file = __DIR__.'/../TornAPIs/' . $this->factionid . '/'.$this->userid.'.json';
 
-    $url = 'https://api.torn.com/user/?selections=networth,personalstats,battlestats,profile,basic,timestamp&key=' . $this->apikey; // url to api json
-    $data = file_get_contents($url);
-    $file = __DIR__.'/../TornAPIs/' . $this->factionid . '/'.$this->userid.'.json';
-
-
-    $json = json_decode($data, true); // decode the JSON feed
-
-
-    if (is_array($json) || is_object($json)) {
-      if (isset($json['error'])) {
-        $error = new Error_Message('API Key Error Code: ' . $json['error']['code'] . ' - ' . $json['error']['error'],"../index.php");
-      }
+      $data = $api_request->getSiteJSON();
 
       if (!is_dir(__DIR__.'/../TornAPIs/' . $this->factionid)) {
         mkdir(__DIR__.'/../TornAPIs/' . $this->factionid);
       }
 
       file_put_contents($file, serialize($data));
-
+    } catch (Exception $e) {
+      new Error_Message($e->getMessage(),"../index.php");
     }
-
-
   }
 
   /////////////////////////////////////////////////
