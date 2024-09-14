@@ -198,6 +198,7 @@ class api_request {
 
       case 9:
         //  API disabled : Api system is currently disabled.
+        exit("API disabled : Api system is currently disabled.");
       break;
 
       case 10:

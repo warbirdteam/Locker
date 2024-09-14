@@ -623,6 +623,39 @@ class db_request extends db_connect {
     return $apikey;
   }
 
+
+  public function getRandomAPIKey() {
+    $sql = "SELECT 
+      site_users_api.enc_api, 
+      site_users_api.iv, 
+      site_users_api.tag 
+    FROM 
+      site_users_api
+    JOIN 
+      site_users_preferences 
+    ON 
+      site_users_api.siteID = site_users_preferences.siteID 
+    WHERE 
+      site_users_api.active = 1 
+    AND site_users_preferences.share_api = 1
+    ORDER BY RAND() 
+    LIMIT 1";
+    
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+
+    $uncrypt = new API_Crypt();
+    $apikey = $uncrypt->unpad($row['enc_api'], $row['iv'], $row['tag']);
+    if(empty($apikey)) {
+      throw new Exception('Could not unencrypt API Key.');
+    }
+
+    return $apikey;
+  }
+
   /////////////////////////////////////////////////
 
   public function getAllAvailableRawAPIKeys() { /* Depreciated */
@@ -1430,6 +1463,16 @@ class db_request extends db_connect {
     $stmt->execute([$end_timestamp, $winner, $final_target, $rw_id]);
   }
 
+
+  /////////////////////////////////////////////////
+  ////////           Member Activity       ////////
+  /////////////////////////////////////////////////
+
+  public function insertMemberActivity($memberID, $activity_status, $timestamp) {
+    $sql = "INSERT INTO birds_activity (userID, activity_status, timestamp) values (?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$memberID, $activity_status, $timestamp]);
+  }
 
   /////////////////////////////////////////////////
   ////////           END OF CLASS          ////////
