@@ -107,6 +107,7 @@ function getFactionContributors($tornid, $factionid) {
   });
 
   $discordMessage = "```";
+  $discordMessage2 = "```";
 
   $db_request_faction = new $db_request();
   $faction = $db_request_faction->getFactionByFactionID($factionid);
@@ -194,15 +195,15 @@ function getFactionContributors($tornid, $factionid) {
     $member = $db_request_member->getMemberByTornID($userID);
 
     if ($member && $member['tornName']) {
-      $discordMessage .= $member['tornName'] . " [" . $userID . "]: " . number_format($ods['ods']) . "e\n";
+      $discordMessage2 .= $member['tornName'] . " [" . $userID . "]: " . number_format($ods['ods']) . "e\n";
     } else {
-      $discordMessage .= "[" . $userID . "]: " . number_format($ods['ods']) . "e\n";
+      $discordMessage2 .= "[" . $userID . "]: " . number_format($ods['ods']) . "e\n";
     }
   }
 
-  $discordMessage .= '```';
+  $discordMessage2 .= '```';
 
-  if ($discordMessage != '``````') { //only send discord message if energy has been used
+  if ($discordMessage2 != '``````') { //only send discord message if energy has been used
 
     $url = 'https://discord.com/api/webhooks/' . $overdoseWebhook;
     //create discord webhook message
@@ -213,7 +214,7 @@ function getFactionContributors($tornid, $factionid) {
         [
          'title' => "These poor birds of ".$factionName." have just overdosed.",
          "type" => "rich",
-         "description" => $discordMessage,
+         "description" => $discordMessage2,
          "color" => hexdec("6cad2b"),
         ]
       ]
