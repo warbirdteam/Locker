@@ -112,7 +112,7 @@ class api_request {
 
 
   public function getFactionContributions($factionid,$stat) {
-    $stats  = ["gymstrength","gymdefense","gymspeed","gymdexterity"]; // the white list of allowed field names
+    $stats  = ["gymstrength","gymdefense","gymspeed","gymdexterity","drugoverdoses"]; // the white list of allowed field names
     $key     = array_search($stat, $stats); // see if we have such a name
     $field = $stats[$key];
 

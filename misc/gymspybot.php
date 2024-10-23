@@ -21,7 +21,7 @@ function getFactionContributors($tornid, $factionid) {
 
   $api_request = new api_request($apikey);
 
-  $stats  = ["gymstrength","gymdefense","gymspeed","gymdexterity"];
+  $stats  = ["gymstrength","gymdefense","gymspeed","gymdexterity","drugoverdoses"];
 
   foreach ($stats as $type) {
     $json = $api_request->getFactionContributions($factionid, $type);
@@ -77,6 +77,7 @@ function getFactionContributors($tornid, $factionid) {
   }
 
   $totalContributions = [];
+  $overdosesList = [];
 
   foreach ($databaseData as $userID => $contributionData) {
 
@@ -85,10 +86,16 @@ function getFactionContributors($tornid, $factionid) {
       $db_request_energy->insertMemberEnergyUsed($userID, $factionid, $contributionData['contributions']);
 
       foreach($contributionData['contributions'] as $key => $value) {
-        if (!empty($totalContributions[$userID]) && !empty($totalContributions[$userID]['total'])) {
-          $totalContributions[$userID]['total'] = ($totalContributions[$userID]['total'] + $value);
+        if ($key != "drugoverdoses") {
+          if (!empty($totalContributions[$userID]) && !empty($totalContributions[$userID]['total'])) {
+            $totalContributions[$userID]['total'] = ($totalContributions[$userID]['total'] + $value);
+          } else {
+            $totalContributions[$userID]['total'] = $value;
+          }
         } else {
-          $totalContributions[$userID]['total'] = $value;
+          if (!empty($overdosesList[$userID]) && !empty($overdosesList[$userID]['ods'])) {
+            $overdosesList[$userID]['ods'] = $value;
+          }
         }
       }
 
@@ -113,24 +120,28 @@ function getFactionContributors($tornid, $factionid) {
   $db_request_gymspy_webhook = new db_request();
 
   //custom thing to get correct webhook id
-  var_dump($totalContributions);
+  //var_dump($totalContributions);
 
   switch ($factionid) {
     //WarBirds
     case 13784:
       $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('wbgspy');
+      $overdoseWebhook = $db_request_gymspy_webhook->getWebhookByName('wbsods');
     break;
     //Nest
     case 35507:
       $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('negspy');
+      $overdoseWebhook = $db_request_gymspy_webhook->getWebhookByName('nesods');
     break;
 
     default:
       $gymspyWebhook = $db_request_gymspy_webhook->getWebhookByName('gymspy'); //default gymspy channel if can't find others
+      $overdoseWebhook = $db_request_gymspy_webhook->getWebhookByName('gymspy');
     break;
   }
 
 
+  //Gymspy Bot
   foreach ($totalContributions as $userID => $total) {
     $db_request_member = new $db_request();
     $member = $db_request_member->getMemberByTornID($userID);
@@ -174,6 +185,54 @@ function getFactionContributors($tornid, $factionid) {
     $response   = curl_exec($ch);
 
   }
+  //End Gymspy bot
+
+
+  //Overdose Bot
+  foreach ($overdosesList as $userID => $ods) {
+    $db_request_member = new $db_request();
+    $member = $db_request_member->getMemberByTornID($userID);
+
+    if ($member && $member['tornName']) {
+      $discordMessage .= $member['tornName'] . " [" . $userID . "]: " . number_format($ods['ods']) . "e\n";
+    } else {
+      $discordMessage .= "[" . $userID . "]: " . number_format($ods['ods']) . "e\n";
+    }
+  }
+
+  $discordMessage .= '```';
+
+  if ($discordMessage != '``````') { //only send discord message if energy has been used
+
+    $url = 'https://discord.com/api/webhooks/' . $overdoseWebhook;
+    //create discord webhook message
+    $POST = [
+      'content' => '',
+      'username' => 'Overdose Bot',
+      'embeds' => [
+        [
+         'title' => "These poor birds of ".$factionName." have just overdosed.",
+         "type" => "rich",
+         "description" => $discordMessage,
+         "color" => hexdec("6cad2b"),
+        ]
+      ]
+    ];
+
+    $headers = [ 'Content-Type: application/json; charset=utf-8' ];
+
+    //use curl to send discord webhook message
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($POST));
+    $response   = curl_exec($ch);
+
+  }
+  //End Overdose Bot
 
 }//function getFactionContributors
 

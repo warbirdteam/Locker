@@ -884,6 +884,13 @@ class db_request extends db_connect {
     $stmt = $this->pdo->prepare($sql);
     $stmt->execute([$userID, $factionid, $gymstrength, $gymdefense, $gymspeed, $gymdexterity]);
 
+    $drugoverdoses = isset($contributionData["drugoverdoses"]) && is_numeric($contributionData["drugoverdoses"]) ? $contributionData["drugoverdoses"] : 0;
+
+    if ($drugoverdoses) {
+      $sql = "INSERT INTO birds_overdoses (tornID, factionID, drugoverdoses) values (?,?,?)";
+      $stmt = $this->pdo->prepare($sql);
+      $stmt->execute([$userID, $factionid, $drugoverdoses]);  
+    }
   }
 
 
