@@ -68,6 +68,9 @@ function getFactionContributors($tornid, $factionid) {
               //energy difference, energy has been trained in this type
               $databaseData[$userID]['contributions'][$type] = $dif;
             }
+          } else {
+            //new contributor, new member or first time contributing
+            $databaseData[$userID]['contributions'][$type] = $contributed['contributed'];
           }
         }
 
