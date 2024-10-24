@@ -93,8 +93,8 @@ function getFactionContributors($tornid, $factionid) {
             $totalContributions[$userID]['total'] = $value;
           }
         } else {
-          if (!empty($overdosesList[$userID]) && !empty($overdosesList[$userID]['ods'])) {
-            $overdosesList[$userID]['ods'] = $value;
+          if (empty($overdosesList[$userID]) && empty($overdosesList[$userID]['drugoverdoses'])) {
+            $overdosesList[$userID]['drugoverdoses'] = $value;
           }
         }
       }
@@ -121,7 +121,7 @@ function getFactionContributors($tornid, $factionid) {
   $db_request_gymspy_webhook = new db_request();
 
   //custom thing to get correct webhook id
-  //var_dump($totalContributions);
+  //var_dump($overdosesList); 
 
   switch ($factionid) {
     //WarBirds
@@ -190,14 +190,14 @@ function getFactionContributors($tornid, $factionid) {
 
 
   //Overdose Bot
-  foreach ($overdosesList as $userID => $ods) {
+  foreach ($overdosesList as $userID => $drugoverdoses) {
     $db_request_member = new $db_request();
     $member = $db_request_member->getMemberByTornID($userID);
 
     if ($member && $member['tornName']) {
-      $discordMessage2 .= $member['tornName'] . " [" . $userID . "]: " . number_format($ods['ods']) . "e\n";
+      $discordMessage2 .= $member['tornName'] . " [" . $userID . "]" . "\n";
     } else {
-      $discordMessage2 .= "[" . $userID . "]: " . number_format($ods['ods']) . "e\n";
+      $discordMessage2 .= "[" . $userID . "]". "\n";
     }
   }
 
@@ -215,7 +215,7 @@ function getFactionContributors($tornid, $factionid) {
          'title' => "These poor birds of ".$factionName." have just overdosed.",
          "type" => "rich",
          "description" => $discordMessage2,
-         "color" => hexdec("6cad2b"),
+         "color" => hexdec("D22B2B"),
         ]
       ]
     ];
