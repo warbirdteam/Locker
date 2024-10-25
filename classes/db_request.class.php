@@ -1481,6 +1481,80 @@ class db_request extends db_connect {
     $stmt->execute([$memberID, $activity_status, $timestamp]);
   }
 
+  /////////   BIRDS FACTION COMMANDS
+
+  public function updateBirdsFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
+    $sql = "UPDATE birds_factions SET factionName = ?, leader = ?, co_leader = ?, age = ?, best_chain = ?, total_members = ?, respect = ? WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fname, $leader, $coleader, $age, $best_chain, $total_members, $respect, $fid]);
+  }
+
+  public function insertBirdsFactionInfo($fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect) {
+    $sql = "INSERT INTO birds_factions (factionID, factionName, leader, co_leader, age, best_chain, total_members, respect) values (?,?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$fid, $fname, $leader, $coleader, $age, $best_chain, $total_members, $respect]);
+  }
+
+  public function getBirdsFactionByFactionID($factionID) {
+    $sql = "SELECT * FROM birds_factions WHERE factionID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getAllBirdsFactions() {
+    $sql = "SELECT * FROM birds_factions";
+    $stmt = $this->pdo->query($sql);
+    $row = $stmt->fetchAll();
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getBirdsByFaction($factionid) {
+    $sql = "SELECT * FROM birds where factionID=?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionid]);
+    $row = $stmt->fetchAll(PDO::FETCH_UNIQUE);
+    $this->row_count = $stmt->rowCount();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function getBirdByTornID($userID) {
+    $sql = "SELECT * FROM birds WHERE userID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userID]);
+    $row = $stmt->fetch();
+    if(empty($row)) {
+      return NULL;
+    }
+    return $row;
+  }
+
+  public function updateBird($userid, $factionID, $member) {
+    $sql = "UPDATE birds SET factionID = ?, name = ?, days_in_faction = ?, last_action = ?, status_desc = ?, status_details = ? WHERE userID = ?";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$factionID, $member['name'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details'], $userid]);
+  }
+
+  public function insertBird($userid, $fid, $member) {
+    $sql = "INSERT INTO birds VALUES (?,?,?,?,?,?,?,?,?)";
+    $stmt = $this->pdo->prepare($sql);
+    $stmt->execute([$userid, $fid, $member['name'], $member['level'],$member['position'], $member['days_in_faction'], $member['last_action']['timestamp'], $member['status']['description'], $member['status']['details']]);
+  }
+
+
+
+
   /////////////////////////////////////////////////
   ////////           END OF CLASS          ////////
   /////////////////////////////////////////////////
