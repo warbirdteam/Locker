@@ -65,6 +65,7 @@ function getFactionActivity($factionid) {
     $members = $factionData['members'];
 
     $db_member_request = new db_request();
+    $db_var_min = new db_request();
 
     foreach ($members as $memberID => $member) { //loop through data
         $count += insertMemberActivity($memberID, $member, $timestamp); //insert member activity
@@ -84,7 +85,7 @@ function getFactionActivity($factionid) {
     if ($count == 0) {
         discordAlert("alert");
     }
-    if ($count != 0 && $count <= 3) {
+    if ($count != 0 && $count <= $db_var_min->getSiteVariableByName("activity_minimum")) {
         discordAlert("warning", $onlineMembers);
     }
 }
