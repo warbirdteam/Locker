@@ -84,7 +84,7 @@ function getFactionActivity($factionid) {
     if ($count == 0) {
         discordAlert("alert");
     }
-    if ($count != 0 && $count <= 30) {
+    if ($count != 0 && $count <= 3) {
         discordAlert("warning", $onlineMembers);
     }
 }
